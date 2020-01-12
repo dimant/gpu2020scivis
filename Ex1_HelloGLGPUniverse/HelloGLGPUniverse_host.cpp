@@ -13,21 +13,6 @@
 
 #define ISOK(X) if(GL_TRUE != (X)) return GL_FALSE;
 
-// HERE
-
-// Define framebuffer callback function
-// HERE
-
-// Define init( ) function for shader, VAO/VBO/EBO setup
-// HERE
-
-// Define main( ) entry point function
-// - should contain GLFW and GLEW initialization steps
-// - call init( ) function
-// - enter main render loop and do OpenGL drawing
-// HERE
-
-
 void handleStatus(GLint status)
 {
 	if (GL_TRUE != status)
@@ -70,15 +55,23 @@ GLuint init()
 	glBufferData(GL_ARRAY_BUFFER, sizeof(triangle), triangle, GL_STATIC_DRAW);
 
 	// 3 floats for x, y, z coordinates
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
+
+	// 3 floats for r, g, b colors
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
 
 	return vao;
 }
 
+void scaleCallback(GLFWwindow* window, int width, int height)
+{
+	glViewport(0, 0, width, height);
+}
+
 int main(int argc, char** argv)
 {
-	// start GL context and O/S window using the GLFW helper library
 	if (GLFW_TRUE != glfwInit())
 	{
 		std::cerr << "ERROR: could not start GLFW3\n" << std::endl;
@@ -93,6 +86,8 @@ int main(int argc, char** argv)
 		return 1;
 	}
 	glfwMakeContextCurrent(window);
+
+	glfwSetFramebufferSizeCallback(window, scaleCallback);
 
 	std::cout << "GLEW Version : " << GLEW_VERSION << std::endl;
 	glewExperimental = GL_TRUE;
@@ -109,6 +104,8 @@ int main(int argc, char** argv)
 	{
 		std::cout << "Successfully compiled shaders." << std::endl;
 	}
+
+	glClearColor(0.2904, 0.6933, 0.88, 1.0);
 
 	while (!glfwWindowShouldClose(window))
 	{
