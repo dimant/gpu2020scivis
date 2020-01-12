@@ -105,7 +105,7 @@ int main(int argc, char** argv)
 		std::cout << "Successfully compiled shaders." << std::endl;
 	}
 
-	glClearColor(0.2904, 0.6933, 0.88, 1.0);
+	glClearColor(0.2904f, 0.6933f, 0.88f, 1.0f);
 
 	while (!glfwWindowShouldClose(window))
 	{
