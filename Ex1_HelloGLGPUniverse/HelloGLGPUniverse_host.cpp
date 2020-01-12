@@ -105,14 +105,17 @@ int main(int argc, char** argv)
 		std::cout << "Successfully compiled shaders." << std::endl;
 	}
 
-	glClearColor(0.2904f, 0.6933f, 0.88f, 1.0f);
 
+	glUseProgram(program);
+	
 	while (!glfwWindowShouldClose(window))
 	{
+		glClearColor(0.2, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glUseProgram(program);
+	
 		glBindVertexArray(vao);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glBindVertexArray(0);
 
 		glfwSwapBuffers(window);
 
