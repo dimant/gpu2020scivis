@@ -1,25 +1,15 @@
-// Hello_GL_GPUniverse
-// starter code for Host OpenGL Application for Lecture 1
-
-// #includes and global defs
 #include <iostream>
+#include <vector>
 
 #include <GL\glew.h>
 #include <GLFW\glfw3.h>
 #include <glm\glm.hpp>
 
+#include <shaderlib.h>
+
 #include "vertexArrays.h"
-#include "shaderlib.h"
 
 #define ISOK(X) if(GL_TRUE != (X)) return GL_FALSE;
-
-void handleStatus(GLint status)
-{
-	if (GL_TRUE != status)
-	{
-		glfwTerminate();
-	}
-}
 
 GLint compileShaders(GLuint & program)
 {
@@ -42,9 +32,8 @@ GLint compileShaders(GLuint & program)
 	return status;
 }
 
-GLuint init()
+GLint initVao(GLuint & vao)
 {
-	GLuint vao;
 	GLuint vbo;
 
 	glGenVertexArrays(1, &vao);
@@ -62,7 +51,7 @@ GLuint init()
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
 
-	return vao;
+	return GL_TRUE;
 }
 
 void scaleCallback(GLFWwindow* window, int width, int height)
@@ -96,7 +85,9 @@ int main(int argc, char** argv)
 		std::cout << "glewInit failed, aborting." << std::endl;
 	}
 
-	GLuint vao = init();
+	GLuint vao; 
+	ISOK(initVao(vao));
+
 	GLuint program;
 	GLint status = compileShaders(program);
 
@@ -105,12 +96,11 @@ int main(int argc, char** argv)
 		std::cout << "Successfully compiled shaders." << std::endl;
 	}
 
-
 	glUseProgram(program);
 	
-	while (!glfwWindowShouldClose(window))
+	while (0 == glfwWindowShouldClose(window))
 	{
-		glClearColor(0.2, 0.3f, 0.3f, 1.0f);
+		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 		glBindVertexArray(vao);
@@ -128,4 +118,3 @@ int main(int argc, char** argv)
 
 	return 0;
 }
-

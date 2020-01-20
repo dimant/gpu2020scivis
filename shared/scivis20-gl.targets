@@ -1,0 +1,17 @@
+  <Project DefaultTargets="Compile"
+    xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <ItemDefinitionGroup>
+        <ClCompile>
+        <AdditionalIncludeDirectories>$(SolutionDir)ShaderLib;$(SolutionDir)shared\GL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+        </ClCompile>
+        <Link>
+        <AdditionalLibraryDirectories>$(SolutionDir)shared\;$(SolutionDir)shared\GL\lib-vc2017;$(SolutionDir)shared\GL\lib-mingw-w64;$(SolutionDir)shared\GL\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+        <AdditionalDependencies>opengl32.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+        </Link>
+        <PostBuildEvent>
+        <Command>copy "$(SolutionDir)shared\GL\bin\Release\x64\glew32.dll" "$(OutDir)";</Command>
+        </PostBuildEvent>
+    </ItemDefinitionGroup>
+
+  </Project>

@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26228.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ex1_HelloGLGPUniverse", "Ex1_HelloGLGPUniverse\Ex1_HelloGLGPUniverse.vcxproj", "{916BCB6B-3CAF-4DD9-B97E-6525519A3B71}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ShaderLib", "ShaderLib\ShaderLib.vcxproj", "{4618109B-EC95-45B6-A2B2-2761C798EBFF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -15,14 +17,21 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{916BCB6B-3CAF-4DD9-B97E-6525519A3B71}.Debug|x64.ActiveCfg = Debug|x64
 		{916BCB6B-3CAF-4DD9-B97E-6525519A3B71}.Debug|x64.Build.0 = Debug|x64
-		{916BCB6B-3CAF-4DD9-B97E-6525519A3B71}.Debug|x86.ActiveCfg = Debug|Win32
-		{916BCB6B-3CAF-4DD9-B97E-6525519A3B71}.Debug|x86.Build.0 = Debug|Win32
+		{916BCB6B-3CAF-4DD9-B97E-6525519A3B71}.Debug|x86.ActiveCfg = Debug|x64
 		{916BCB6B-3CAF-4DD9-B97E-6525519A3B71}.Release|x64.ActiveCfg = Release|x64
 		{916BCB6B-3CAF-4DD9-B97E-6525519A3B71}.Release|x64.Build.0 = Release|x64
-		{916BCB6B-3CAF-4DD9-B97E-6525519A3B71}.Release|x86.ActiveCfg = Release|Win32
-		{916BCB6B-3CAF-4DD9-B97E-6525519A3B71}.Release|x86.Build.0 = Release|Win32
+		{916BCB6B-3CAF-4DD9-B97E-6525519A3B71}.Release|x86.ActiveCfg = Release|x64
+		{4618109B-EC95-45B6-A2B2-2761C798EBFF}.Debug|x64.ActiveCfg = Debug|x64
+		{4618109B-EC95-45B6-A2B2-2761C798EBFF}.Debug|x64.Build.0 = Debug|x64
+		{4618109B-EC95-45B6-A2B2-2761C798EBFF}.Debug|x86.ActiveCfg = Debug|x64
+		{4618109B-EC95-45B6-A2B2-2761C798EBFF}.Release|x64.ActiveCfg = Release|x64
+		{4618109B-EC95-45B6-A2B2-2761C798EBFF}.Release|x64.Build.0 = Release|x64
+		{4618109B-EC95-45B6-A2B2-2761C798EBFF}.Release|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E8599325-7F25-4C03-82D4-1D92CC362E1E}
 	EndGlobalSection
 EndGlobal
