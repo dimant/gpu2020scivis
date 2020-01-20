@@ -10,6 +10,25 @@
 
 #include "shaderlib.h"
 
+GLint buildShaderProgram(GLuint & program, const std::vector<shaderFile> & shaderFiles)
+{
+	GLint status = GL_FALSE;
+
+	std::vector<GLuint> shaders;
+
+	for (shaderFile shaderFile : shaderFiles)
+	{
+		std::string shaderSource = readFile(shaderFile.fileName);
+		GLuint shader;
+		ISOK(compileShader(shaderSource, shaderFile.shaderType, shader));
+		shaders.push_back(shader);
+	}
+
+	ISOK(linkShaders(shaders, program));
+
+	return status;
+}
+
 const std::string readFile(const std::string & path)
 {
 	std::string result;

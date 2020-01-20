@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <string>
 
 #include <GL\glew.h>
 #include <GLFW\glfw3.h>
@@ -9,25 +10,15 @@
 
 #include "vertexArrays.h"
 
-#define ISOK(X) if(GL_TRUE != (X)) return GL_FALSE;
-
 GLint compileShaders(GLuint & program)
 {
 	GLint status = GL_FALSE;
 
-	std::vector<GLuint> shaders;
+	shaderFile vertexShader{ GL_VERTEX_SHADER, "vshaderEx1.glsl" };
+	shaderFile fragmentShader{ GL_FRAGMENT_SHADER, "fshaderEx1.glsl" };
+	std::vector<shaderFile> shaderFiles{ vertexShader, fragmentShader };
 
-	std::string vshaderSource = readFile("vshaderEx1.glsl");
-	GLuint vshader;
-	ISOK(compileShader(vshaderSource, GL_VERTEX_SHADER, vshader));
-	shaders.push_back(vshader);
-
-	std::string fshaderSource = readFile("fshaderEx1.glsl");
-	GLuint fshader;
-	ISOK(compileShader(fshaderSource, GL_FRAGMENT_SHADER, fshader));
-	shaders.push_back(fshader);
-
-	ISOK(linkShaders(shaders, program));
+	ISOK(buildShaderProgram(program, shaderFiles));
 
 	return status;
 }

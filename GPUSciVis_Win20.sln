@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ex1_HelloGLGPUniverse", "Ex
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ShaderLib", "ShaderLib\ShaderLib.vcxproj", "{4618109B-EC95-45B6-A2B2-2761C798EBFF}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ex2_HelloGLGPUInteractive", "Ex2_HelloGLGPUInteractive\Ex2_HelloGLGPUInteractive.vcxproj", "{FA1E620F-9FF0-4A68-8511-5EB099B17A78}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -27,6 +29,12 @@ Global
 		{4618109B-EC95-45B6-A2B2-2761C798EBFF}.Release|x64.ActiveCfg = Release|x64
 		{4618109B-EC95-45B6-A2B2-2761C798EBFF}.Release|x64.Build.0 = Release|x64
 		{4618109B-EC95-45B6-A2B2-2761C798EBFF}.Release|x86.ActiveCfg = Release|x64
+		{FA1E620F-9FF0-4A68-8511-5EB099B17A78}.Debug|x64.ActiveCfg = Debug|x64
+		{FA1E620F-9FF0-4A68-8511-5EB099B17A78}.Debug|x64.Build.0 = Debug|x64
+		{FA1E620F-9FF0-4A68-8511-5EB099B17A78}.Debug|x86.ActiveCfg = Debug|x64
+		{FA1E620F-9FF0-4A68-8511-5EB099B17A78}.Release|x64.ActiveCfg = Release|x64
+		{FA1E620F-9FF0-4A68-8511-5EB099B17A78}.Release|x64.Build.0 = Release|x64
+		{FA1E620F-9FF0-4A68-8511-5EB099B17A78}.Release|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
