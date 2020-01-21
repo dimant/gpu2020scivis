@@ -68,6 +68,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HelloGLGPUInteractive_host.cpp" />
+    <ClCompile Include="Scene.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="fshaderEx2.glsl" />
+    <None Include="vshaderEx2.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="vertexArrays.h" />
   </ItemGroup>
   <Import Project="$(SolutionDir)\shared\scivis20-gl.targets" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
