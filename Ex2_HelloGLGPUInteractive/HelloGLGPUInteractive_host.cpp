@@ -58,6 +58,15 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 			case GLFW_KEY_M:
 				g_scene->moveCamZ(-0.1f);
 				break;
+			case GLFW_KEY_X:
+				g_scene->rotateModelX(45.0f);
+				break;
+			case GLFW_KEY_Y:
+				g_scene->rotateModelY(45.0f);
+				break;
+			case GLFW_KEY_Z:
+				g_scene->rotateModelZ(45.0f);
+				break;
 		}
 	}
 }

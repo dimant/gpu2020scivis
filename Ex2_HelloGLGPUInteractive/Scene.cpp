@@ -15,6 +15,7 @@ Scene::Scene(GLuint program)
 
 	setModel(glm::mat4(1.0f));
 	setView(glm::mat4(1.0f));
+	moveCamZ(3.0f);
 	setProj(glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, 0.1f, 100.0f));
 }
 
@@ -71,6 +72,27 @@ void Scene::scaleModel(const float & factor)
 {
 	_scale *= factor;
 	_model = glm::scale(_model, glm::vec3(factor));
+
+	setModel(_model);
+}
+
+void Scene::rotateModelX(const float & degrees)
+{
+	_model = glm::rotate(_model, (float)glm::radians(degrees), glm::vec3(1.0f, 0.0f, 0.0f));
+
+	setModel(_model);
+}
+
+void Scene::rotateModelY(const float & degrees)
+{
+	_model = glm::rotate(_model, (float)glm::radians(degrees), glm::vec3(0.0f, 1.0f, 0.0f));
+
+	setModel(_model);
+}
+
+void Scene::rotateModelZ(const float & degrees)
+{
+	_model = glm::rotate(_model, (float)glm::radians(degrees), glm::vec3(0.0f, 0.0f, 1.0f));
 
 	setModel(_model);
 }

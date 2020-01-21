@@ -30,6 +30,12 @@ public:
 
 	void scaleModel(const float & factor);
 
+	void rotateModelX(const float & degrees);
+
+	void rotateModelY(const float & degrees);
+
+	void rotateModelZ(const float & degrees);
+
 	void moveCamZ(const float & factor);
 };
 
