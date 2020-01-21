@@ -1,4 +1,4 @@
-#ifndef VERTEXARRAYS_H
+﻿#ifndef VERTEXARRAYS_H
 #define VERTEXARRAYS_H
 
 float triangle[] = {
@@ -66,5 +66,47 @@ float can_cube_verts_cols[] = {
 
 };
 
+// https://en.wikipedia.org/wiki/Tetrahedron#Coordinates_for_a_regular_tetrahedron
+// (1, 1, 1), (1, −1, −1), (−1, 1, −1), (−1, −1, 1)
+
+float tetrahedron_verts[] =
+{
+	 0.0f,  0.0f,  0.0f, // v1
+	 1.0f,  0.0f,  0.0f, // v2
+	 0.0f,  1.0f,  0.0f, // v4
+
+	 1.0f,  0.0f,  0.0f, // v2
+	 0.0f,  0.0f, -1.0f, // v3
+	 0.0f,  1.0f,  0.0f, // v4
+
+	 0.0f,  0.0f,  0.0f, // v1
+	 0.0f,  0.0f, -1.0f, // v3
+	 0.0f,  1.0f,  0.0f, // v4
+
+	 0.0f,  0.0f,  0.0f, // v1
+	 1.0f,  0.0f,  0.0f, // v2
+	 0.0f,  0.0f, -1.0f, // v3
+
+};
+
+float tetrahedron_cols[] =
+{
+	1.0f, 0.0f, 0.0f,
+	1.0f, 0.0f, 0.0f,
+	1.0f, 0.0f, 0.0f,
+
+	0.0f, 1.0f, 0.0f,
+	0.0f, 1.0f, 0.0f,
+	0.0f, 1.0f, 0.0f,
+
+	0.0f, 0.0f, 1.0f,
+	0.0f, 0.0f, 1.0f,
+	0.0f, 0.0f, 1.0f,
+
+	1.0f, 0.0f, 1.0f,
+	1.0f, 0.0f, 1.0f,
+	1.0f, 0.0f, 1.0f,
+
+};
 
 #endif // !VERTEXARRAYS_H

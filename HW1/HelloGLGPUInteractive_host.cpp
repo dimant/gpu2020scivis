@@ -83,16 +83,22 @@ GLint initVao(GLuint & vao, const GLuint & program)
 
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(can_cube_verts_cols), can_cube_verts_cols, GL_STATIC_DRAW);
+	glBufferData(
+		GL_ARRAY_BUFFER,
+		sizeof(tetrahedron_verts) + sizeof(tetrahedron_cols),
+		NULL,
+		GL_STATIC_DRAW);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(tetrahedron_verts), &tetrahedron_verts);
+	glBufferSubData(GL_ARRAY_BUFFER, sizeof(tetrahedron_verts), sizeof(tetrahedron_cols), &tetrahedron_cols);
 
 	// 3 floats for x, y, z coordinates
 	GLuint locPosition = glGetAttribLocation(program, "in_vPosition");
-	glVertexAttribPointer(locPosition, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+	glVertexAttribPointer(locPosition, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(locPosition);
 
 	// 3 floats for r, g, b colors
 	GLuint locColor = glGetAttribLocation(program, "in_vColor");
-	glVertexAttribPointer(locColor, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+	glVertexAttribPointer(locColor, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)(sizeof(tetrahedron_verts)));
 	glEnableVertexAttribArray(locColor);
 
 	return GL_TRUE;
