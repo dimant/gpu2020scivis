@@ -38,7 +38,7 @@ void MouseInput::moveCursorTo(double xpos, double ypos)
 	{
 		_scene->rotateModelAxis(
 			normalVector(_xpos, _ypos, xpos, ypos),
-			1.0f);
+			vecLength(_xpos, _ypos, xpos, ypos) * 0.5);
 	}
 
 	_xpos = xpos;
