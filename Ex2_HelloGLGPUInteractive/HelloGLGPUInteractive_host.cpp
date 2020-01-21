@@ -47,10 +47,16 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 				exit(0);
 				break;
 			case GLFW_KEY_B:
-				g_scene->scale(2.0f);
+				g_scene->scaleModel(2.0f);
 				break;
 			case GLFW_KEY_S:
-				g_scene->scale(0.5f);
+				g_scene->scaleModel(0.5f);
+				break;
+			case GLFW_KEY_P:
+				g_scene->moveCamZ(0.1f);
+				break;
+			case GLFW_KEY_M:
+				g_scene->moveCamZ(-0.1f);
 				break;
 		}
 	}
@@ -92,7 +98,7 @@ int main(int argc, char** argv)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	GLFWwindow* window = glfwCreateWindow(640, 480, "Hello Triangle!", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(1200, 1200, "Hello Triangle!", NULL, NULL);
 	if (NULL == window)
 	{
 		std::cerr << "ERROR: could not open window with GLFW3\n" << std::endl;
@@ -126,6 +132,8 @@ int main(int argc, char** argv)
 	ISOK(initVao(vao, program));
 
 	g_scene = new Scene(program);
+
+	glEnable(GL_DEPTH_TEST);
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	

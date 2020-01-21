@@ -15,6 +15,8 @@ private:
 
 	glm::mat4 _proj;
 
+	float _camPositionZ;
+
 	float _scale;
 
 	void setModel(const glm::mat4 & _model);
@@ -26,7 +28,9 @@ private:
 public:
 	Scene(GLuint program);
 
-	void scale(float factor);
+	void scaleModel(const float & factor);
+
+	void moveCamZ(const float & factor);
 };
 
 #endif
