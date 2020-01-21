@@ -19,6 +19,8 @@ private:
 
 	float _scale;
 
+	GLenum _polygonMode;
+
 	void setModel(const glm::mat4 & _model);
 
 	void setView(const glm::mat4 & _model);
@@ -37,6 +39,8 @@ public:
 	void rotateModelZ(const float & degrees);
 
 	void moveCamZ(const float & factor);
+
+	void changePolygonMode();
 };
 
 #endif

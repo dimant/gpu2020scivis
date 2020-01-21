@@ -17,6 +17,9 @@ Scene::Scene(GLuint program)
 	setView(glm::mat4(1.0f));
 	moveCamZ(3.0f);
 	setProj(glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, 0.1f, 100.0f));
+
+	_polygonMode = GL_LINE;
+	changePolygonMode();
 }
 
 void setMatrix(GLuint program, const glm::mat4 & matrix, const char* name)
@@ -95,4 +98,18 @@ void Scene::rotateModelZ(const float & degrees)
 	_model = glm::rotate(_model, (float)glm::radians(degrees), glm::vec3(0.0f, 0.0f, 1.0f));
 
 	setModel(_model);
+}
+
+void Scene::changePolygonMode()
+{
+	if (_polygonMode == GL_LINE)
+	{
+		_polygonMode = GL_FILL;
+	}
+	else
+	{
+		_polygonMode = GL_LINE;
+	}
+
+	glPolygonMode(GL_FRONT_AND_BACK, _polygonMode);
 }

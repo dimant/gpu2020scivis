@@ -67,6 +67,9 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 			case GLFW_KEY_Z:
 				g_scene->rotateModelZ(45.0f);
 				break;
+			case GLFW_KEY_W:
+				g_scene->changePolygonMode();
+				break;
 		}
 	}
 }
