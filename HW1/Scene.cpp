@@ -6,21 +6,7 @@
 #include <gtc\matrix_inverse.hpp>
 
 #include "Scene.h"
-
-Scene::Scene(GLuint program) 
-{
-	_program = program;
-	_scale = 1.0f;
-	_camPositionZ = 0.0f;
-
-	setModel(glm::mat4(1.0f));
-	setView(glm::mat4(1.0f));
-	moveCamZ(3.0f);
-	setProj(glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, 0.1f, 100.0f));
-
-	_polygonMode = GL_LINE;
-	changePolygonMode();
-}
+#include "rotateAxis.h"
 
 void setMatrix(GLuint program, const glm::mat4 & matrix, const char* name)
 {
@@ -37,6 +23,22 @@ void setMatrix(GLuint program, const glm::mat4 & matrix, const char* name)
 		1,
 		GL_FALSE,
 		glm::value_ptr(matrix));
+}
+
+Scene::Scene(GLuint program) 
+{
+	_program = program;
+	_scale = 1.0f;
+	_camPositionZ = 0.0f;
+
+	setModel(glm::mat4(1.0f));
+	setView(glm::mat4(1.0f));
+	moveCamZ(3.0f);
+	//setProj(glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, 0.1f, 100.0f));
+	setProj(glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 100.f));
+
+	_polygonMode = GL_LINE;
+	changePolygonMode();
 }
 
 void Scene::moveCamZ(const float & factor)
@@ -113,3 +115,12 @@ void Scene::changePolygonMode()
 
 	glPolygonMode(GL_FRONT_AND_BACK, _polygonMode);
 }
+
+void Scene::rotateModelAxis(const glm::vec3 & axis, const float & degrees)
+{
+	glm::mat4 trans = rotateAxis(axis, degrees);
+	_model = _model * trans;
+
+	setModel(_model);
+}
+

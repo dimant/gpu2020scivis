@@ -68,6 +68,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HelloGLGPUInteractive_host.cpp" />
+    <ClCompile Include="MouseInput.cpp" />
+    <ClCompile Include="rotateAxis.cpp" />
     <ClCompile Include="Scene.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -75,6 +77,8 @@
     <None Include="vshaderEx2.glsl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="MouseInput.h" />
+    <ClInclude Include="rotateAxis.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="vertexArrays.h" />
   </ItemGroup>

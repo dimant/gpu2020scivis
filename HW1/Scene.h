@@ -38,6 +38,8 @@ public:
 
 	void rotateModelZ(const float & degrees);
 
+	void rotateModelAxis(const glm::vec3 & axis, const float & degrees);
+
 	void moveCamZ(const float & factor);
 
 	void changePolygonMode();

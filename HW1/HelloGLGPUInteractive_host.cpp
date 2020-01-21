@@ -13,8 +13,10 @@
 
 #include "vertexArrays.h"
 #include "Scene.h"
+#include "MouseInput.h"
 
 Scene* g_scene;
+MouseInput* g_mouseInput;
 
 GLint initShaders(GLuint & program)
 {
@@ -74,6 +76,44 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 	}
 }
 
+void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
+{
+	if (action == GLFW_PRESS)
+	{
+		switch (button)
+		{
+			case GLFW_MOUSE_BUTTON_LEFT:
+				g_mouseInput->leftButtonDown();
+				break;
+		}
+	}
+	else if(action == GLFW_RELEASE)
+	{
+		switch (button)
+		{
+			case GLFW_MOUSE_BUTTON_LEFT:
+				g_mouseInput->leftButtonUp();
+				break;
+		}
+	}
+}
+
+void mousePositionCallback(GLFWwindow* window, double xpos, double ypos)
+{
+	g_mouseInput->moveCursorTo(xpos, ypos);
+}
+
+void initCallbacks(GLFWwindow* window)
+{
+	glfwSetFramebufferSizeCallback(window, scaleCallback);
+
+	glfwSetKeyCallback(window, keyCallback);
+
+	glfwSetMouseButtonCallback(window, mouseButtonCallback);
+
+	glfwSetCursorPosCallback(window, mousePositionCallback);
+}
+
 GLint initVao(GLuint & vao, const GLuint & program)
 {
 	GLuint vbo;
@@ -125,10 +165,6 @@ int main(int argc, char** argv)
 	}
 	glfwMakeContextCurrent(window);
 
-	glfwSetFramebufferSizeCallback(window, scaleCallback);
-
-	glfwSetKeyCallback(window, keyCallback);
-
 	std::cout << "GLEW Version : " << GLEW_VERSION << std::endl;
 	glewExperimental = GL_TRUE;
 	if (GLEW_OK != glewInit())
@@ -150,6 +186,10 @@ int main(int argc, char** argv)
 	ISOK(initVao(vao, program));
 
 	g_scene = new Scene(program);
+	g_mouseInput = new MouseInput(g_scene);
+
+	// initialize callbacks after constructing state keeping objects
+	initCallbacks(window);
 
 	glEnable(GL_DEPTH_TEST);
 
