@@ -18,6 +18,8 @@
 Scene* g_scene;
 MouseInput* g_mouseInput;
 
+bool g_enableAutoRotation = false;
+
 GLint initShaders(GLuint & program)
 {
 	GLint status = GL_FALSE;
@@ -34,6 +36,17 @@ GLint initShaders(GLuint & program)
 void scaleCallback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
+}
+
+void printHelp()
+{
+	std::cout << "Commands:" << std::endl
+		<< "Camera: P M" << std::endl
+		<< "Rotation: X Y Z" << std::endl
+		<< "Timed Rotation: R" << std::endl
+		<< "Mouse Rotation: Left Button + Drag" << std::endl
+		<< "Wireframe: W" << std::endl
+		<< std::endl;
 }
 
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -72,6 +85,9 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 			case GLFW_KEY_W:
 				g_scene->changePolygonMode();
 				break;
+			case GLFW_KEY_R:
+				g_enableAutoRotation = !g_enableAutoRotation;
+				break;
 		}
 	}
 }
@@ -101,6 +117,17 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 void mousePositionCallback(GLFWwindow* window, double xpos, double ypos)
 {
 	g_mouseInput->moveCursorTo(xpos, ypos);
+}
+
+void timeCallback()
+{
+	if (g_enableAutoRotation)
+	{
+		double deg = 16.0 * glfwGetTime();
+		g_scene->rotateModelY(deg);
+	}
+
+	glfwSetTime(0.0);
 }
 
 void initCallbacks(GLFWwindow* window)
@@ -194,6 +221,8 @@ int main(int argc, char** argv)
 	glEnable(GL_DEPTH_TEST);
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	printHelp();
 	
 	while (0 == glfwWindowShouldClose(window))
 	{
@@ -206,6 +235,7 @@ int main(int argc, char** argv)
 		glFlush();
 
 		glfwSwapBuffers(window);
+		timeCallback();
 		glfwPollEvents();
 	}
 
