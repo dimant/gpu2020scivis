@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ShaderLib", "ShaderLib\Shad
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ex2_HelloGLGPUInteractive", "Ex2_HelloGLGPUInteractive\Ex2_HelloGLGPUInteractive.vcxproj", "{FA1E620F-9FF0-4A68-8511-5EB099B17A78}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HW1", "HW1\HW1.vcxproj", "{240D8881-983E-4E97-9667-6152DB50E424}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -16,7 +18,6 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{916BCB6B-3CAF-4DD9-B97E-6525519A3B71}.Debug|x64.ActiveCfg = Debug|x64
-		{916BCB6B-3CAF-4DD9-B97E-6525519A3B71}.Debug|x64.Build.0 = Debug|x64
 		{916BCB6B-3CAF-4DD9-B97E-6525519A3B71}.Release|x64.ActiveCfg = Release|x64
 		{916BCB6B-3CAF-4DD9-B97E-6525519A3B71}.Release|x64.Build.0 = Release|x64
 		{4618109B-EC95-45B6-A2B2-2761C798EBFF}.Debug|x64.ActiveCfg = Debug|x64
@@ -24,9 +25,12 @@ Global
 		{4618109B-EC95-45B6-A2B2-2761C798EBFF}.Release|x64.ActiveCfg = Release|x64
 		{4618109B-EC95-45B6-A2B2-2761C798EBFF}.Release|x64.Build.0 = Release|x64
 		{FA1E620F-9FF0-4A68-8511-5EB099B17A78}.Debug|x64.ActiveCfg = Debug|x64
-		{FA1E620F-9FF0-4A68-8511-5EB099B17A78}.Debug|x64.Build.0 = Debug|x64
 		{FA1E620F-9FF0-4A68-8511-5EB099B17A78}.Release|x64.ActiveCfg = Release|x64
 		{FA1E620F-9FF0-4A68-8511-5EB099B17A78}.Release|x64.Build.0 = Release|x64
+		{240D8881-983E-4E97-9667-6152DB50E424}.Debug|x64.ActiveCfg = Debug|x64
+		{240D8881-983E-4E97-9667-6152DB50E424}.Debug|x64.Build.0 = Debug|x64
+		{240D8881-983E-4E97-9667-6152DB50E424}.Release|x64.ActiveCfg = Release|x64
+		{240D8881-983E-4E97-9667-6152DB50E424}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
