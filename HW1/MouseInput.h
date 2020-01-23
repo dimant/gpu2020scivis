@@ -3,6 +3,13 @@
 
 #include "Scene.h"
 
+enum MouseTransformationType
+{
+	Rotate,
+	Translate,
+	Scale
+};
+
 class MouseInput
 {
 private:
@@ -14,8 +21,12 @@ private:
 
 	double _ypos;
 
+	MouseTransformationType _transformationType;
+
 public:
 	MouseInput(Scene* scene);
+
+	void setTransformation(MouseTransformationType transformationType);
 
 	void leftButtonDown();
 

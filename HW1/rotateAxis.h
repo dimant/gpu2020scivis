@@ -3,6 +3,6 @@
 
 #include <glm\glm.hpp>
 
-glm::mat4 rotateAxis(glm::vec3 axis, float deg);
+glm::mat4 rotateAxis(glm::vec3 position, glm::vec3 axis, float deg);
 
 #endif

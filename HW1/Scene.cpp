@@ -25,19 +25,19 @@ void setMatrix(GLuint program, const glm::mat4 & matrix, const char* name)
 		glm::value_ptr(matrix));
 }
 
-Scene::Scene(GLuint program) 
+Scene::Scene(GLuint program) :
+	_program(program),
+	_scale(1.0f),
+	_position(glm::vec3(0.0f, 0.0f, 0.0f)),
+	_camPositionZ(0.0f),
+	_polygonMode(GL_LINE)
 {
-	_program = program;
-	_scale = 1.0f;
-	_camPositionZ = 0.0f;
-
 	setModel(glm::mat4(1.0f));
 	setView(glm::mat4(1.0f));
 	moveCamZ(3.0f);
 	//setProj(glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, 0.1f, 100.0f));
 	setProj(glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 100.f));
 
-	_polygonMode = GL_LINE;
 	changePolygonMode();
 }
 
@@ -71,14 +71,6 @@ void Scene::setProj(const glm::mat4 & proj)
 	_proj = proj;
 
 	setMatrix(_program, _proj, "mProj");
-}
-
-void Scene::scaleModel(const float & factor)
-{
-	_scale *= factor;
-	_model = glm::scale(_model, glm::vec3(factor));
-
-	setModel(_model);
 }
 
 void Scene::rotateModelX(const float & degrees)
@@ -118,9 +110,25 @@ void Scene::changePolygonMode()
 
 void Scene::rotateModelAxis(const glm::vec3 & axis, const float & degrees)
 {
-	glm::mat4 trans = rotateAxis(axis, degrees);
+	glm::mat4 trans = rotateAxis(_position, axis, degrees);
 	_model = _model * trans;
 
 	setModel(_model);
 }
 
+void Scene::translateModel(const glm::vec3 & direction)
+{
+	_position = _position + direction;
+
+	_model = glm::translate(_model, direction);
+
+	setModel(_model);
+}
+
+void Scene::scaleModel(const float & factor)
+{
+	_scale *= factor;
+	_model = glm::scale(_model, glm::vec3(factor));
+
+	setModel(_model);
+}

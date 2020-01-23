@@ -15,6 +15,8 @@ private:
 
 	glm::mat4 _proj;
 
+	glm::vec3 _position;
+
 	float _camPositionZ;
 
 	float _scale;
@@ -30,8 +32,6 @@ private:
 public:
 	Scene(GLuint program);
 
-	void scaleModel(const float & factor);
-
 	void rotateModelX(const float & degrees);
 
 	void rotateModelY(const float & degrees);
@@ -39,6 +39,10 @@ public:
 	void rotateModelZ(const float & degrees);
 
 	void rotateModelAxis(const glm::vec3 & axis, const float & degrees);
+
+	void translateModel(const glm::vec3 & direction);
+
+	void scaleModel(const float & factor);
 
 	void moveCamZ(const float & factor);
 

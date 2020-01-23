@@ -88,6 +88,15 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 			case GLFW_KEY_R:
 				g_enableAutoRotation = !g_enableAutoRotation;
 				break;
+			case GLFW_KEY_8:
+				g_mouseInput->setTransformation(Rotate);
+				break;
+			case GLFW_KEY_9:
+				g_mouseInput->setTransformation(Translate);
+				break;
+			case GLFW_KEY_0:
+				g_mouseInput->setTransformation(Scale);
+				break;
 		}
 	}
 }
@@ -123,7 +132,7 @@ void timeCallback()
 {
 	if (g_enableAutoRotation)
 	{
-		double deg = 16.0 * glfwGetTime();
+		float deg = 16.0f * (float) glfwGetTime();
 		g_scene->rotateModelY(deg);
 	}
 

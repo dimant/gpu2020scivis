@@ -4,7 +4,7 @@
 
 /// This implementation is not efficient, it is
 /// written for clarity.
-glm::mat4 rotateAxis(glm::vec3 axis, float deg)
+glm::mat4 rotateAxis(glm::vec3 position, glm::vec3 axis, float deg)
 {
 	glm::vec3 unitAxis = glm::normalize(axis);
 
@@ -26,6 +26,20 @@ glm::mat4 rotateAxis(glm::vec3 axis, float deg)
 			0.0f, 0.0f, 0.0f, 1.0f
 		);
 	}
+
+	glm::mat4 T = glm::mat4(
+		1.0f, 0.0f, 0.0f, position.x,
+		0.0f, 1.0f, 0.0f, position.y,
+		0.0f, 0.0f, 1.0f, position.z,
+		0.0f, 0.0f, 0.0f, 1.0f
+	);
+
+	glm::mat4 TInv = glm::mat4(
+		1.0f, 0.0f, 0.0f, -position.x,
+		0.0f, 1.0f, 0.0f, -position.y,
+		0.0f, 0.0f, 1.0f, -position.z,
+		0.0f, 0.0f, 0.0f, 1.0f
+	);
 
 	glm::mat4 Rx = glm::mat4(
 		1.0f, 0.0f, 0.0f, 0.0f,
@@ -62,5 +76,5 @@ glm::mat4 rotateAxis(glm::vec3 axis, float deg)
 		0.0f, 0.0f, 0.0f, 1.0f
 	);
 
-	return RxInv * RyInv * Rz * Ry * Rx;
+	return TInv * RxInv * RyInv * Rz * Ry * Rx * T;
 }
