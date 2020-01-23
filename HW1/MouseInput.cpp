@@ -53,7 +53,7 @@ void MouseInput::moveCursorTo(double xpos, double ypos)
 				break;
 			case Translate:
 				// Mouse coordinates begin in top left but model coordinates
-				// begin in bottom right
+				// begin in bottom left
 				glm::vec3 direction = vector(_xpos, _ypos, xpos, ypos);
 				direction.y = -direction.y;
 				_scene->translateModel(direction * 0.01f);
