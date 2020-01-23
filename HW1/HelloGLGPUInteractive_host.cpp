@@ -46,6 +46,9 @@ void printHelp()
 		<< "Timed Rotation: R" << std::endl
 		<< "Mouse Rotation: Left Button + Drag" << std::endl
 		<< "Wireframe: W" << std::endl
+		<< "Rotate mode (default): 8" << std::endl
+		<< "Translate mode: 9" << std::endl
+		<< "Scale mode: 0" << std::endl
 		<< std::endl;
 }
 
