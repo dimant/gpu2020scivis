@@ -3,7 +3,7 @@
 
     <ItemDefinitionGroup>
         <ClCompile>
-        <AdditionalIncludeDirectories>$(SolutionDir)ShaderLib;$(SolutionDir)shared\GL\include;$(SolutionDir)shared\GL\include\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+        <AdditionalIncludeDirectories>$(SolutionDir)ShaderLib;$(SolutionDir)shared;$(SolutionDir)shared\GL\include;$(SolutionDir)shared\GL\include\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
         </ClCompile>
         <Link>
         <AdditionalLibraryDirectories>$(SolutionDir)shared\;$(SolutionDir)shared\GL\lib-vc2017;$(SolutionDir)shared\GL\lib-mingw-w64;$(SolutionDir)shared\GL\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
