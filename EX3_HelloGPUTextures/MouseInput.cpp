@@ -59,7 +59,7 @@ void MouseInput::moveCursorTo(double xpos, double ypos)
 				_scene->translateModel(direction * 0.01f);
 				break;
 			case Scale:
-				float factor = _xpos - xpos;
+				float factor = (float)(_xpos - xpos);
 				_scene->scaleModel(factor > 0 ? 1.1f : 0.9f);
 				break;
 		}

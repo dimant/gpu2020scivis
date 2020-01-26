@@ -1,7 +1,7 @@
 ﻿#ifndef VERTEXARRAYS_H
 #define VERTEXARRAYS_H
 
-float triangle[] = {
+float single_triangle[] = {
 	 0.0f,	 1.0f,	0.0f, 1.0f, 0.0f, 0.0f,
 	 1.0f,	-1.0f,	0.0f, 0.0f, 1.0f, 0.0f,
 	-1.0f,	-1.0f,	0.0f, 0.0f, 0.0f, 1.0f

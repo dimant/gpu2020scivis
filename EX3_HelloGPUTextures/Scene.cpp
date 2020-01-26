@@ -25,7 +25,7 @@ void setMatrix(GLuint program, const glm::mat4 & matrix, const char* name)
 		glm::value_ptr(matrix));
 }
 
-Scene::Scene(GLuint program) :
+Scene::Scene(const GLuint & program) :
 	_program(program),
 	_scale(1.0f),
 	_position(glm::vec3(0.0f, 0.0f, 0.0f)),
@@ -35,8 +35,8 @@ Scene::Scene(GLuint program) :
 	setModel(glm::mat4(1.0f));
 	setView(glm::mat4(1.0f));
 	moveCamZ(3.0f);
-	//setProj(glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, 0.1f, 100.0f));
-	setProj(glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 50.0f));
+	setProj(glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, 0.1f, 100.0f));
+	//setProj(glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 50.0f));
 
 	changePolygonMode();
 }

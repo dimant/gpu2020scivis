@@ -16,24 +16,12 @@
 #include "vertexArrays.h"
 #include "Scene.h"
 #include "MouseInput.h"
+#include "Sphere.h"
 
 Scene* g_scene;
 MouseInput* g_mouseInput;
 
 bool g_enableAutoRotation = false;
-
-GLint initShaders(GLuint & program)
-{
-	GLint status = GL_FALSE;
-
-	shaderFile vertexShader{ GL_VERTEX_SHADER, "vshaderEx2.glsl" };
-	shaderFile fragmentShader{ GL_FRAGMENT_SHADER, "fshaderEx2.glsl" };
-	std::vector<shaderFile> shaderFiles{ vertexShader, fragmentShader };
-
-	ISOK(buildShaderProgram(program, shaderFiles));
-
-	return status;
-}
 
 void scaleCallback(GLFWwindow* window, int width, int height)
 {
@@ -155,61 +143,6 @@ void initCallbacks(GLFWwindow* window)
 	glfwSetCursorPosCallback(window, mousePositionCallback);
 }
 
-GLint initVao(GLuint & vao, const GLuint & program)
-{
-	GLuint vbo;
-
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
-
-	glGenBuffers(1, &vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(tilted_rect), tilted_rect, GL_STATIC_DRAW);
-
-	// 3 floats for x, y, z coordinates
-	GLuint locPosition = glGetAttribLocation(program, "in_vPosition");
-	glVertexAttribPointer(locPosition, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(locPosition);
-
-	// 3 floats for r, g, b colors
-	GLuint locColor = glGetAttribLocation(program, "in_vColor");
-	glVertexAttribPointer(locColor, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(locColor);
-
-	// 2 floats for x, y texel coordinates
-	GLuint locTexCoord = glGetAttribLocation(program, "in_vTexCoord");
-	glVertexAttribPointer(locTexCoord, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-	glEnableVertexAttribArray(2);
-
-	return GL_TRUE;
-}
-
-GLint loadTexture(GLuint & texture, const std::string & path)
-{
-	glGenTextures(1, &texture);
-	glBindTexture(GL_TEXTURE_2D, texture);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-	int width, height, channels;
-	stbi_uc * data = stbi_load(path.c_str(), &width, &height, &channels, 0);
-
-	if (!data)
-	{
-		std::cerr << "Could not load texture at path: " << path << std::endl;
-		return GL_FALSE;
-	}
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-	glGenerateMipmap(GL_TEXTURE_2D);
-
-	stbi_image_free(data);
-
-	return GL_TRUE;
-}
-
 int main(int argc, char** argv)
 {
 	if (GLFW_TRUE != glfwInit())
@@ -238,27 +171,14 @@ int main(int argc, char** argv)
 		std::cout << "glewInit failed, aborting." << std::endl;
 	}
 
-	GLuint program;
-	GLint status = initShaders(program);
+	Sphere sphere;
+	sphere.init(4, VertexNormals);
 
-	if (GL_TRUE == status)
-	{
-		std::cout << "Successfully built shader program." << std::endl;
-	}
-
-	glUseProgram(program);
-
-	GLuint vao;
-	ISOK(initVao(vao, program));
-
-	g_scene = new Scene(program);
+	g_scene = new Scene(sphere.getProgram());
 	g_mouseInput = new MouseInput(g_scene);
 
 	// initialize callbacks after constructing state keeping objects
 	initCallbacks(window);
-
-	GLuint texture;
-	ISOK(loadTexture(texture, "textures\\brickwall.jpg"));
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -271,11 +191,8 @@ int main(int argc, char** argv)
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glBindTexture(GL_TEXTURE_2D, texture);
-		glBindVertexArray(vao);
-		glDrawArrays(GL_TRIANGLES, 0, sizeof(can_cube_verts_cols));
-		glBindVertexArray(0);
-		glBindTexture(GL_TEXTURE_2D, 0);
+		sphere.draw();
+
 		glFlush();
 
 		glfwSwapBuffers(window);

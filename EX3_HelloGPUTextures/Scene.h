@@ -7,7 +7,7 @@
 class Scene
 {
 private:
-	GLuint _program;
+	const GLuint & _program;
 
 	glm::mat4 _model;
 
@@ -30,7 +30,7 @@ private:
 	void setProj(const glm::mat4 & _model);
 
 public:
-	Scene(GLuint program);
+	Scene(const GLuint & program);
 
 	void rotateModelX(const float & degrees);
 

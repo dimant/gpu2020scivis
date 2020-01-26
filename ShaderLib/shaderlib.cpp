@@ -12,7 +12,7 @@
 
 GLint buildShaderProgram(GLuint & program, const std::vector<shaderFile> & shaderFiles)
 {
-	GLint status = GL_FALSE;
+	GLint status = GL_TRUE;
 
 	std::vector<GLuint> shaders;
 
@@ -57,7 +57,7 @@ const std::string readFile(const std::string & path)
 
 GLint linkShaders(const std::vector<GLuint> & shaders, GLuint & program)
 {
-	GLint status = GL_FALSE;
+	GLint status = GL_TRUE;
 	char infoLog[1024];
 
 	program = glCreateProgram();
@@ -85,7 +85,7 @@ GLint linkShaders(const std::vector<GLuint> & shaders, GLuint & program)
 
 GLint compileShader(const std::string & source, const GLenum & shaderType, GLuint & shader)
 {
-	GLint status = GL_FALSE;
+	GLint status = GL_TRUE;
 
 	const char* cstr = source.c_str();
 

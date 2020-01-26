@@ -67,20 +67,28 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="EX3_host.cpp" />
+    <ClCompile Include="EX3part1_host.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="EX3part2_host.cpp" />
     <ClCompile Include="MouseInput.cpp" />
     <ClCompile Include="rotateAxis.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Spehere.cpp" />
     <ClCompile Include="stb_impl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="fshaderEx2.glsl" />
+    <None Include="fshaderSphere.glsl" />
     <None Include="vshaderEx2.glsl" />
+    <None Include="vshaderSphere.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MouseInput.h" />
     <ClInclude Include="rotateAxis.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Sphere.h" />
     <ClInclude Include="vertexArrays.h" />
   </ItemGroup>
   <ItemGroup>
