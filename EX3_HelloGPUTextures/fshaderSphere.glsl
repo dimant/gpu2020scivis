@@ -17,7 +17,7 @@ void main()
 	vec3 norm = normalize(normal);
 	vec3 lightDirection = normalize(vLightPosition - fragmentPosition);
 	float diff = max(dot(norm, lightDirection), 0.0);
-	vec3 diffuse = diff * vLightColor;
+	vec3 diffuse = vLightCoef.y * diff * vLightColor;
 	vec3 viewDirection = normalize(vCameraPosition - fragmentPosition);
 	vec3 reflectDirection = reflect(-lightDirection, norm);
 	float spec = pow(max(dot(viewDirection, reflectDirection), 0.0), vLightCoef.w);

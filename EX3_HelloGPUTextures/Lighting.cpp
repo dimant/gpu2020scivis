@@ -8,7 +8,7 @@ Lighting::Lighting(const GLuint & program)
 	_position(glm::vec3(0.0f, 0.0f, 0.0f)),
 	_color(glm::vec3(1.0f, 1.0f, 1.0f)),
 	// x: ambient (ka), y: diffuse (kd), z: specular (ks), w: shinyness (s)
-	_coefficients(glm::vec4(0.15f, 0.0f, 0.5f, 256.0f)),
+	_coefficients(glm::vec4(0.1f, 6.0f, 2.0f, 256.0f)),
 	_mNormal(glm::mat3(1.0f)),
 	_lightingType(None)
 {

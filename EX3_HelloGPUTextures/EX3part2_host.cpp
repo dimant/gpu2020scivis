@@ -225,7 +225,7 @@ int main(int argc, char** argv)
 	g_scene->registerModelChanged([&lighting](const glm::mat4 & m) { lighting.setModel(m); });
 	g_scene->apply();
 
-	lighting.setPosition(glm::vec3(0.0f, 0.0f, 5.0f));
+	lighting.setPosition(glm::vec3(-3.0f, 3.0f, 5.0f));
 
 	// initialize callbacks after constructing state keeping objects
 	initCallbacks(window);
