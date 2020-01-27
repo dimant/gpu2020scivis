@@ -5,6 +5,8 @@
 #include <vector>
 #include <GL\glew.h>
 
+#include <glm\glm.hpp>
+
 #define ISOK(X) if(GL_TRUE != (X)) return GL_FALSE;
 
 struct shaderFile
@@ -20,5 +22,13 @@ GLint compileShader(const std::string & source, const GLenum & shaderType, GLuin
 GLint linkShaders(const std::vector<GLuint> & shaders, GLuint & program);
 
 GLint buildShaderProgram(GLuint & program, const std::vector<shaderFile> & shaderFiles);
+
+GLint setMat4(const GLuint & program, const glm::mat4 & matrix, const char* name);
+
+GLint setMat3(const GLuint & program, const glm::mat3 & matrix, const char* name);
+
+GLint setVec4(const GLuint & program, const glm::vec4 & vector, const char* name);
+
+GLint setVec3(const GLuint & program, const glm::vec3 & vector, const char* name);
 
 #endif // !SHADERLIB_H

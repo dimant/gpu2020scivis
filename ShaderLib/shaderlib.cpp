@@ -8,7 +8,78 @@
 
 #include <GL\glew.h>
 
+#include <gtc\type_ptr.hpp>
+
 #include "shaderlib.h"
+
+GLint getPtr(const GLuint & program, const char * name, GLint & ptr)
+{
+	ptr = glGetUniformLocation(program, name);
+
+	if (ptr < 0)
+	{
+		std::cerr << "Shader variable name cannot be resolved: " << name << std::endl;
+		return GL_FALSE;
+	}
+	else
+	{
+		return GL_TRUE;
+	}
+}
+
+GLint setMat4(const GLuint & program, const glm::mat4 & matrix, const char* name)
+{
+	GLint ptr;
+	ISOK(getPtr(program, name, ptr))
+
+	glUniformMatrix4fv(
+		ptr,
+		1,
+		GL_FALSE,
+		glm::value_ptr(matrix));
+
+	return GL_TRUE;
+}
+
+GLint setMat3(const GLuint & program, const glm::mat3 & matrix, const char* name)
+{
+	GLint ptr;
+	ISOK(getPtr(program, name, ptr))
+
+		glUniformMatrix3fv(
+			ptr,
+			1,
+			GL_FALSE,
+			glm::value_ptr(matrix));
+
+	return GL_TRUE;
+}
+
+GLint setVec4(const GLuint & program, const glm::vec4 & vector, const char* name)
+{
+	GLint ptr;
+	ISOK(getPtr(program, name, ptr))
+
+	glUniform4fv(
+		ptr,
+		1,
+		&vector[0]);
+
+	return GL_TRUE;
+}
+
+GLint setVec3(const GLuint & program, const glm::vec3 & vector, const char* name)
+{
+	GLint ptr;
+	ISOK(getPtr(program, name, ptr))
+
+	glUniform3fv(
+		ptr,
+		1,
+		&vector[0]);
+
+	return GL_TRUE;
+}
 
 GLint buildShaderProgram(GLuint & program, const std::vector<shaderFile> & shaderFiles)
 {

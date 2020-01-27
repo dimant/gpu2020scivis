@@ -1,35 +1,19 @@
 #include <iostream>
 
-#include <gtc\type_ptr.hpp>
 #include <gtc\matrix_transform.hpp>
 #include <gtc\matrix_access.hpp>
 #include <gtc\matrix_inverse.hpp>
 
+#include <shaderlib.h>
+
 #include "Scene.h"
 #include "rotateAxis.h"
-
-void setMatrix(GLuint program, const glm::mat4 & matrix, const char* name)
-{
-	GLint ptr = glGetUniformLocation(program, name);
-
-	if (ptr < 0)
-	{
-		std::cerr << "Shader variable name cannot be resolved: " << name << std::endl;
-		return;
-	}
-
-	glUniformMatrix4fv(
-		ptr,
-		1,
-		GL_FALSE,
-		glm::value_ptr(matrix));
-}
 
 Scene::Scene(const GLuint & program) :
 	_program(program),
 	_scale(1.0f),
 	_position(glm::vec3(0.0f, 0.0f, 0.0f)),
-	_camPositionZ(0.0f),
+	_camPosition(glm::vec3(0.0f, 0.0f, 0.0f)),
 	_polygonMode(GL_LINE)
 {
 	setModel(glm::mat4(1.0f));
@@ -43,34 +27,53 @@ Scene::Scene(const GLuint & program) :
 
 void Scene::moveCamZ(const float & factor)
 {
-	_camPositionZ += factor;
+	_camPosition.z += factor;
 
 	setView(
 		glm::lookAt(
-			glm::vec3(0.0f, 0.0f, _camPositionZ),
+			_camPosition,
 			glm::vec3(0.0f, 0.0f, 0.0f),
 			glm::vec3(0.0f, 1.0f, 0.0f)));
+
+	setVec3(_program, _camPosition, "vCameraPosition");
 }
 
 void Scene::setModel(const glm::mat4 & model)
 {
 	_model = model;
 
-	setMatrix(_program, _model, "mModel");
+	setMat4(_program, _model, "mModel");
+
+	if (_setModelCallback)
+	{
+		_setModelCallback(_model);
+	}
 }
 
 void Scene::setView(const glm::mat4 & view)
 {
 	_view = view;
 
-	setMatrix(_program, _view, "mView");
+	setMat4(_program, _view, "mView");
 }
 
 void Scene::setProj(const glm::mat4 & proj)
 {
 	_proj = proj;
 
-	setMatrix(_program, _proj, "mProj");
+	setMat4(_program, _proj, "mProj");
+}
+
+void Scene::registerModelChanged(SetMat4Callback callback)
+{
+	_setModelCallback = callback;
+}
+
+void Scene::apply()
+{
+	setModel(_model);
+	setView(_view);
+	setProj(_proj);
 }
 
 void Scene::rotateModelX(const float & degrees)

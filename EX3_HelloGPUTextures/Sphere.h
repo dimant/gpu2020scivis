@@ -27,7 +27,9 @@ private:
 		glm::vec3(0.816497f, -0.471405f, -0.333333f)
 	};
 
-	const glm::vec4 _color = glm::vec4(0.2941f, 0.4902f, 0.8196f, 1.0f);
+	// const glm::vec4 _color = glm::vec4(0.2941f, 0.4902f, 0.8196f, 1.0f);
+
+	const glm::vec4 _color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
 	VertAtt* _data;
 

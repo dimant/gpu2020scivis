@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <iostream>
 #include <vector>
 
@@ -17,6 +18,7 @@
 #include "Scene.h"
 #include "MouseInput.h"
 #include "Sphere.h"
+#include "Lighting.h"
 
 Scene* g_scene;
 MouseInput* g_mouseInput;
@@ -143,8 +145,47 @@ void initCallbacks(GLFWwindow* window)
 	glfwSetCursorPosCallback(window, mousePositionCallback);
 }
 
+void checkArgs(int argc, char** argv)
+{
+	if (argc == 1)
+	{
+		return;
+	}
+
+	if (argc != 3)
+	{
+		std::cout << "USAGE: " << argv[0] << " ARG1 ARG2\n" << std::endl;
+		std::cout << "INPUT ARG1 : set recursion depth level (integer = 1 or greater)\n" << std::endl;
+		std::cout << "INPUT ARG2 : 0 = facet normals, 1 = per-vertex normals, 2 = per-fragment Phong shading\n" << std::endl;
+		std::cout << "Exiting..." << std::endl;
+		exit(EXIT_SUCCESS);
+	}
+}
+
+int getRecursions(int argc, char** argv)
+{
+	if (argc == 1)
+	{
+		return 4;
+	}
+
+	return atoi(argv[1]);
+}
+
+NormalTypes getNormalType(int argc, char** argv)
+{
+	if (argc == 1)
+	{
+		return VertexNormals;
+	}
+
+	return static_cast<NormalTypes>(atoi(argv[2]));
+}
+
 int main(int argc, char** argv)
 {
+	checkArgs(argc, argv);
+
 	if (GLFW_TRUE != glfwInit())
 	{
 		std::cerr << "ERROR: could not start GLFW3\n" << std::endl;
@@ -171,11 +212,20 @@ int main(int argc, char** argv)
 		std::cout << "glewInit failed, aborting." << std::endl;
 	}
 
+	int recursions = getRecursions(argc, argv);
+	NormalTypes normals = getNormalType(argc, argv);
+
 	Sphere sphere;
-	sphere.init(4, VertexNormals);
+	sphere.init(recursions, normals);
 
 	g_scene = new Scene(sphere.getProgram());
 	g_mouseInput = new MouseInput(g_scene);
+
+	Lighting lighting(sphere.getProgram());
+	g_scene->registerModelChanged([&lighting](const glm::mat4 & m) { lighting.setModel(m); });
+	g_scene->apply();
+
+	lighting.setPosition(glm::vec3(0.0f, 0.0f, 5.0f));
 
 	// initialize callbacks after constructing state keeping objects
 	initCallbacks(window);

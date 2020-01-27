@@ -1,8 +1,14 @@
 #ifndef SCENE_H
 #define SCENE_H
 
+#include <functional>
+	
 #include <GL\glew.h>
 #include <glm\glm.hpp>
+
+typedef std::function<void(const glm::mat4 &)> SetMat4Callback;
+
+typedef std::function<void(glm::vec3)> SetVec3Callback;
 
 class Scene
 {
@@ -11,13 +17,15 @@ private:
 
 	glm::mat4 _model;
 
+	SetMat4Callback _setModelCallback;
+
 	glm::mat4 _view;
 
 	glm::mat4 _proj;
 
 	glm::vec3 _position;
 
-	float _camPositionZ;
+	glm::vec3 _camPosition;
 
 	float _scale;
 
@@ -31,6 +39,10 @@ private:
 
 public:
 	Scene(const GLuint & program);
+
+	void apply();
+
+	void registerModelChanged(SetMat4Callback callback);
 
 	void rotateModelX(const float & degrees);
 
