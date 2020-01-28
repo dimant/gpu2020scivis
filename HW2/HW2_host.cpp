@@ -1,0 +1,175 @@
+#include <iostream>
+
+#include <GL\glew.h>
+#include <GLFW\glfw3.h>
+
+#include <shaderlib.h>
+
+#include "Scene.h"
+#include "MouseInput.h"
+
+#include "HarleyCube.h"
+
+Scene* g_scene;
+MouseInput* g_mouseInput;
+
+void scaleCallback(GLFWwindow* window, int width, int height)
+{
+	glViewport(0, 0, width, height);
+}
+
+void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+	if (action == GLFW_PRESS)
+	{
+		switch (key)
+		{
+		case GLFW_KEY_ESCAPE:
+			glfwDestroyWindow(window);
+			glfwTerminate();
+			delete g_mouseInput;
+			delete g_scene;
+			exit(0);
+			break;
+		case GLFW_KEY_8:
+			g_mouseInput->setTransformation(Rotate);
+			break;
+		case GLFW_KEY_9:
+			g_mouseInput->setTransformation(Translate);
+			break;
+		case GLFW_KEY_0:
+			g_mouseInput->setTransformation(Scale);
+			break;
+		}
+	}
+}
+
+void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
+{
+	if (action == GLFW_PRESS)
+	{
+		switch (button)
+		{
+		case GLFW_MOUSE_BUTTON_LEFT:
+			g_mouseInput->leftButtonDown();
+			break;
+		}
+	}
+	else if (action == GLFW_RELEASE)
+	{
+		switch (button)
+		{
+		case GLFW_MOUSE_BUTTON_LEFT:
+			g_mouseInput->leftButtonUp();
+			break;
+		}
+	}
+}
+
+void mousePositionCallback(GLFWwindow* window, double xpos, double ypos)
+{
+	g_mouseInput->moveCursorTo(xpos, ypos);
+}
+
+void timeCallback()
+{
+	//if (g_enableAutoRotation)
+	//{
+	//	float deg = 16.0f * (float)glfwGetTime();
+	//	g_scene->rotateModelY(deg);
+	//}
+
+	glfwSetTime(0.0);
+}
+
+void initCallbacks(GLFWwindow* window)
+{
+	glfwSetFramebufferSizeCallback(window, scaleCallback);
+
+	glfwSetKeyCallback(window, keyCallback);
+
+	glfwSetMouseButtonCallback(window, mouseButtonCallback);
+
+	glfwSetCursorPosCallback(window, mousePositionCallback);
+}
+
+GLint initShaders(GLuint & program)
+{
+	shaderFile vertexShader{ GL_VERTEX_SHADER, "vshaderHCube.glsl" };
+	shaderFile fragmentShader{ GL_FRAGMENT_SHADER, "fshaderHCube.glsl" };
+	std::vector<shaderFile> shaderFiles{ vertexShader, fragmentShader };
+
+	ISOK(buildShaderProgram(program, shaderFiles));
+
+	return GL_TRUE;
+}
+
+int main(int argc, char** argv)
+{
+	if (GLFW_TRUE != glfwInit())
+	{
+		std::cerr << "ERROR: could not start GLFW3\n" << std::endl;
+		return 1;
+	}
+
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+	GLFWwindow* window = glfwCreateWindow(1200, 1200, "Hello Triangle!", NULL, NULL);
+	if (NULL == window)
+	{
+		std::cerr << "ERROR: could not open window with GLFW3\n" << std::endl;
+		glfwTerminate();
+		return 1;
+	}
+	glfwMakeContextCurrent(window);
+
+	initCallbacks(window);
+
+	std::cout << "GLEW Version : " << GLEW_VERSION << std::endl;
+	glewExperimental = GL_TRUE;
+	if (GLEW_OK != glewInit())
+	{
+		std::cout << "glewInit failed, aborting." << std::endl;
+	}
+
+	glEnable(GL_DEPTH_TEST);
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	GLuint program;
+	ISOK(initShaders(program));
+	glUseProgram(program);
+
+	HarleyCube harleyCube(program);
+	harleyCube.init();
+
+	g_scene = new Scene(program);
+	g_mouseInput = new MouseInput(harleyCube);
+
+	while (0 == glfwWindowShouldClose(window))
+	{
+		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		harleyCube.draw();
+
+		glFlush();
+
+		glfwSwapBuffers(window);
+		timeCallback();
+		glfwPollEvents();
+	}
+
+	harleyCube.destroy();
+
+	glfwDestroyWindow(window);
+
+	glfwTerminate();
+
+	delete g_scene;
+
+	return 0;
+
+}

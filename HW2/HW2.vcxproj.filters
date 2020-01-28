@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="shaders">
+      <UniqueIdentifier>{4adc6817-07c2-4eb4-9719-0635f59e847b}</UniqueIdentifier>
+      <Extensions>glsl</Extensions>
+    </Filter>
+    <Filter Include="sources">
+      <UniqueIdentifier>{cf0e67b2-da0b-415b-8d4b-64fa514a5862}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="headers">
+      <UniqueIdentifier>{2e6200fd-5872-499e-a521-0f79f700511d}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="EX3part1_host.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="EX3part2_host.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Lighting.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseInput.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="rotateAxis.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Spehere.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="stb_impl.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="HarleyCube.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="HW2_host.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Lighting.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseInput.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="rotateAxis.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Sphere.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="vertexArrays.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="HarleyCube.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Transformable.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="fshaderEx2.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="fshaderSphere.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="vshaderEx2.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="vshaderSphere.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="fshaderHCube.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="vshaderHCube.glsl">
+      <Filter>shaders</Filter>
+    </None>
+  </ItemGroup>
+</Project>

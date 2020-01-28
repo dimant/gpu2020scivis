@@ -10,6 +10,8 @@
 
 #include <gtc\type_ptr.hpp>
 
+#include "stb_image.h"
+
 #include "shaderlib.h"
 
 GLint getPtr(const GLuint & program, const char * name, GLint & ptr)
@@ -77,6 +79,32 @@ GLint setVec3(const GLuint & program, const glm::vec3 & vector, const char* name
 		ptr,
 		1,
 		&vector[0]);
+
+	return GL_TRUE;
+}
+
+GLint loadTexture(GLuint & texture, const std::string & path)
+{
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	int width, height, channels;
+	stbi_uc * data = stbi_load(path.c_str(), &width, &height, &channels, 0);
+
+	if (!data)
+	{
+		std::cerr << "Could not load texture at path: " << path << std::endl;
+		return GL_FALSE;
+	}
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+	stbi_image_free(data);
 
 	return GL_TRUE;
 }

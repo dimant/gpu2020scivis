@@ -13,6 +13,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HW1", "HW1\HW1.vcxproj", "{
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EX3_HelloGPUTextures", "EX3_HelloGPUTextures\EX3_HelloGPUTextures.vcxproj", "{4F2DFE96-E39C-4095-BA31-FFF56E608874}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HW2", "HW2\HW2.vcxproj", "{C5466DA7-73AD-45FE-BA3D-9723D1C6F8CE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4618109B-EC95-45B6-A2B2-2761C798EBFF} = {4618109B-EC95-45B6-A2B2-2761C798EBFF}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -37,6 +42,10 @@ Global
 		{4F2DFE96-E39C-4095-BA31-FFF56E608874}.Debug|x64.Build.0 = Debug|x64
 		{4F2DFE96-E39C-4095-BA31-FFF56E608874}.Release|x64.ActiveCfg = Release|x64
 		{4F2DFE96-E39C-4095-BA31-FFF56E608874}.Release|x64.Build.0 = Release|x64
+		{C5466DA7-73AD-45FE-BA3D-9723D1C6F8CE}.Debug|x64.ActiveCfg = Debug|x64
+		{C5466DA7-73AD-45FE-BA3D-9723D1C6F8CE}.Debug|x64.Build.0 = Debug|x64
+		{C5466DA7-73AD-45FE-BA3D-9723D1C6F8CE}.Release|x64.ActiveCfg = Release|x64
+		{C5466DA7-73AD-45FE-BA3D-9723D1C6F8CE}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
