@@ -7,7 +7,6 @@
 #include <shaderlib.h>
 
 #include "Scene.h"
-#include "rotateAxis.h"
 
 Scene::Scene(const GLuint & program) :
 	_program(program),
@@ -15,8 +14,7 @@ Scene::Scene(const GLuint & program) :
 	_polygonMode(GL_LINE)
 {
 	setView(glm::mat4(1.0f));
-	moveCamZ(3.0f);
-	//setProj(glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, 0.1f, 100.0f));
+	moveCamZ(4.0f);
 	setProj(glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 50.0f));
 
 	changePolygonMode();

@@ -5,7 +5,10 @@
 
 #include <shaderlib.h>
 
+#include "TransformableContainer.h"
+
 #include "Scene.h"
+#include "Light.h"
 #include "MouseInput.h"
 
 #include "HarleyCube.h"
@@ -142,11 +145,18 @@ int main(int argc, char** argv)
 	ISOK(initShaders(program));
 	glUseProgram(program);
 
+	TransformableContainer tc;
+
 	HarleyCube harleyCube(program);
 	harleyCube.init();
 
+	Light light(program);
+
+	tc.add(harleyCube);
+	tc.add(light);
+
 	g_scene = new Scene(program);
-	g_mouseInput = new MouseInput(harleyCube);
+	g_mouseInput = new MouseInput(tc);
 
 	while (0 == glfwWindowShouldClose(window))
 	{

@@ -15,28 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="EX3part1_host.cpp">
-      <Filter>sources</Filter>
-    </ClCompile>
-    <ClCompile Include="EX3part2_host.cpp">
-      <Filter>sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Lighting.cpp">
-      <Filter>sources</Filter>
-    </ClCompile>
     <ClCompile Include="MouseInput.cpp">
       <Filter>sources</Filter>
     </ClCompile>
-    <ClCompile Include="rotateAxis.cpp">
-      <Filter>sources</Filter>
-    </ClCompile>
     <ClCompile Include="Scene.cpp">
-      <Filter>sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Spehere.cpp">
-      <Filter>sources</Filter>
-    </ClCompile>
-    <ClCompile Include="stb_impl.cpp">
       <Filter>sources</Filter>
     </ClCompile>
     <ClCompile Include="HarleyCube.cpp">
@@ -45,24 +27,15 @@
     <ClCompile Include="HW2_host.cpp">
       <Filter>sources</Filter>
     </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Lighting.h">
-      <Filter>headers</Filter>
-    </ClInclude>
     <ClInclude Include="MouseInput.h">
       <Filter>headers</Filter>
     </ClInclude>
-    <ClInclude Include="rotateAxis.h">
-      <Filter>headers</Filter>
-    </ClInclude>
     <ClInclude Include="Scene.h">
-      <Filter>headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Sphere.h">
-      <Filter>headers</Filter>
-    </ClInclude>
-    <ClInclude Include="vertexArrays.h">
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="HarleyCube.h">
@@ -71,20 +44,11 @@
     <ClInclude Include="Transformable.h">
       <Filter>headers</Filter>
     </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="fshaderEx2.glsl">
-      <Filter>shaders</Filter>
-    </None>
-    <None Include="fshaderSphere.glsl">
-      <Filter>shaders</Filter>
-    </None>
-    <None Include="vshaderEx2.glsl">
-      <Filter>shaders</Filter>
-    </None>
-    <None Include="vshaderSphere.glsl">
-      <Filter>shaders</Filter>
-    </None>
     <None Include="fshaderHCube.glsl">
       <Filter>shaders</Filter>
     </None>

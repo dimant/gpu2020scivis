@@ -10,7 +10,7 @@ typedef std::function<glm::mat4(const glm::mat4)> Transform;
 class Transformable
 {
 public:
-	virtual void transform(Transform t) = 0;
+	virtual void transform(Transform t) {}
 };
 
 #endif

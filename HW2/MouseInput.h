@@ -29,6 +29,8 @@ public:
 	{
 	}
 
+	void setTransformable(Transformable & transformable);
+
 	void setTransformation(MouseTransformationType transformationType);
 
 	void leftButtonDown();

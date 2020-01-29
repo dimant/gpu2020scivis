@@ -74,3 +74,8 @@ void MouseInput::setTransformation(MouseTransformationType transformationType)
 {
 	_transformationType = transformationType;
 }
+
+void MouseInput::setTransformable(Transformable & transformable)
+{
+	_transformable = transformable;
+}

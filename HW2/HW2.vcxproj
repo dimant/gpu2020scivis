@@ -67,40 +67,22 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="EX3part1_host.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="EX3part2_host.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="HarleyCube.cpp" />
     <ClCompile Include="HW2_host.cpp" />
-    <ClCompile Include="Lighting.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="MouseInput.cpp" />
-    <ClCompile Include="rotateAxis.cpp" />
     <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="Spehere.cpp" />
-    <ClCompile Include="stb_impl.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="fshaderEx2.glsl" />
     <None Include="fshaderHCube.glsl" />
-    <None Include="fshaderSphere.glsl" />
-    <None Include="vshaderEx2.glsl" />
     <None Include="vshaderHCube.glsl" />
-    <None Include="vshaderSphere.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HarleyCube.h" />
-    <ClInclude Include="Lighting.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="MouseInput.h" />
-    <ClInclude Include="rotateAxis.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="Sphere.h" />
     <ClInclude Include="Transformable.h" />
-    <ClInclude Include="vertexArrays.h" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="textures\Bars-Chart_monochrome_600x300.png">

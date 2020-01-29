@@ -3,6 +3,7 @@
 out vec4 frag_color;
 
 in vec2 texCoord;
+in vec3 fragmentPosition;
 
 //uniform vec3 vCameraPosition;
 
