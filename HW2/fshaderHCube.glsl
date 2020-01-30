@@ -12,6 +12,8 @@ uniform vec3 vLightColor;
 uniform vec3 vLightPosition;
 uniform vec3 vCameraPosition;
 
+uniform float fFragmentC;
+
 uniform sampler2D texSampler;
 
 void main()
@@ -19,7 +21,7 @@ void main()
 	vec3 ambient = vLightColor * material.x;
 	
 	vec3 norm = normalize(normal);
-	vec3 lightDirection = normalize(vLightPosition - fragmentPosition);
+	vec3 lightDirection = normalize(vLightPosition - fragmentPosition * fFragmentC);
 	float diff = max(dot(norm, lightDirection), 0.0);
 	vec3 diffuse = material.y * diff * ambient;
 	

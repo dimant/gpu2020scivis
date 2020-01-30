@@ -83,6 +83,16 @@ GLint setVec3(const GLuint & program, const glm::vec3 & vector, const char* name
 	return GL_TRUE;
 }
 
+GLint setFloat(const GLuint & program, const float value, const char* name)
+{
+	GLint ptr;
+	ISOK(getPtr(program, name, ptr))
+
+	glUniform1f(ptr, value);
+
+	return GL_TRUE;
+}
+
 void initVaoFormat(const GLuint & program)
 {
 	// 3 floats for x, y, z coordinates

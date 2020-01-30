@@ -48,6 +48,12 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		case GLFW_KEY_0:
 			g_mouseInput->setTransformation(Scale);
 			break;
+		case GLFW_KEY_D:
+			g_light->setLightType(LightDirectional);
+			break;
+		case GLFW_KEY_P:
+			g_light->setLightType(LightPoint);
+			break;
 		}
 	}
 }

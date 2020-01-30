@@ -35,4 +35,6 @@ GLint setVec4(const GLuint & program, const glm::vec4 & vector, const char* name
 
 GLint setVec3(const GLuint & program, const glm::vec3 & vector, const char* name);
 
+GLint setFloat(const GLuint & program, const float value, const char* name);
+
 #endif // !SHADERLIB_H
