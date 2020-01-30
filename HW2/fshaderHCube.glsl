@@ -24,8 +24,7 @@ void main()
 	float spec = pow(max(dot(viewDirection, reflectDirection), 0.0), vLightCoef.w);
 	vec3 specular = vLightCoef.z * spec * vLightColor;
 	
-//	vec4 color = texture(texSampler, texCoord);
-	vec4 color = vec4(1.0f, 0.0f, 0.0f, 1.0f);
+	vec4 color = texture(texSampler, texCoord);
 	vec4 light = vec4((vLightColor + diffuse + specular), 1.0f);
 	frag_color = color * light;
 }

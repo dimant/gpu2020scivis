@@ -9,7 +9,7 @@
 Light::Light(const GLuint program) :
 	_program(program),
 	_color(glm::vec3(1.0f)),
-	_coefficients(glm::vec4(0.1f, 6.0f, 2.0f, 256.0f)), // x: ambient (ka), y: diffuse (kd), z: specular (ks), w: shinyness (s)
+	_coefficients(glm::vec4(0.1f, 6.0f, 2.0f, 128)), // x: ambient (ka), y: diffuse (kd), z: specular (ks), w: shinyness (s)
 	_mNormal(glm::mat3(1.0f)),
 	_mModel(glm::mat4(1.0f)),
 	_position(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f)),

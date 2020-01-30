@@ -160,7 +160,7 @@ int main(int argc, char** argv)
 	sphere.transform([](glm::mat4 m) { return glm::translate(m, glm::vec3(-1.0f, 0.0f, 0.0f)); });
 
 	Light light(program);
-	light.setPosition(glm::vec3(-3.0f, 3.0f, 3.0f));
+	light.setPosition(glm::vec3(0.0f, 3.0f, 3.0f));
 
 	tc.add(&harleyCube);
 	tc.add(&sphere);

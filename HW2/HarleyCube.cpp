@@ -111,9 +111,9 @@ void HarleyCube::initVao(const GLuint & program)
 	glEnableVertexAttribArray(locTexCoord);
 
 	// 3 floats for x, y, z vertex normals
-	//GLuint locNormal = glGetAttribLocation(program, "in_vNormal");
-	//glVertexAttribPointer(locNormal, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(5 * sizeof(float)));
-	//glEnableVertexAttribArray(locNormal);
+	GLuint locNormal = glGetAttribLocation(program, "in_vNormal");
+	glVertexAttribPointer(locNormal, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(5 * sizeof(float)));
+	glEnableVertexAttribArray(locNormal);
 }
 
 void HarleyCube::transform(Transform t)

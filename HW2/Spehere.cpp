@@ -4,25 +4,19 @@
 
 void Sphere::triangle(glm::vec3 a, glm::vec3 b, glm::vec3 c, int recursions)
 {
-	glm::vec3 facetNormal;
-	if (recursions % 2 == 0) // even
-		facetNormal = glm::normalize(glm::cross((a - b), (a - c)));
-	else
-		facetNormal = glm::normalize(glm::cross((a - c), (a - b)));
-
 	_data[_k].vertex = a;
-	_data[_k].normal = glm::normalize(a - glm::vec3(0.0f));
-	_data[_k].color = _color;
+	_data[_k].texel = glm::vec2(0.0f, 0.0f);
+	_data[_k].normal = glm::normalize(a);
 	_k++;
 
 	_data[_k].vertex = b;
-	_data[_k].normal = glm::normalize(b - glm::vec3(0.0f));
-	_data[_k].color = _color;
+	_data[_k].texel = glm::vec2(0.0f, 0.0f);
+	_data[_k].normal = glm::normalize(b);
 	_k++;
 
 	_data[_k].vertex = c;
-	_data[_k].normal = glm::normalize(c - glm::vec3(0.0f));
-	_data[_k].color = _color;
+	_data[_k].texel = glm::vec2(0.0f, 0.0f);
+	_data[_k].normal = glm::normalize(c);
 	_k++;
 }
 
@@ -80,18 +74,18 @@ void Sphere::initVao(const GLuint & program)
 
 	// 3 floats for x, y, z coordinates
 	GLuint locPosition = glGetAttribLocation(program, "in_vPosition");
-	glVertexAttribPointer(locPosition, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)0);
+	glVertexAttribPointer(locPosition, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(locPosition);
+
+	// 2 floats for x, y texture coordinates
+	GLuint locTexCoord = glGetAttribLocation(program, "in_vTexCoord");
+	glVertexAttribPointer(locTexCoord, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(locTexCoord);
 
 	// 3 floats for x, y, z vertex normals
 	GLuint locNormal = glGetAttribLocation(program, "in_vNormal");
-	glVertexAttribPointer(locNormal, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(3 * sizeof(float)));
+	glVertexAttribPointer(locNormal, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(5 * sizeof(float)));
 	glEnableVertexAttribArray(locNormal);
-
-	// 3 floats for r, g, b colors
-	GLuint locColor = glGetAttribLocation(program, "in_vColor");
-	glVertexAttribPointer(locColor, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(6 * sizeof(float)));
-	glEnableVertexAttribArray(locColor);
 }
 
 void Sphere::init(GLuint recursions)
@@ -103,6 +97,11 @@ void Sphere::init(GLuint recursions)
 	beginSphere(recursions);
 
 	glUseProgram(_program);
+	
+	if (GL_FALSE == loadTexture(_texture, "textures\\sphere.jpg"))
+	{
+		throw "Could not load HarleyCube texture.";
+	}
 
 	initVao(_program);
 }
@@ -110,10 +109,12 @@ void Sphere::init(GLuint recursions)
 void Sphere::draw()
 {
 	setMat4(_program, _model, "mModel");
+	glBindTexture(GL_TEXTURE_2D, _texture);
 	glBindVertexArray(_vao);
 	glDrawArrays(GL_TRIANGLES, 0, sizeof(VertAtt) * _vertices);
 	glBindVertexArray(0);
 	setMat4(_program, glm::mat4(), "mModel");
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void Sphere::destroy()
