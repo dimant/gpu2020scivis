@@ -13,8 +13,6 @@ private:
 
 	glm::vec3 _color;
 
-	glm::vec4 _coefficients; // x: ambient (ka), y: diffuse (kd), z: specular (ks), w: shinyness (s)
-
 	glm::mat3 _mNormal;
 
 	glm::mat4 _mModel;

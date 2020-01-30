@@ -15,6 +15,10 @@ struct shaderFile
 	std::string fileName;
 };
 
+void initVaoFormat(const GLuint & program);
+
+GLint loadTexture(GLuint & texture, const std::string & path);
+
 const std::string readFile(const std::string & path);
 
 GLint compileShader(const std::string & source, const GLenum & shaderType, GLuint & shader);
@@ -22,8 +26,6 @@ GLint compileShader(const std::string & source, const GLenum & shaderType, GLuin
 GLint linkShaders(const std::vector<GLuint> & shaders, GLuint & program);
 
 GLint buildShaderProgram(GLuint & program, const std::vector<shaderFile> & shaderFiles);
-
-GLint loadTexture(GLuint & texture, const std::string & path);
 
 GLint setMat4(const GLuint & program, const glm::mat4 & matrix, const char* name);
 

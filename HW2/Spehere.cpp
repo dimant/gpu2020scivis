@@ -7,16 +7,19 @@ void Sphere::triangle(glm::vec3 a, glm::vec3 b, glm::vec3 c, int recursions)
 	_data[_k].vertex = a;
 	_data[_k].texel = glm::vec2(0.0f, 0.0f);
 	_data[_k].normal = glm::normalize(a);
+	_data[_k].material = _material;
 	_k++;
 
 	_data[_k].vertex = b;
 	_data[_k].texel = glm::vec2(0.0f, 0.0f);
 	_data[_k].normal = glm::normalize(b);
+	_data[_k].material = _material;
 	_k++;
 
 	_data[_k].vertex = c;
 	_data[_k].texel = glm::vec2(0.0f, 0.0f);
 	_data[_k].normal = glm::normalize(c);
+	_data[_k].material = _material;
 	_k++;
 }
 
@@ -72,20 +75,7 @@ void Sphere::initVao(const GLuint & program)
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(VertAtt) * _vertices, _data, GL_STATIC_DRAW);
 
-	// 3 floats for x, y, z coordinates
-	GLuint locPosition = glGetAttribLocation(program, "in_vPosition");
-	glVertexAttribPointer(locPosition, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(locPosition);
-
-	// 2 floats for x, y texture coordinates
-	GLuint locTexCoord = glGetAttribLocation(program, "in_vTexCoord");
-	glVertexAttribPointer(locTexCoord, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(locTexCoord);
-
-	// 3 floats for x, y, z vertex normals
-	GLuint locNormal = glGetAttribLocation(program, "in_vNormal");
-	glVertexAttribPointer(locNormal, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(5 * sizeof(float)));
-	glEnableVertexAttribArray(locNormal);
+	initVaoFormat(_program);
 }
 
 void Sphere::init(GLuint recursions)
