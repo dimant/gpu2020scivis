@@ -33,6 +33,19 @@ void Light::setPosition(glm::vec3 position)
 	setVec3(_program, _position, "vLightPosition");
 }
 
+void Light::rotatePosition(float angle)
+{
+	float r = glm::radians(angle);
+	float s = sin(r);
+	float c = cos(r);
+
+	// rotate point
+	_position.x = _position.x * c - _position.z * s;
+	_position.z = _position.x * s + _position.z * c;
+
+	setVec3(_program, _position, "vLightPosition");
+}
+
 void Light::transform(Transform t)
 {
 	_mModel = t(_mModel);

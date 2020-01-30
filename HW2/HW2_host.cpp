@@ -18,6 +18,7 @@
 #include "Sphere.h"
 
 Scene* g_scene;
+Light* g_light;
 MouseInput* g_mouseInput;
 
 void scaleCallback(GLFWwindow* window, int width, int height)
@@ -80,11 +81,8 @@ void mousePositionCallback(GLFWwindow* window, double xpos, double ypos)
 
 void timeCallback()
 {
-	//if (g_enableAutoRotation)
-	//{
-	//	float deg = 16.0f * (float)glfwGetTime();
-	//	g_scene->rotateModelY(deg);
-	//}
+	float deg = 16.0f * (float)glfwGetTime();
+	g_light->rotatePosition(deg);
 
 	glfwSetTime(0.0);
 }
@@ -161,6 +159,7 @@ int main(int argc, char** argv)
 
 	Light light(program);
 	light.setPosition(glm::vec3(0.0f, 3.0f, 3.0f));
+	g_light = &light;
 
 	tc.add(&harleyCube);
 	tc.add(&sphere);

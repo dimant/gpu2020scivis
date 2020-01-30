@@ -31,6 +31,8 @@ public:
 	void setColor(glm::vec3 color);
 
 	void setPosition(glm::vec3 position);
+
+	void rotatePosition(float angle);
 };
 
 #endif
