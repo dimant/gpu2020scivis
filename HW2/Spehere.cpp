@@ -11,38 +11,17 @@ void Sphere::triangle(glm::vec3 a, glm::vec3 b, glm::vec3 c, int recursions)
 		facetNormal = glm::normalize(glm::cross((a - c), (a - b)));
 
 	_data[_k].vertex = a;
-	if (FacetNormals == _normalTypes)
-	{
-		_data[_k].normal = facetNormal;
-	}
-	else
-	{
-		_data[_k].normal = glm::normalize(a - glm::vec3(0.0f));
-	}
+	_data[_k].normal = glm::normalize(a - glm::vec3(0.0f));
 	_data[_k].color = _color;
 	_k++;
 
 	_data[_k].vertex = b;
-	if (FacetNormals == _normalTypes)
-	{
-		_data[_k].normal = facetNormal;
-	}
-	else
-	{
-		_data[_k].normal = glm::normalize(b - glm::vec3(0.0f));
-	}
+	_data[_k].normal = glm::normalize(b - glm::vec3(0.0f));
 	_data[_k].color = _color;
 	_k++;
 
 	_data[_k].vertex = c;
-	if (FacetNormals == _normalTypes)
-	{
-		_data[_k].normal = facetNormal;
-	}
-	else
-	{
-		_data[_k].normal = glm::normalize(c - glm::vec3(0.0f));
-	}
+	_data[_k].normal = glm::normalize(c - glm::vec3(0.0f));
 	_data[_k].color = _color;
 	_k++;
 }
@@ -115,31 +94,11 @@ void Sphere::initVao(const GLuint & program)
 	glEnableVertexAttribArray(locColor);
 }
 
-GLint Sphere::initShaders()
-{
-	GLint status = GL_TRUE;
-
-	shaderFile vertexShader{ GL_VERTEX_SHADER, "vshaderSphere.glsl" };
-	shaderFile fragmentShader{ GL_FRAGMENT_SHADER, "fshaderSphere.glsl" };
-	std::vector<shaderFile> shaderFiles{ vertexShader, fragmentShader };
-
-	ISOK(buildShaderProgram(_program, shaderFiles));
-
-	return status;
-}
-
-void Sphere::init(GLuint recursions, NormalTypes normalTypes)
+void Sphere::init(GLuint recursions)
 {
 	_vertices = (GLuint)(3 * glm::pow(4.0f, recursions + 1));
 	_data = new VertAtt[_vertices];
 	_k = 0;
-
-	GLint status = initShaders();
-
-	if(GL_FALSE == status)
-	{
-		throw "Could not compile shaders";
-	}
 
 	beginSphere(recursions);
 
@@ -150,17 +109,23 @@ void Sphere::init(GLuint recursions, NormalTypes normalTypes)
 
 void Sphere::draw()
 {
+	setMat4(_program, _model, "mModel");
 	glBindVertexArray(_vao);
 	glDrawArrays(GL_TRIANGLES, 0, sizeof(VertAtt) * _vertices);
 	glBindVertexArray(0);
+	setMat4(_program, glm::mat4(), "mModel");
 }
 
 void Sphere::destroy()
 {
 	delete(_data);
 	_data = 0;
-	_normalTypes = VertexNormals;
 	_vertices = 0;
 	glDeleteBuffers(1, &_vbo);
 	glDeleteVertexArrays(1, &_vao);
+}
+
+void Sphere::transform(Transform t)
+{
+	_model = t(_model);
 }

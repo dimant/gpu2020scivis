@@ -25,7 +25,7 @@ public:
 	HarleyCube(const GLuint program) : _program(program), _model(glm::mat4(1.0f))
 	{}
 
-	void transform(Transform t);
+	virtual void transform(Transform t);
 
 	void init();
 

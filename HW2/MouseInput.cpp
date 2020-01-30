@@ -1,5 +1,7 @@
 #include <glm\glm.hpp>
+
 #include <gtc\matrix_transform.hpp>
+#include <gtc\matrix_access.hpp>
 #include "MouseInput.h"
 
 void MouseInput::leftButtonDown() 
@@ -45,7 +47,7 @@ void MouseInput::moveCursorTo(double xpos, double ypos)
 			case Rotate:
 				{
 					glm::vec3 n = normalVector(_xpos, _ypos, xpos, ypos);
-					float l = (float)vecLength(_xpos, _ypos, xpos, ypos) * 0.1f;
+					float l = (float)vecLength(_xpos, _ypos, xpos, ypos) * 0.01f;
 					_transformable.transform([n, l](glm::mat4 model) { return glm::rotate(model, l, n); });
 				}
 				break;
@@ -55,6 +57,7 @@ void MouseInput::moveCursorTo(double xpos, double ypos)
 				glm::vec3 dir = vector(_xpos, _ypos, xpos, ypos);
 				dir.y = -dir.y;
 				dir *= 0.2f;
+
 				_transformable.transform([dir](glm::mat4 model) { return glm::translate(model, dir); });
 				break;
 			case Scale:

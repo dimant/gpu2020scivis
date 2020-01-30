@@ -119,8 +119,6 @@ void HarleyCube::initVao(const GLuint & program)
 void HarleyCube::transform(Transform t)
 {
 	_model = t(_model);
-
-	setMat4(_program, _model, "mModel");
 }
 
 void HarleyCube::init()
@@ -140,11 +138,13 @@ void HarleyCube::init()
 
 void HarleyCube::draw()
 {
+	setMat4(_program, _model, "mModel");
 	glBindTexture(GL_TEXTURE_2D, _texture);
 	glBindVertexArray(_vao);
 	glDrawArrays(GL_TRIANGLES, 0, sizeof(harley_cube));
 	glBindVertexArray(0);
 	glBindTexture(GL_TEXTURE_2D, 0);
+	setMat4(_program, glm::mat4(), "mModel");
 }
 
 void HarleyCube::destroy()

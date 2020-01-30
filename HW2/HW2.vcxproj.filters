@@ -30,6 +30,12 @@
     <ClCompile Include="Light.cpp">
       <Filter>sources</Filter>
     </ClCompile>
+    <ClCompile Include="TransformableContainer.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Spehere.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MouseInput.h">
@@ -45,6 +51,12 @@
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="Light.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformableContainer.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Sphere.h">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>

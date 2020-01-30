@@ -8,10 +8,10 @@
 class TransformableContainer : public Transformable
 {
 private:
-	std::vector<Transformable> _transformables;
+	std::vector<Transformable*> _transformables;
 
 public:
-	void add(Transformable transformable);
+	void add(Transformable* transformable);
 
 	void transform(Transform t);
 };

@@ -19,16 +19,20 @@ private:
 
 	glm::mat4 _mModel;
 
-	glm::vec4 _position;
+	glm::vec3 _position;
 
-	glm::vec4 _target;
+	glm::vec3 _target;
 
 public:
 	Light(const GLuint program);
 
 	// note: this does not actually transform the light.
 	// Instead, it keeps track of the normal transformation matrix.
-	void transform(Transform t);
+	virtual void transform(Transform t);
+
+	void setColor(glm::vec3 color);
+
+	void setPosition(glm::vec3 position);
 };
 
 #endif

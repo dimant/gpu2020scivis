@@ -72,6 +72,8 @@
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="MouseInput.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Spehere.cpp" />
+    <ClCompile Include="TransformableContainer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="fshaderHCube.glsl" />
@@ -82,7 +84,9 @@
     <ClInclude Include="Light.h" />
     <ClInclude Include="MouseInput.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Sphere.h" />
     <ClInclude Include="Transformable.h" />
+    <ClInclude Include="TransformableContainer.h" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="textures\Bars-Chart_monochrome_600x300.png">

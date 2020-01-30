@@ -3,6 +3,9 @@
 #include <GL\glew.h>
 #include <GLFW\glfw3.h>
 
+#include <glm\glm.hpp>
+#include <gtc\matrix_transform.hpp>
+
 #include <shaderlib.h>
 
 #include "TransformableContainer.h"
@@ -12,6 +15,7 @@
 #include "MouseInput.h"
 
 #include "HarleyCube.h"
+#include "Sphere.h"
 
 Scene* g_scene;
 MouseInput* g_mouseInput;
@@ -149,11 +153,18 @@ int main(int argc, char** argv)
 
 	HarleyCube harleyCube(program);
 	harleyCube.init();
+	harleyCube.transform([](glm::mat4 m) { return glm::translate(m, glm::vec3(1.0f, 0.0f, 0.0f)); });
+
+	Sphere sphere(program);
+	sphere.init(4);
+	sphere.transform([](glm::mat4 m) { return glm::translate(m, glm::vec3(-1.0f, 0.0f, 0.0f)); });
 
 	Light light(program);
+	light.setPosition(glm::vec3(-3.0f, 3.0f, 3.0f));
 
-	tc.add(harleyCube);
-	tc.add(light);
+	tc.add(&harleyCube);
+	tc.add(&sphere);
+	tc.add(&light);
 
 	g_scene = new Scene(program);
 	g_mouseInput = new MouseInput(tc);
@@ -164,6 +175,7 @@ int main(int argc, char** argv)
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		harleyCube.draw();
+		sphere.draw();
 
 		glFlush();
 
