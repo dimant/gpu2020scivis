@@ -207,6 +207,7 @@ int main(int argc, char** argv)
 	}
 
 	harleyCube.destroy();
+	sphere.destroy();
 
 	glfwDestroyWindow(window);
 
