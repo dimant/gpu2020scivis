@@ -51,6 +51,7 @@ void MouseInput::moveCursorTo(double xpos, double ypos)
 					_transformable.transform([n, l](glm::mat4 model) { return glm::rotate(model, l, n); });
 				}
 				break;
+
 			case Translate:
 				// Mouse coordinates begin in top left but model coordinates
 				// begin in bottom left
@@ -60,11 +61,21 @@ void MouseInput::moveCursorTo(double xpos, double ypos)
 
 				_transformable.transform([dir](glm::mat4 model) { return glm::translate(model, dir); });
 				break;
+
 			case Scale:
 				{
 					float f = (_xpos - xpos) > 0 ? 1.1f : 0.9f;
 					_transformable.transform([f](glm::mat4 model) { return glm::scale(model, glm::vec3(f, f, f)); });
 				}
+				break;
+
+			case LightRotate:
+				float l = (float)vecLength(_xpos, _ypos, xpos, ypos) * 0.5f;
+				if (xpos < _xpos)
+				{
+					l = -l;
+				}
+				_light.rotatePosition(l);
 				break;
 		}
 	}

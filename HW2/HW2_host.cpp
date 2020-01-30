@@ -21,6 +21,8 @@ Scene* g_scene;
 Light* g_light;
 MouseInput* g_mouseInput;
 
+bool g_autoRotate = true;
+
 void scaleCallback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
@@ -53,6 +55,18 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 			break;
 		case GLFW_KEY_P:
 			g_light->setLightType(LightPoint);
+			break;
+		case GLFW_KEY_L:
+			if (g_autoRotate)
+			{
+				g_autoRotate = false;
+				g_mouseInput->setTransformation(LightRotate);
+			}
+			else
+			{
+				g_autoRotate = true;
+				g_mouseInput->setTransformation(Rotate);
+			}
 			break;
 		}
 	}
@@ -87,8 +101,11 @@ void mousePositionCallback(GLFWwindow* window, double xpos, double ypos)
 
 void timeCallback()
 {
-	float deg = 16.0f * (float)glfwGetTime();
-	g_light->rotatePosition(deg);
+	if (g_autoRotate)
+	{
+		float deg = 16.0f * (float)glfwGetTime();
+		g_light->rotatePosition(deg);
+	}
 
 	glfwSetTime(0.0);
 }
@@ -172,7 +189,7 @@ int main(int argc, char** argv)
 	tc.add(&light);
 
 	g_scene = new Scene(program);
-	g_mouseInput = new MouseInput(tc);
+	g_mouseInput = new MouseInput(tc, light);
 
 	while (0 == glfwWindowShouldClose(window))
 	{

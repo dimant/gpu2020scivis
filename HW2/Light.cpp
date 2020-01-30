@@ -3,6 +3,7 @@
 #include <gtc\matrix_transform.hpp>
 #include <gtc\matrix_access.hpp>
 #include <gtc\matrix_inverse.hpp>
+#include <gtc/quaternion.hpp>
 
 #include <shaderlib.h>
 
@@ -72,12 +73,12 @@ void Light::setTarget(glm::vec3 target)
 void Light::rotatePosition(float angle)
 {
 	float r = glm::radians(angle);
-	float s = sin(r);
-	float c = cos(r);
+	glm::vec3 axis = glm::vec3(0.0f, 1.0f, 0.0f);
 
-	// rotate point
-	_position.x = _position.x * c - _position.z * s;
-	_position.z = _position.x * s + _position.z * c;
+	glm::quat quatRot = glm::angleAxis(r, axis);
+	glm::mat4x4 matRot = glm::mat4_cast(quatRot);
+
+	_position = glm::vec3(matRot * glm::vec4(_position, 1.0));
 
 	setVec3(_program, _position, "vLightPosition");
 }
