@@ -22,6 +22,13 @@ void UI::init(GLFWwindow* window, const char * glslVersion)
 	float xscale, yscale;
 	glfwGetWindowContentScale(window, &xscale, &yscale);
 	ImGui::GetIO().FontGlobalScale *= xscale;
+
+	_config.enableAmbientLight = true;
+	_config.enableDiffuseLight = true;
+	_config.enableSpecularLight = true;
+	_config.enableAttenuationLight = true;
+	_config.enableDirectionalLight = false;
+	_config.enableAutoRotation = true;
 }
 
 void UI::render()
@@ -57,4 +64,24 @@ void UI::destroy()
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
+}
+
+float UI::getDeltaTime()
+{
+	return ImGui::GetIO().DeltaTime;
+}
+
+bool UI::mouseCaptured()
+{
+	return ImGui::GetIO().WantCaptureMouse;
+}
+
+bool UI::keyboardCaptured()
+{
+	return ImGui::GetIO().WantCaptureKeyboard;
+}
+
+const Config & UI::getConfig()
+{
+	return _config;
 }

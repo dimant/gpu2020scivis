@@ -14,7 +14,7 @@ Light::Light(const GLuint program) :
 	_mModel(glm::mat4(1.0f)),
 	_position(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f)),
 	_target(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f)),
-	_lightType(LightPoint)
+	_enableDirectionalLight(false)
 {
 	setMat3(_program, _mNormal, "mNormal");
 	setColor(_color);
@@ -22,18 +22,20 @@ Light::Light(const GLuint program) :
 	setVec4(_program, glm::vec4(1.0f, 1.0f, 1.0f, 0.0f), "vLightAttenuation");
 }
 
-void Light::setLightType(LightType lightType)
+void Light::setDirectionalLight(bool enable)
 {
-	_lightType = lightType;
+	if (_enableDirectionalLight == enable)
+		return;
 
-	switch (_lightType)
+	_enableDirectionalLight = enable;
+
+	if (_enableDirectionalLight)
 	{
-	case LightPoint:
 		setFloat(_program, 1.0f, "fFragmentC");
-		break;
-	case LightDirectional:
+	}
+	else
+	{
 		setFloat(_program, 0.0f, "fFragmentC");
-		break;
 	}
 }
 
@@ -48,15 +50,14 @@ void Light::setPosition(glm::vec3 position)
 {
 	_position = position;
 
-	switch (_lightType)
+	if (_enableDirectionalLight)
 	{
-	case LightPoint:
-		setVec3(_program, _position, "vLightPosition");
-		break;
-	case LightDirectional:
 		glm::vec3 d = _position - _target;
 		setVec3(_program, d, "vLightPosition");
-		break;
+	}
+	else
+	{
+		setVec3(_program, _position, "vLightPosition");
 	}
 }
 
@@ -64,7 +65,7 @@ void Light::setTarget(glm::vec3 target)
 {
 	_target = target;
 
-	if (LightDirectional == _lightType)
+	if (_enableDirectionalLight)
 	{
 		glm::vec3 d = _position - _target;
 		setVec3(_program, d, "vLightPosition");

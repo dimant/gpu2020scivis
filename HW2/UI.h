@@ -15,6 +15,8 @@ struct Config
 
 	bool enableAttenuationLight;
 
+	bool enableDirectionalLight;
+
 	bool enableAutoRotation;
 };
 
@@ -24,6 +26,8 @@ private:
 	Config _config;
 
 public:
+	const Config & getConfig();
+
 	void init(GLFWwindow* window, const char * glslVersion);
 
 	void render();
@@ -33,6 +37,10 @@ public:
 	void destroy();
 
 	float getDeltaTime();
+
+	bool mouseCaptured();
+
+	bool keyboardCaptured();
 };
 
 #endif

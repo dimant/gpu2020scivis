@@ -6,12 +6,6 @@
 
 #include "Transformable.h"
 
-enum LightType
-{
-	LightPoint,
-	LightDirectional
-};
-
 class Light : public Transformable
 {
 private:
@@ -27,7 +21,7 @@ private:
 
 	glm::vec3 _target;
 
-	LightType _lightType;
+	bool _enableDirectionalLight;
 
 public:
 	Light(const GLuint program);
@@ -42,7 +36,7 @@ public:
 
 	void setTarget(glm::vec3 target);
 
-	void setLightType(LightType lightType);
+	void setDirectionalLight(bool enable);
 
 	void rotatePosition(float angle);
 };

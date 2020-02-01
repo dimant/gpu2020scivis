@@ -19,6 +19,7 @@
 #include "HarleyCube.h"
 #include "Sphere.h"
 
+UI* g_ui;
 Scene* g_scene;
 Light* g_light;
 MouseInput* g_mouseInput;
@@ -32,6 +33,9 @@ void scaleCallback(GLFWwindow* window, int width, int height)
 
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
+	if (g_ui->keyboardCaptured())
+		return;
+
 	if (action == GLFW_PRESS)
 	{
 		switch (key)
@@ -53,10 +57,10 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 			g_mouseInput->setTransformation(Scale);
 			break;
 		case GLFW_KEY_D:
-			g_light->setLightType(LightDirectional);
+			g_light->setDirectionalLight(true);
 			break;
 		case GLFW_KEY_P:
-			g_light->setLightType(LightPoint);
+			g_light->setDirectionalLight(false);
 			break;
 		case GLFW_KEY_L:
 			if (g_autoRotate)
@@ -76,6 +80,9 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 {
+	if (g_ui->mouseCaptured())
+		return;
+
 	if (action == GLFW_PRESS)
 	{
 		switch (button)
@@ -103,13 +110,11 @@ void mousePositionCallback(GLFWwindow* window, double xpos, double ypos)
 
 void timeCallback()
 {
-	//if (g_autoRotate)
-	//{
-	//	float deg = 16.0f * (float)glfwGetTime();
-	//	g_light->rotatePosition(deg);
-	//}
-
-	//glfwSetTime(0.0);
+	if (g_ui->getConfig().enableAutoRotation)
+	{
+		float deg = 16.0f * g_ui->getDeltaTime();
+		g_light->rotatePosition(deg);
+	}
 }
 
 void initCallbacks(GLFWwindow* window)
@@ -174,8 +179,8 @@ int main(int argc, char** argv)
 	ISOK(initShaders(program));
 	glUseProgram(program);
 
-	UI ui;
-	ui.init(window, glslVersion);
+	g_ui = new UI();
+	g_ui->init(window, glslVersion);
 
 	TransformableContainer tc;
 
@@ -201,7 +206,8 @@ int main(int argc, char** argv)
 	while (0 == glfwWindowShouldClose(window))
 	{
 		glfwPollEvents();
-		ui.render();
+
+		g_ui->render();
 
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -209,7 +215,7 @@ int main(int argc, char** argv)
 		harleyCube.draw();
 		sphere.draw();
 
-		ui.draw();
+		g_ui->draw();
 
 		glFlush();
 
