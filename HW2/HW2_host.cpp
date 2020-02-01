@@ -25,6 +25,7 @@ Light* g_light;
 MouseInput* g_mouseInput;
 
 bool g_autoRotate = true;
+bool g_quit = false;
 
 void scaleCallback(GLFWwindow* window, int width, int height)
 {
@@ -40,13 +41,6 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 	{
 		switch (key)
 		{
-		case GLFW_KEY_ESCAPE:
-			glfwDestroyWindow(window);
-			glfwTerminate();
-			delete g_mouseInput;
-			delete g_scene;
-			exit(0);
-			break;
 		case GLFW_KEY_8:
 			g_mouseInput->setTransformation(Rotate);
 			break;
@@ -179,7 +173,8 @@ int main(int argc, char** argv)
 	ISOK(initShaders(program));
 	glUseProgram(program);
 
-	g_ui = new UI();
+	UI ui;
+	g_ui = &ui;
 	g_ui->init(window, glslVersion);
 	TransformableContainer tc;
 
@@ -199,16 +194,31 @@ int main(int argc, char** argv)
 	tc.add(&sphere);
 	tc.add(&light);
 
-	g_scene = new Scene(program);
-	g_mouseInput = new MouseInput(tc, light);
+	Scene scene(program);
+	g_scene = &scene;
+	MouseInput mouseInput(tc, light);
+	g_mouseInput = &mouseInput;
 
-	g_autoRotate = g_ui->EnableAutoRotationHandler.Value = true;
+	g_ui->EnableAutoRotationHandler.Value = true;
+	g_autoRotate = g_ui->EnableAttenuationLightHandler.Value;
 	g_ui->EnableAutoRotationHandler.connect([](bool v) { g_autoRotate = v; });
 
+	g_ui->EnableDirectionalLightHandler.Value = false;
 	light.setDirectionalLight(g_ui->EnableDirectionalLightHandler.Value);
 	g_ui->EnableDirectionalLightHandler.connect([](bool v) { g_light->setDirectionalLight(v); });
 
-	while (0 == glfwWindowShouldClose(window))
+	g_autoRotate = g_ui->EnableAttenuationLightHandler.Value = false;
+	light.setEnableAttenuation(g_ui->EnableAttenuationLightHandler.Value);
+	g_ui->EnableAttenuationLightHandler.connect([](bool v) { g_light->setEnableAttenuation(v); });
+
+	g_ui->ShinynessExponentHandler.Value = 4;
+	light.setShinyness((float)(1 << g_ui->ShinynessExponentHandler.Value));
+	g_ui->ShinynessExponentHandler.connect([](int e) {
+		g_light->setShinyness((float)(1 << g_ui->ShinynessExponentHandler.Value)); });
+
+	g_ui->ButtonQuitHandler.connect([](bool v) { g_quit = true; });
+
+	while (0 == glfwWindowShouldClose(window) && false == g_quit)
 	{
 		glfwPollEvents();
 
@@ -237,8 +247,5 @@ int main(int argc, char** argv)
 
 	glfwTerminate();
 
-	delete g_scene;
-
 	return 0;
-
 }

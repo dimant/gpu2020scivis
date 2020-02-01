@@ -31,13 +31,13 @@
 #define harley_cube_t11 1.0f, 1.0f,
 
 // x: ambient (ka), y: diffuse (kd), z: specular (ks), w: shinyness (s)
-#define harley_cube_m0 0.1f,  1.0f, 2.0f, 128,
-#define harley_cube_m1 0.11f, 2.0f, 2.2f, 128,
-#define harley_cube_m2 0.12f, 3.0f, 2.4f, 128,
-#define harley_cube_m3 0.13f, 4.0f, 2.6f, 128,
-#define harley_cube_m4 0.14f, 18.0f, 2.8f, 512,
-#define harley_cube_m5 0.15f, 6.0f, 3.0f, 128,
-#define harley_cube_m6 0.16f, 7.0f, 3.2f, 256,
+#define harley_cube_m0 0.1f,  1.0f, 2.0f,
+#define harley_cube_m1 0.11f, 2.0f, 2.2f,
+#define harley_cube_m2 0.12f, 3.0f, 2.4f,
+#define harley_cube_m3 0.13f, 4.0f, 2.6f,
+#define harley_cube_m4 0.14f, 18.0f, 2.8f,
+#define harley_cube_m5 0.15f, 6.0f, 3.0f,
+#define harley_cube_m6 0.16f, 7.0f, 3.2f,
 
 // vertex (x, y, z) texel (x, y) normal (x, y, z)
 float harley_cube[] = {

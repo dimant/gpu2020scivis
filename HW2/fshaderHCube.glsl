@@ -5,7 +5,7 @@ out vec4 frag_color;
 in vec2 texCoord;
 in vec3 fragmentPosition;
 in vec3 normal;
-in vec4 material;
+in vec3 material;
 
 //uniform vec4 vLightCoef; // x: ambient (ka), y: diffuse (kd), z: specular (ks), w: shinyness (s)
 uniform vec3 vLightColor;
@@ -14,6 +14,7 @@ uniform vec3 vCameraPosition;
 
 // x: constant, y: linear, z: quadratic, w: enabled
 uniform vec4 vLightAttenuation;
+uniform float fLightShinyness;
 
 // used to switch betwen directional and point light
 uniform float fFragmentC;
@@ -34,7 +35,7 @@ void main()
 	// specular
 	vec3 viewDirection = normalize(vCameraPosition - fragmentPosition);
 	vec3 reflectDirection = reflect(-lightDirection, norm);
-	float spec = pow(max(dot(viewDirection, reflectDirection), 0.0), material.w);
+	float spec = pow(max(dot(viewDirection, reflectDirection), 0.0), fLightShinyness);
 	vec3 specular = material.z * spec * ambient;
 
 	// attenuation

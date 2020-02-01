@@ -3,12 +3,12 @@
 layout (location = 0) in vec3 in_vPosition;
 layout (location = 1) in vec2 in_vTexCoord;
 layout (location = 2) in vec3 in_vNormal;
-layout (location = 3) in vec4 in_vMaterial;
+layout (location = 3) in vec3 in_vMaterial;
 
 out vec2 texCoord;
 out vec3 fragmentPosition;
 out vec3 normal;
-out vec4 material;
+out vec3 material;
 
 uniform mat4 mModel;
 uniform mat4 mView;

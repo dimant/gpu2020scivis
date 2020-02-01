@@ -11,7 +11,7 @@ struct VertAtt
 	glm::vec3 vertex;
 	glm::vec2 texel;
 	glm::vec3 normal;
-	glm::vec4 material;
+	glm::vec3 material;
 };
 
 class Sphere : public Transformable
@@ -44,7 +44,7 @@ private:
 
 	GLuint _texture;
 
-	glm::vec4 _material;
+	glm::vec3 _material;
 
 	void beginSphere(GLuint recursions);
 
@@ -62,7 +62,7 @@ public:
 		_vertices(0),
 		_model(glm::mat4(1.0f)),
 		// x: ambient (ka), y: diffuse (kd), z: specular (ks), w: shinyness (s)
-		_material(glm::vec4(0.1f, 12.0f, 2.0f, 256.0f))
+		_material(glm::vec3(0.1f, 12.0f, 2.0f))
 	{}
 
 	virtual void transform(Transform t);

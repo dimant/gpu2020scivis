@@ -23,8 +23,7 @@ void UI::init(GLFWwindow* window, const char * glslVersion)
 	glfwGetWindowContentScale(window, &xscale, &yscale);
 	ImGui::GetIO().FontGlobalScale *= xscale;
 
-	EnableAutoRotationHandler.Value = false;
-	EnableDirectionalLightHandler.Value = false;
+	_showDemoWindow = false;
 }
 
 void UI::render()
@@ -36,6 +35,11 @@ void UI::render()
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 
+	if (_showDemoWindow)
+	{
+		ImGui::ShowDemoWindow(NULL);
+	}
+
 	ImGui::Begin("Hello, world!");
 
 	ImGui::Text("Light");
@@ -43,13 +47,23 @@ void UI::render()
 	//ImGui::Checkbox("Ambient", &_config.enableAmbientLight);
 	//ImGui::Checkbox("Diffuse", &_config.enableDiffuseLight);
 	//ImGui::Checkbox("Specular", &_config.enableSpecularLight);
-	//ImGui::Checkbox("Attenuation", &_config.enableAttenuationLight);
-	
+
+	changed = ImGui::Checkbox("Attenuation", &EnableAttenuationLightHandler.Value);
+	EnableAttenuationLightHandler.handle(changed);
+
 	changed = ImGui::Checkbox("Directional Light", &EnableDirectionalLightHandler.Value);
 	EnableDirectionalLightHandler.handle(changed);
 
+	changed = ImGui::SliderInt("Shinyness 2^x", &ShinynessExponentHandler.Value, 1, 10);
+	ShinynessExponentHandler.handle(changed);
+
 	changed = ImGui::Checkbox("Auto Rotation", &EnableAutoRotationHandler.Value);
 	EnableAutoRotationHandler.handle(changed);
+
+	ImGui::Checkbox("Show Demo Window", &_showDemoWindow);
+
+	changed = ImGui::Button("Quit");
+	ButtonQuitHandler.handle(changed);
 
 	ImGui::End();
 

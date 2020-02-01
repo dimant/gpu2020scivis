@@ -14,12 +14,14 @@ Light::Light(const GLuint program) :
 	_mModel(glm::mat4(1.0f)),
 	_position(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f)),
 	_target(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f)),
-	_enableDirectionalLight(false)
+	_enableDirectionalLight(false),
+	_attenuation(glm::vec4(1.0f, 1.0f, 1.0f, 0.0f))
 {
 	setMat3(_program, _mNormal, "mNormal");
 	setColor(_color);
 	setVec3(_program, _position, "vLightPosition");
-	setVec4(_program, glm::vec4(1.0f, 1.0f, 1.0f, 0.0f), "vLightAttenuation");
+	setVec4(_program, _attenuation, "vLightAttenuation");
+	setFloat(_program, 2.0f, "vLightShinyness");
 }
 
 void Light::setDirectionalLight(bool enable)
@@ -93,3 +95,19 @@ void Light::transform(Transform t)
 	setMat3(_program, _mNormal, "mNormal");
 }
 
+void Light::setEnableAttenuation(bool enable)
+{
+	if (enable)
+	{
+		setVec4(_program, _attenuation, "vLightAttenuation");
+	}
+	else
+	{
+		setVec4(_program, glm::vec4(1.0f, 1.0f, 1.0f, 0.0f), "vLightAttenuation");
+	}
+}
+
+void Light::setShinyness(float e)
+{
+	setFloat(_program, e, "fLightShinyness");
+}

@@ -21,6 +21,8 @@ private:
 
 	glm::vec3 _target;
 
+	glm::vec4 _attenuation;
+
 	bool _enableDirectionalLight;
 
 public:
@@ -37,6 +39,10 @@ public:
 	void setTarget(glm::vec3 target);
 
 	void setDirectionalLight(bool enable);
+
+	void setShinyness(float e);
+
+	void setEnableAttenuation(bool enable);
 
 	void rotatePosition(float angle);
 };

@@ -11,10 +11,18 @@
 
 class UI
 {
+private:
+	bool _showDemoWindow;
 public:
 	ConfigHandler<bool> EnableAutoRotationHandler;
 
 	ConfigHandler<bool> EnableDirectionalLightHandler;
+
+	ConfigHandler<bool> EnableAttenuationLightHandler;
+
+	ConfigHandler<bool> ButtonQuitHandler;
+
+	ConfigHandler<int> ShinynessExponentHandler;
 
 	void init(GLFWwindow* window, const char * glslVersion);
 
