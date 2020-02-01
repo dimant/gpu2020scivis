@@ -36,6 +36,9 @@
     <ClCompile Include="Spehere.cpp">
       <Filter>sources</Filter>
     </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MouseInput.h">
@@ -57,6 +60,9 @@
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="Sphere.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>

@@ -19,6 +19,7 @@ Light::Light(const GLuint program) :
 	setMat3(_program, _mNormal, "mNormal");
 	setColor(_color);
 	setVec3(_program, _position, "vLightPosition");
+	setVec4(_program, glm::vec4(1.0f, 1.0f, 1.0f, 0.0f), "vLightAttenuation");
 }
 
 void Light::setLightType(LightType lightType)

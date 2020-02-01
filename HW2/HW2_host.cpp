@@ -8,6 +8,8 @@
 
 #include <shaderlib.h>
 
+#include "UI.h"
+
 #include "TransformableContainer.h"
 
 #include "Scene.h"
@@ -101,13 +103,13 @@ void mousePositionCallback(GLFWwindow* window, double xpos, double ypos)
 
 void timeCallback()
 {
-	if (g_autoRotate)
-	{
-		float deg = 16.0f * (float)glfwGetTime();
-		g_light->rotatePosition(deg);
-	}
+	//if (g_autoRotate)
+	//{
+	//	float deg = 16.0f * (float)glfwGetTime();
+	//	g_light->rotatePosition(deg);
+	//}
 
-	glfwSetTime(0.0);
+	//glfwSetTime(0.0);
 }
 
 void initCallbacks(GLFWwindow* window)
@@ -134,6 +136,8 @@ GLint initShaders(GLuint & program)
 
 int main(int argc, char** argv)
 {
+	const char * glslVersion = "#version 440 core";
+
 	if (GLFW_TRUE != glfwInit())
 	{
 		std::cerr << "ERROR: could not start GLFW3\n" << std::endl;
@@ -170,6 +174,9 @@ int main(int argc, char** argv)
 	ISOK(initShaders(program));
 	glUseProgram(program);
 
+	UI ui;
+	ui.init(window, glslVersion);
+
 	TransformableContainer tc;
 
 	HarleyCube harleyCube(program);
@@ -193,17 +200,21 @@ int main(int argc, char** argv)
 
 	while (0 == glfwWindowShouldClose(window))
 	{
+		glfwPollEvents();
+		ui.render();
+
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		harleyCube.draw();
 		sphere.draw();
 
+		ui.draw();
+
 		glFlush();
 
 		glfwSwapBuffers(window);
 		timeCallback();
-		glfwPollEvents();
 	}
 
 	harleyCube.destroy();
