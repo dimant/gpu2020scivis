@@ -20,9 +20,11 @@ public:
 
 	ConfigHandler<bool> EnableAttenuationLightHandler;
 
-	ConfigHandler<bool> ButtonQuitHandler;
+	ConfigHandler<float> LightDistanceHandler;
 
 	ConfigHandler<int> ShinynessExponentHandler;
+
+	ConfigHandler<bool> ButtonQuitHandler;
 
 	void init(GLFWwindow* window, const char * glslVersion);
 

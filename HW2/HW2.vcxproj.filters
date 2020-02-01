@@ -50,9 +50,6 @@
     <ClInclude Include="HarleyCube.h">
       <Filter>headers</Filter>
     </ClInclude>
-    <ClInclude Include="Transformable.h">
-      <Filter>headers</Filter>
-    </ClInclude>
     <ClInclude Include="Light.h">
       <Filter>headers</Filter>
     </ClInclude>
@@ -66,6 +63,9 @@
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="ConfigHandler.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Transformable.h">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>

@@ -36,6 +36,10 @@ public:
 
 	void setPosition(glm::vec3 position);
 
+	float getLightDistance();
+
+	void setLightDistance(float d);
+
 	void setTarget(glm::vec3 target);
 
 	void setDirectionalLight(bool enable);

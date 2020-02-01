@@ -15,13 +15,14 @@ Light::Light(const GLuint program) :
 	_position(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f)),
 	_target(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f)),
 	_enableDirectionalLight(false),
-	_attenuation(glm::vec4(1.0f, 1.0f, 1.0f, 0.0f))
+	_attenuation(glm::vec4(1.0f, 0.022f, 0.0019f, 1.0f))
 {
 	setMat3(_program, _mNormal, "mNormal");
 	setColor(_color);
 	setVec3(_program, _position, "vLightPosition");
 	setVec4(_program, _attenuation, "vLightAttenuation");
 	setFloat(_program, 2.0f, "vLightShinyness");
+	setEnableAttenuation(false);
 }
 
 void Light::setDirectionalLight(bool enable)
@@ -61,6 +62,17 @@ void Light::setPosition(glm::vec3 position)
 	{
 		setVec3(_program, _position, "vLightPosition");
 	}
+}
+
+float Light::getLightDistance()
+{
+	return glm::length(_position - _target);
+}
+
+void Light::setLightDistance(float d)
+{
+	glm::vec3 u = glm::normalize(_position - _target);
+	setPosition(_target + u * d);
 }
 
 void Light::setTarget(glm::vec3 target)
@@ -103,7 +115,7 @@ void Light::setEnableAttenuation(bool enable)
 	}
 	else
 	{
-		setVec4(_program, glm::vec4(1.0f, 1.0f, 1.0f, 0.0f), "vLightAttenuation");
+		setVec4(_program, glm::vec4(1.0f, 0.0f, 0.0f, 0.0f), "vLightAttenuation");
 	}
 }
 

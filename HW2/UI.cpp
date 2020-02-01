@@ -44,18 +44,17 @@ void UI::render()
 
 	ImGui::Text("Light");
 
-	//ImGui::Checkbox("Ambient", &_config.enableAmbientLight);
-	//ImGui::Checkbox("Diffuse", &_config.enableDiffuseLight);
-	//ImGui::Checkbox("Specular", &_config.enableSpecularLight);
-
 	changed = ImGui::Checkbox("Attenuation", &EnableAttenuationLightHandler.Value);
 	EnableAttenuationLightHandler.handle(changed);
 
-	changed = ImGui::Checkbox("Directional Light", &EnableDirectionalLightHandler.Value);
+	changed = ImGui::Checkbox("Directional", &EnableDirectionalLightHandler.Value);
 	EnableDirectionalLightHandler.handle(changed);
 
 	changed = ImGui::SliderInt("Shinyness 2^x", &ShinynessExponentHandler.Value, 1, 10);
 	ShinynessExponentHandler.handle(changed);
+
+	changed = ImGui::SliderFloat("Distance", &LightDistanceHandler.Value, 1.0f, 25.0f);
+	LightDistanceHandler.handle(changed);
 
 	changed = ImGui::Checkbox("Auto Rotation", &EnableAutoRotationHandler.Value);
 	EnableAutoRotationHandler.handle(changed);

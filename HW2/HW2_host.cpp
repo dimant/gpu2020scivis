@@ -50,24 +50,6 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		case GLFW_KEY_0:
 			g_mouseInput->setTransformation(Scale);
 			break;
-		case GLFW_KEY_D:
-			g_light->setDirectionalLight(true);
-			break;
-		case GLFW_KEY_P:
-			g_light->setDirectionalLight(false);
-			break;
-		case GLFW_KEY_L:
-			if (g_autoRotate)
-			{
-				g_autoRotate = false;
-				g_mouseInput->setTransformation(LightRotate);
-			}
-			else
-			{
-				g_autoRotate = true;
-				g_mouseInput->setTransformation(Rotate);
-			}
-			break;
 		}
 	}
 }
@@ -199,15 +181,20 @@ int main(int argc, char** argv)
 	MouseInput mouseInput(tc, light);
 	g_mouseInput = &mouseInput;
 
-	g_ui->EnableAutoRotationHandler.Value = true;
-	g_autoRotate = g_ui->EnableAttenuationLightHandler.Value;
-	g_ui->EnableAutoRotationHandler.connect([](bool v) { g_autoRotate = v; });
+	g_autoRotate = g_ui->EnableAutoRotationHandler.Value = true;
+	g_ui->EnableAutoRotationHandler.connect([](bool v) { 
+		g_autoRotate = v;
+		if (v)
+			g_mouseInput->setTransformation(Rotate);
+		else
+			g_mouseInput->setTransformation(LightRotate);
+	});
 
 	g_ui->EnableDirectionalLightHandler.Value = false;
 	light.setDirectionalLight(g_ui->EnableDirectionalLightHandler.Value);
 	g_ui->EnableDirectionalLightHandler.connect([](bool v) { g_light->setDirectionalLight(v); });
 
-	g_autoRotate = g_ui->EnableAttenuationLightHandler.Value = false;
+	g_ui->EnableAttenuationLightHandler.Value = false;
 	light.setEnableAttenuation(g_ui->EnableAttenuationLightHandler.Value);
 	g_ui->EnableAttenuationLightHandler.connect([](bool v) { g_light->setEnableAttenuation(v); });
 
@@ -215,6 +202,9 @@ int main(int argc, char** argv)
 	light.setShinyness((float)(1 << g_ui->ShinynessExponentHandler.Value));
 	g_ui->ShinynessExponentHandler.connect([](int e) {
 		g_light->setShinyness((float)(1 << g_ui->ShinynessExponentHandler.Value)); });
+
+	g_ui->LightDistanceHandler.Value = light.getLightDistance();
+	g_ui->LightDistanceHandler.connect([](float d) { g_light->setLightDistance(d); });
 
 	g_ui->ButtonQuitHandler.connect([](bool v) { g_quit = true; });
 
