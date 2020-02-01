@@ -1,32 +1,20 @@
 #ifndef UI_H
 #define UI_H
 
+#include <functional>
+
 #include <GLFW\glfw3.h>
 
 #include <imgui.h>
 
-struct Config
-{
-	bool enableAmbientLight;
-
-	bool enableDiffuseLight;
-
-	bool enableSpecularLight;
-
-	bool enableAttenuationLight;
-
-	bool enableDirectionalLight;
-
-	bool enableAutoRotation;
-};
+#include "ConfigHandler.h"
 
 class UI
 {
-private:
-	Config _config;
-
 public:
-	const Config & getConfig();
+	ConfigHandler<bool> EnableAutoRotationHandler;
+
+	ConfigHandler<bool> EnableDirectionalLightHandler;
 
 	void init(GLFWwindow* window, const char * glslVersion);
 

@@ -65,6 +65,9 @@
     <ClInclude Include="UI.h">
       <Filter>headers</Filter>
     </ClInclude>
+    <ClInclude Include="ConfigHandler.h">
+      <Filter>headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="fshaderHCube.glsl">

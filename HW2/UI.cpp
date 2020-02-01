@@ -23,16 +23,14 @@ void UI::init(GLFWwindow* window, const char * glslVersion)
 	glfwGetWindowContentScale(window, &xscale, &yscale);
 	ImGui::GetIO().FontGlobalScale *= xscale;
 
-	_config.enableAmbientLight = true;
-	_config.enableDiffuseLight = true;
-	_config.enableSpecularLight = true;
-	_config.enableAttenuationLight = true;
-	_config.enableDirectionalLight = false;
-	_config.enableAutoRotation = true;
+	EnableAutoRotationHandler.Value = false;
+	EnableDirectionalLightHandler.Value = false;
 }
 
 void UI::render()
 {
+	bool changed;
+
 	// Start the Dear ImGui frame
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
@@ -41,13 +39,17 @@ void UI::render()
 	ImGui::Begin("Hello, world!");
 
 	ImGui::Text("Light");
-	ImGui::Checkbox("Ambient", &_config.enableAmbientLight);
-	ImGui::Checkbox("Diffuse", &_config.enableDiffuseLight);
-	ImGui::Checkbox("Specular", &_config.enableSpecularLight);
-	ImGui::Checkbox("Attenuation", &_config.enableAttenuationLight);
+
+	//ImGui::Checkbox("Ambient", &_config.enableAmbientLight);
+	//ImGui::Checkbox("Diffuse", &_config.enableDiffuseLight);
+	//ImGui::Checkbox("Specular", &_config.enableSpecularLight);
+	//ImGui::Checkbox("Attenuation", &_config.enableAttenuationLight);
 	
-	ImGui::Text("Misc");
-	ImGui::Checkbox("Auto Rotation", &_config.enableAutoRotation);
+	changed = ImGui::Checkbox("Directional Light", &EnableDirectionalLightHandler.Value);
+	EnableDirectionalLightHandler.handle(changed);
+
+	changed = ImGui::Checkbox("Auto Rotation", &EnableAutoRotationHandler.Value);
+	EnableAutoRotationHandler.handle(changed);
 
 	ImGui::End();
 
@@ -79,9 +81,4 @@ bool UI::mouseCaptured()
 bool UI::keyboardCaptured()
 {
 	return ImGui::GetIO().WantCaptureKeyboard;
-}
-
-const Config & UI::getConfig()
-{
-	return _config;
 }

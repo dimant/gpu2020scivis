@@ -110,7 +110,7 @@ void mousePositionCallback(GLFWwindow* window, double xpos, double ypos)
 
 void timeCallback()
 {
-	if (g_ui->getConfig().enableAutoRotation)
+	if (g_autoRotate)
 	{
 		float deg = 16.0f * g_ui->getDeltaTime();
 		g_light->rotatePosition(deg);
@@ -181,7 +181,6 @@ int main(int argc, char** argv)
 
 	g_ui = new UI();
 	g_ui->init(window, glslVersion);
-
 	TransformableContainer tc;
 
 	HarleyCube harleyCube(program);
@@ -202,6 +201,12 @@ int main(int argc, char** argv)
 
 	g_scene = new Scene(program);
 	g_mouseInput = new MouseInput(tc, light);
+
+	g_autoRotate = g_ui->EnableAutoRotationHandler.Value = true;
+	g_ui->EnableAutoRotationHandler.connect([](bool v) { g_autoRotate = v; });
+
+	light.setDirectionalLight(g_ui->EnableDirectionalLightHandler.Value);
+	g_ui->EnableDirectionalLightHandler.connect([](bool v) { g_light->setDirectionalLight(v); });
 
 	while (0 == glfwWindowShouldClose(window))
 	{
@@ -225,6 +230,8 @@ int main(int argc, char** argv)
 
 	harleyCube.destroy();
 	sphere.destroy();
+
+	g_ui->destroy();
 
 	glfwDestroyWindow(window);
 
