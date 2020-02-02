@@ -44,11 +44,13 @@ public:
 
 	void setDirectionalLight(bool enable);
 
-	void setShinyness(float e);
+	void setShininess(float e);
 
 	void setEnableAttenuation(bool enable);
 
 	void rotatePosition(float angle);
+
+	void setConeAngle(float theta);
 };
 
 #endif

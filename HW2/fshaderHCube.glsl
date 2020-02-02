@@ -9,15 +9,22 @@ in vec3 material;
 
 //uniform vec4 vLightCoef; // x: ambient (ka), y: diffuse (kd), z: specular (ks), w: shinyness (s)
 uniform vec3 vLightColor;
+
+// Light.cpp ensures that in directional light mode, the vector is a direction
+// from _target to _position
 uniform vec3 vLightPosition;
+uniform vec3 vLightDirection;
+
 uniform vec3 vCameraPosition;
 
 // x: constant, y: linear, z: quadratic, w: enabled
 uniform vec4 vLightAttenuation;
-uniform float fLightShinyness;
+uniform float fLightShininess;
+uniform float fSpotEpsilon;
+uniform float fSpotCosTheta;
 
 // used to switch betwen directional and point light
-uniform float fFragmentC;
+uniform float fEnableDirectionalLight;
 
 uniform sampler2D texSampler;
 
@@ -28,14 +35,20 @@ void main()
 	
 	// diffuse
 	vec3 norm = normalize(normal);
-	vec3 lightDirection = normalize(vLightPosition - fragmentPosition * fFragmentC);
-	float diff = max(dot(norm, lightDirection), 0.0);
+	vec3 lightIncidence = normalize(vLightPosition - fragmentPosition * fEnableDirectionalLight);
+	float diff = max(dot(norm, lightIncidence), 0.0);
 	vec3 diffuse = material.y * diff * ambient;
-	
+
+	vec3 x = lightIncidence;
+	vec3 y = normalize(vLightDirection);
+	float cosphi = dot(vLightDirection, lightIncidence);
+	float falloff = pow(cosphi, 128);
+	float spot = step(fSpotCosTheta, cosphi) * falloff;
+
 	// specular
 	vec3 viewDirection = normalize(vCameraPosition - fragmentPosition);
-	vec3 reflectDirection = reflect(-lightDirection, norm);
-	float spec = pow(max(dot(viewDirection, reflectDirection), 0.0), fLightShinyness);
+	vec3 reflectDirection = reflect(-lightIncidence, norm);
+	float spec = pow(max(dot(viewDirection, reflectDirection), 0.0), fLightShininess);
 	vec3 specular = material.z * spec * ambient;
 
 	// attenuation
@@ -51,8 +64,8 @@ void main()
 	// UPL
 	vec4 light = vec4((
 		ambient * attenuation +
-		diffuse * attenuation +
-		specular * attenuation
+		diffuse * attenuation * spot +
+		specular * attenuation * spot
 	), 1.0f);
 
 	frag_color = color * light;

@@ -10,14 +10,16 @@
 
 #include "UI.h"
 
+#include "Transformable.h"
 #include "TransformableContainer.h"
+#include "Model.h"
 
 #include "Scene.h"
 #include "Light.h"
 #include "MouseInput.h"
 
 #include "HarleyCube.h"
-#include "Sphere.h"
+#include "SphereBuilder.h"
 
 UI* g_ui;
 Scene* g_scene;
@@ -160,28 +162,28 @@ int main(int argc, char** argv)
 	g_ui->init(window, glslVersion);
 	TransformableContainer tc;
 
-	HarleyCube harleyCube(program);
-	harleyCube.init();
-	harleyCube.transform([](glm::mat4 m) { return glm::translate(m, glm::vec3(1.0f, 0.0f, 0.0f)); });
+	auto harleyCube = createHarleyCube(program);
+	harleyCube->init();
+	harleyCube->transform([](glm::mat4 m) { return glm::translate(m, glm::vec3(1.0f, 0.0f, 0.0f)); });
 
-	Sphere sphere(program);
-	sphere.init(4);
-	sphere.transform([](glm::mat4 m) { return glm::translate(m, glm::vec3(-1.0f, 0.0f, 0.0f)); });
+	//Sphere sphere(program);
+	//sphere.init(4);
+	//sphere.transform([](glm::mat4 m) { return glm::translate(m, glm::vec3(-1.0f, 0.0f, 0.0f)); });
 
 	Light light(program);
 	light.setPosition(glm::vec3(0.0f, 3.0f, 3.0f));
 	g_light = &light;
 
-	tc.add(&harleyCube);
-	tc.add(&sphere);
-	tc.add(&light);
+	tc.add(harleyCube.get());
+	//tc.add(sphere);
+	//tc.add(light);
 
 	Scene scene(program);
 	g_scene = &scene;
 	MouseInput mouseInput(tc, light);
 	g_mouseInput = &mouseInput;
 
-	g_autoRotate = g_ui->EnableAutoRotationHandler.Value = true;
+	g_autoRotate = g_ui->EnableAutoRotationHandler.Value = false;
 	g_ui->EnableAutoRotationHandler.connect([](bool v) { 
 		g_autoRotate = v;
 		if (v)
@@ -194,17 +196,22 @@ int main(int argc, char** argv)
 	light.setDirectionalLight(g_ui->EnableDirectionalLightHandler.Value);
 	g_ui->EnableDirectionalLightHandler.connect([](bool v) { g_light->setDirectionalLight(v); });
 
-	g_ui->EnableAttenuationLightHandler.Value = false;
+	g_ui->EnableAttenuationLightHandler.Value = true;
 	light.setEnableAttenuation(g_ui->EnableAttenuationLightHandler.Value);
 	g_ui->EnableAttenuationLightHandler.connect([](bool v) { g_light->setEnableAttenuation(v); });
 
 	g_ui->ShinynessExponentHandler.Value = 4;
-	light.setShinyness((float)(1 << g_ui->ShinynessExponentHandler.Value));
+	light.setShininess((float)(1 << g_ui->ShinynessExponentHandler.Value));
 	g_ui->ShinynessExponentHandler.connect([](int e) {
-		g_light->setShinyness((float)(1 << g_ui->ShinynessExponentHandler.Value)); });
+		g_light->setShininess((float)(1 << g_ui->ShinynessExponentHandler.Value)); });
 
 	g_ui->LightDistanceHandler.Value = light.getLightDistance();
 	g_ui->LightDistanceHandler.connect([](float d) { g_light->setLightDistance(d); });
+
+	float coneAngle = 12.5f;
+	g_ui->SpotConeAngleHandler.Value = coneAngle;
+	light.setConeAngle(coneAngle);
+	g_ui->SpotConeAngleHandler.connect([](float a) { g_light->setConeAngle(a); });
 
 	g_ui->ButtonQuitHandler.connect([](bool v) { g_quit = true; });
 
@@ -217,8 +224,8 @@ int main(int argc, char** argv)
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		harleyCube.draw();
-		sphere.draw();
+		harleyCube->draw();
+		//sphere.draw();
 
 		g_ui->draw();
 
@@ -228,8 +235,8 @@ int main(int argc, char** argv)
 		timeCallback();
 	}
 
-	harleyCube.destroy();
-	sphere.destroy();
+	harleyCube->destroy();
+	//sphere.destroy();
 
 	g_ui->destroy();
 

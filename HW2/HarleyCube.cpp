@@ -1,3 +1,4 @@
+#include "HarleyCube.h"
 
 #define harley_cube_v0 -1.0f, -1.0f,  1.0f,
 #define harley_cube_v1  1.0f, -1.0f,  1.0f,
@@ -96,56 +97,7 @@ float harley_cube[] = {
 	harley_cube_v7 harley_cube_t6 harley_cube_n5 harley_cube_m5
 };
 
-#include <shaderlib.h>
-
-#include "HarleyCube.h"
-
-void HarleyCube::initVao(const GLuint & program)
+std::shared_ptr<Model> createHarleyCube(GLuint program)
 {
-	glGenVertexArrays(1, &_vao);
-	glBindVertexArray(_vao);
-
-	glGenBuffers(1, &_vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(harley_cube), harley_cube, GL_STATIC_DRAW);
-
-	initVaoFormat(_program);
+	return std::make_shared<Model>(program, sizeof(harley_cube), harley_cube, "textures\\drawing.jpg");
 }
-
-void HarleyCube::transform(Transform t)
-{
-	_model = t(_model);
-}
-
-void HarleyCube::init()
-{
-	if (GL_FALSE == loadTexture(_texture, "textures\\drawing.jpg"))
-	{
-		throw "Could not load HarleyCube texture.";
-	}
-
-	initVao(_program);
-
-	if (GL_FALSE == setMat4(_program, _model, "mModel"))
-	{
-		throw "Could not set model HarleyCube matrix.";
-	}
-}
-
-void HarleyCube::draw()
-{
-	setMat4(_program, _model, "mModel");
-	glBindTexture(GL_TEXTURE_2D, _texture);
-	glBindVertexArray(_vao);
-	glDrawArrays(GL_TRIANGLES, 0, sizeof(harley_cube));
-	glBindVertexArray(0);
-	glBindTexture(GL_TEXTURE_2D, 0);
-	setMat4(_program, glm::mat4(), "mModel");
-}
-
-void HarleyCube::destroy()
-{
-	glDeleteBuffers(1, &_vbo);
-	glDeleteVertexArrays(1, &_vao);
-}
-

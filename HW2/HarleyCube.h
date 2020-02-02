@@ -1,37 +1,10 @@
 #ifndef HARLEYCUBE_H
 #define HARLEYCUBE_H
 
-#include <GL\glew.h>
-#include <glm\glm.hpp>
+#include <memory>
 
-#include "Transformable.h"
+#include "Model.h"
 
-class HarleyCube : public Transformable
-{
-private:
-	const GLuint _program;
-
-	glm::mat4 _model;
-
-	GLuint _vao;
-
-	GLuint _vbo;
-
-	GLuint _texture;
-
-	void initVao(const GLuint & program);
-
-public:
-	HarleyCube(const GLuint program) : _program(program), _model(glm::mat4(1.0f))
-	{}
-
-	virtual void transform(Transform t);
-
-	void init();
-
-	void draw();
-
-	void destroy();
-};
+std::shared_ptr<Model> createHarleyCube(GLuint program);
 
 #endif

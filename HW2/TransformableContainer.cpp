@@ -7,7 +7,7 @@ void TransformableContainer::add(Transformable* transformable)
 
 void TransformableContainer::transform(Transform t)
 {
-	for (Transformable* transformable : _transformables)
+	for (auto transformable : _transformables)
 	{
 		transformable->transform(t);
 	}

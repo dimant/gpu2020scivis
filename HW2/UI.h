@@ -24,6 +24,8 @@ public:
 
 	ConfigHandler<int> ShinynessExponentHandler;
 
+	ConfigHandler<float> SpotConeAngleHandler;
+
 	ConfigHandler<bool> ButtonQuitHandler;
 
 	void init(GLFWwindow* window, const char * glslVersion);

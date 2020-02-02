@@ -70,9 +70,10 @@
     <ClCompile Include="HarleyCube.cpp" />
     <ClCompile Include="HW2_host.cpp" />
     <ClCompile Include="Light.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="MouseInput.cpp" />
     <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="Spehere.cpp" />
+    <ClCompile Include="SphereBuilder.cpp" />
     <ClCompile Include="TransformableContainer.cpp" />
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
@@ -84,9 +85,10 @@
     <ClInclude Include="ConfigHandler.h" />
     <ClInclude Include="HarleyCube.h" />
     <ClInclude Include="Light.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="MouseInput.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="Sphere.h" />
+    <ClInclude Include="SphereBuilder.h" />
     <ClInclude Include="Transformable.h" />
     <ClInclude Include="TransformableContainer.h" />
     <ClInclude Include="UI.h" />

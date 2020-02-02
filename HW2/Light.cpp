@@ -17,11 +17,12 @@ Light::Light(const GLuint program) :
 	_enableDirectionalLight(false),
 	_attenuation(glm::vec4(1.0f, 0.022f, 0.0019f, 1.0f))
 {
+	setFloat(_program, 1.0f, "fEnableDirectionalLight");
 	setMat3(_program, _mNormal, "mNormal");
 	setColor(_color);
-	setVec3(_program, _position, "vLightPosition");
+	setPosition(_position);
 	setVec4(_program, _attenuation, "vLightAttenuation");
-	setFloat(_program, 2.0f, "vLightShinyness");
+	setFloat(_program, 2.0f, "fLightShininess");
 	setEnableAttenuation(false);
 }
 
@@ -34,11 +35,11 @@ void Light::setDirectionalLight(bool enable)
 
 	if (_enableDirectionalLight)
 	{
-		setFloat(_program, 1.0f, "fFragmentC");
+		setFloat(_program, 0.0f, "fEnableDirectionalLight");
 	}
 	else
 	{
-		setFloat(_program, 0.0f, "fFragmentC");
+		setFloat(_program, 1.0f, "fEnableDirectionalLight");
 	}
 }
 
@@ -53,9 +54,11 @@ void Light::setPosition(glm::vec3 position)
 {
 	_position = position;
 
+	glm::vec3 d = glm::normalize(_position - _target);
+	setVec3(_program, d, "vLightDirection");
+	
 	if (_enableDirectionalLight)
 	{
-		glm::vec3 d = _position - _target;
 		setVec3(_program, d, "vLightPosition");
 	}
 	else
@@ -78,10 +81,12 @@ void Light::setLightDistance(float d)
 void Light::setTarget(glm::vec3 target)
 {
 	_target = target;
+	
+	glm::vec3 d = glm::normalize(_position - _target);
+	setVec3(_program, d, "vLightDirection");
 
 	if (_enableDirectionalLight)
 	{
-		glm::vec3 d = _position - _target;
 		setVec3(_program, d, "vLightPosition");
 	}
 }
@@ -94,9 +99,9 @@ void Light::rotatePosition(float angle)
 	glm::quat quatRot = glm::angleAxis(r, axis);
 	glm::mat4x4 matRot = glm::mat4_cast(quatRot);
 
-	_position = glm::vec3(matRot * glm::vec4(_position, 1.0));
+	glm::vec3 position = glm::vec3(matRot * glm::vec4(_position, 1.0));
 
-	setVec3(_program, _position, "vLightPosition");
+	setPosition(position);
 }
 
 void Light::transform(Transform t)
@@ -119,7 +124,13 @@ void Light::setEnableAttenuation(bool enable)
 	}
 }
 
-void Light::setShinyness(float e)
+void Light::setShininess(float e)
 {
-	setFloat(_program, e, "fLightShinyness");
+	setFloat(_program, e, "fLightShininess");
+}
+
+void Light::setConeAngle(float theta)
+{
+	float r = cos(glm::radians(theta));
+	setFloat(_program, r, "fSpotCosTheta");
 }
