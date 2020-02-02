@@ -26,6 +26,8 @@ public:
 
 	ConfigHandler<float> SpotConeAngleHandler;
 
+	ConfigHandler<float> SpotConeFalloffHandler;
+
 	ConfigHandler<bool> ButtonQuitHandler;
 
 	void init(GLFWwindow* window, const char * glslVersion);

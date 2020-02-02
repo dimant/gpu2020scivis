@@ -9,7 +9,7 @@
 class Model : public Transformable
 {
 private:
-	float* _data;
+	void* _data;
 
 	size_t _ndata;
 
@@ -28,7 +28,7 @@ private:
 	void initVao(const GLuint & program);
 
 public:
-	Model(GLuint program, size_t ndata, float* data, const char* textureName) :
+	Model(GLuint program, size_t ndata, void* data, const char* textureName) :
 		_program(program),
 		_ndata(ndata),
 		_data(data),

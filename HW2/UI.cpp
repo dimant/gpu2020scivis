@@ -59,6 +59,9 @@ void UI::render()
 	changed = ImGui::SliderFloat("Cone Angle", &SpotConeAngleHandler.Value, 0.0f, 90.0f);
 	SpotConeAngleHandler.handle(changed);
 
+	changed = ImGui::SliderFloat("Cone Falloff", &SpotConeFalloffHandler.Value, 0.0f, 256.0f);
+	SpotConeFalloffHandler.handle(changed);
+
 	changed = ImGui::Checkbox("Auto Rotation", &EnableAutoRotationHandler.Value);
 	EnableAutoRotationHandler.handle(changed);
 

@@ -59,5 +59,5 @@ std::shared_ptr<Model> SphereBuilder::createSphere(GLuint program, GLuint recurs
 
 	beginSphere(recursions);
 
-	return std::make_shared<Model>(program, sizeof(VertAtt) * _vertices, (float*) _data, "textures\\sphere.jpg");
+	return std::make_shared<Model>(program, sizeof(VertAtt) * _vertices, _data, "textures\\sphere.jpg");
 }

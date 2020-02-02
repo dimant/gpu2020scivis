@@ -134,3 +134,8 @@ void Light::setConeAngle(float theta)
 	float r = cos(glm::radians(theta));
 	setFloat(_program, r, "fSpotCosTheta");
 }
+
+void Light::setConeFalloff(float epsilon)
+{
+	setFloat(_program, epsilon, "fSpotEpsilon");
+}

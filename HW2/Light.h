@@ -51,6 +51,8 @@ public:
 	void rotatePosition(float angle);
 
 	void setConeAngle(float theta);
+
+	void setConeFalloff(float epsilon);
 };
 
 #endif

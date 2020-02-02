@@ -166,17 +166,18 @@ int main(int argc, char** argv)
 	harleyCube->init();
 	harleyCube->transform([](glm::mat4 m) { return glm::translate(m, glm::vec3(1.0f, 0.0f, 0.0f)); });
 
-	//Sphere sphere(program);
-	//sphere.init(4);
-	//sphere.transform([](glm::mat4 m) { return glm::translate(m, glm::vec3(-1.0f, 0.0f, 0.0f)); });
+	SphereBuilder sphereBuilder;
+	auto sphere = sphereBuilder.createSphere(program, 4);
+	sphere->init();
+	sphere->transform([](glm::mat4 m) { return glm::translate(m, glm::vec3(-1.0f, 0.0f, 0.0f)); });
 
 	Light light(program);
 	light.setPosition(glm::vec3(0.0f, 3.0f, 3.0f));
 	g_light = &light;
 
 	tc.add(harleyCube.get());
-	//tc.add(sphere);
-	//tc.add(light);
+	tc.add(sphere.get());
+	tc.add(&light);
 
 	Scene scene(program);
 	g_scene = &scene;
@@ -202,8 +203,7 @@ int main(int argc, char** argv)
 
 	g_ui->ShinynessExponentHandler.Value = 4;
 	light.setShininess((float)(1 << g_ui->ShinynessExponentHandler.Value));
-	g_ui->ShinynessExponentHandler.connect([](int e) {
-		g_light->setShininess((float)(1 << g_ui->ShinynessExponentHandler.Value)); });
+	g_ui->ShinynessExponentHandler.connect([](int e) { g_light->setShininess((float)(1 << e)); });
 
 	g_ui->LightDistanceHandler.Value = light.getLightDistance();
 	g_ui->LightDistanceHandler.connect([](float d) { g_light->setLightDistance(d); });
@@ -212,6 +212,11 @@ int main(int argc, char** argv)
 	g_ui->SpotConeAngleHandler.Value = coneAngle;
 	light.setConeAngle(coneAngle);
 	g_ui->SpotConeAngleHandler.connect([](float a) { g_light->setConeAngle(a); });
+
+	float coneFalloff = 32.0f;
+	g_ui->SpotConeFalloffHandler.Value = coneFalloff;
+	light.setConeFalloff(coneFalloff);
+	g_ui->SpotConeFalloffHandler.connect([](float e) { g_light->setConeFalloff(e); });
 
 	g_ui->ButtonQuitHandler.connect([](bool v) { g_quit = true; });
 
@@ -225,7 +230,7 @@ int main(int argc, char** argv)
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		harleyCube->draw();
-		//sphere.draw();
+		sphere->draw();
 
 		g_ui->draw();
 
@@ -236,7 +241,7 @@ int main(int argc, char** argv)
 	}
 
 	harleyCube->destroy();
-	//sphere.destroy();
+	sphere->destroy();
 
 	g_ui->destroy();
 
