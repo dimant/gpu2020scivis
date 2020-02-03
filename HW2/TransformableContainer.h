@@ -6,12 +6,20 @@
 
 #include "Transformable.h"
 
+#include <glm\glm.hpp>
+
 class TransformableContainer : public Transformable
 {
 private:
 	std::vector<Transformable*> _transformables;
 
+	glm::mat4 _world;
+
 public:
+	TransformableContainer() : _world(glm::mat4(1.0f))
+	{
+	}
+
 	void add(Transformable* transformable);
 
 	void transform(Transform t);

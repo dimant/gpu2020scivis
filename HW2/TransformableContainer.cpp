@@ -9,6 +9,6 @@ void TransformableContainer::transform(Transform t)
 {
 	for (auto transformable : _transformables)
 	{
-		transformable->transform(t);
+		transformable->transform([t](glm::mat4 m) { return t(m); });
 	}
 }

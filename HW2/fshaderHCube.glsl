@@ -39,12 +39,6 @@ void main()
 	float diff = max(dot(norm, lightIncidence), 0.0);
 	vec3 diffuse = material.y * diff * ambient;
 
-	vec3 x = lightIncidence;
-	vec3 y = normalize(vLightDirection);
-	float cosphi = dot(vLightDirection, lightIncidence);
-	float falloff = pow(cosphi, fSpotEpsilon);
-	float spot = step(fSpotCosTheta, cosphi) * falloff;
-
 	// specular
 	vec3 viewDirection = normalize(vCameraPosition - fragmentPosition);
 	vec3 reflectDirection = reflect(-lightIncidence, norm);
@@ -57,6 +51,13 @@ void main()
 		vLightAttenuation.x +
 		vLightAttenuation.y * d +
 		vLightAttenuation.z * (d * d));
+
+	// spot
+	vec3 x = lightIncidence;
+	vec3 y = normalize(vLightDirection);
+	float cosphi = dot(vLightDirection, lightIncidence);
+	float falloff = pow(cosphi, fSpotEpsilon);
+	float spot = step(fSpotCosTheta, cosphi) * falloff;
 
 	// texture
 	vec4 color = texture(texSampler, texCoord);

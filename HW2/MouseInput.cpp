@@ -57,7 +57,7 @@ void MouseInput::moveCursorTo(double xpos, double ypos)
 				// begin in bottom left
 				glm::vec3 dir = vector(_xpos, _ypos, xpos, ypos);
 				dir.y = -dir.y;
-				dir *= 0.2f;
+				dir *= 0.002f;
 
 				_transformable.transform([dir](glm::mat4 model) { return glm::translate(model, dir); });
 				break;

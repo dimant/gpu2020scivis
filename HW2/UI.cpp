@@ -62,6 +62,10 @@ void UI::render()
 	changed = ImGui::SliderFloat("Cone Falloff", &SpotConeFalloffHandler.Value, 0.0f, 256.0f);
 	SpotConeFalloffHandler.handle(changed);
 
+	const char* manipulations[] = { "Rotate", "Translate", "Scale", "Light" };
+	changed = ImGui::Combo("Manipulation", &ModelManipulationHandler.Value, manipulations, IM_ARRAYSIZE(manipulations));
+	ModelManipulationHandler.handle(changed);
+
 	changed = ImGui::Checkbox("Auto Rotation", &EnableAutoRotationHandler.Value);
 	EnableAutoRotationHandler.handle(changed);
 

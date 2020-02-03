@@ -15,7 +15,7 @@ Scene::Scene(const GLuint & program) :
 {
 	setView(glm::mat4(1.0f));
 	moveCamZ(4.0f);
-	setProj(glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 50.0f));
+	setProj(glm::perspective(glm::radians(90.0f), 1.0f, 0.1f, 50.0f));
 
 	changePolygonMode();
 }
@@ -33,14 +33,14 @@ void Scene::moveCamZ(const float & factor)
 	//setVec3(_program, _camPosition, "vCameraPosition");
 }
 
-void Scene::setView(const glm::mat4 & view)
+void Scene::setView(glm::mat4 view)
 {
 	_view = view;
 
 	setMat4(_program, _view, "mView");
 }
 
-void Scene::setProj(const glm::mat4 & proj)
+void Scene::setProj(glm::mat4 proj)
 {
 	_proj = proj;
 

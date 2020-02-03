@@ -40,7 +40,6 @@
 #define harley_cube_m5 0.15f, 6.0f, 3.0f,
 #define harley_cube_m6 0.16f, 7.0f, 3.2f,
 
-// vertex (x, y, z) texel (x, y) normal (x, y, z)
 float harley_cube[] = {
 	// face 1 front
 	harley_cube_v0 harley_cube_t4 harley_cube_n0 harley_cube_m0

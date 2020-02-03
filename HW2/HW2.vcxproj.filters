@@ -30,9 +30,6 @@
     <ClCompile Include="Light.cpp">
       <Filter>sources</Filter>
     </ClCompile>
-    <ClCompile Include="TransformableContainer.cpp">
-      <Filter>sources</Filter>
-    </ClCompile>
     <ClCompile Include="UI.cpp">
       <Filter>sources</Filter>
     </ClCompile>
@@ -40,6 +37,12 @@
       <Filter>sources</Filter>
     </ClCompile>
     <ClCompile Include="SphereBuilder.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformableContainer.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Floor.cpp">
       <Filter>sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -56,22 +59,25 @@
     <ClInclude Include="Light.h">
       <Filter>headers</Filter>
     </ClInclude>
-    <ClInclude Include="TransformableContainer.h">
-      <Filter>headers</Filter>
-    </ClInclude>
     <ClInclude Include="UI.h">
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="ConfigHandler.h">
       <Filter>headers</Filter>
     </ClInclude>
-    <ClInclude Include="Transformable.h">
-      <Filter>headers</Filter>
-    </ClInclude>
     <ClInclude Include="Model.h">
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="SphereBuilder.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Transformable.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformableContainer.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Floor.h">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>

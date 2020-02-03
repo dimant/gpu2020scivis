@@ -67,6 +67,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Floor.cpp" />
     <ClCompile Include="HarleyCube.cpp" />
     <ClCompile Include="HW2_host.cpp" />
     <ClCompile Include="Light.cpp" />
@@ -83,6 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConfigHandler.h" />
+    <ClInclude Include="Floor.h" />
     <ClInclude Include="HarleyCube.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Model.h" />

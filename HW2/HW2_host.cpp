@@ -20,6 +20,7 @@
 
 #include "HarleyCube.h"
 #include "SphereBuilder.h"
+#include "Floor.h"
 
 UI* g_ui;
 Scene* g_scene;
@@ -32,28 +33,7 @@ bool g_quit = false;
 void scaleCallback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
-}
-
-void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-	if (g_ui->keyboardCaptured())
-		return;
-
-	if (action == GLFW_PRESS)
-	{
-		switch (key)
-		{
-		case GLFW_KEY_8:
-			g_mouseInput->setTransformation(Rotate);
-			break;
-		case GLFW_KEY_9:
-			g_mouseInput->setTransformation(Translate);
-			break;
-		case GLFW_KEY_0:
-			g_mouseInput->setTransformation(Scale);
-			break;
-		}
-	}
+	g_scene->setProj(glm::perspective(glm::radians(90.0f), (float)width/(float)height, 0.1f, 50.0f));
 }
 
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
@@ -98,8 +78,6 @@ void timeCallback()
 void initCallbacks(GLFWwindow* window)
 {
 	glfwSetFramebufferSizeCallback(window, scaleCallback);
-
-	glfwSetKeyCallback(window, keyCallback);
 
 	glfwSetMouseButtonCallback(window, mouseButtonCallback);
 
@@ -181,16 +159,21 @@ int main(int argc, char** argv)
 
 	Scene scene(program);
 	g_scene = &scene;
+
+	auto floor = createFloor(program);
+	floor->init();
+
 	MouseInput mouseInput(tc, light);
 	g_mouseInput = &mouseInput;
 
 	g_autoRotate = g_ui->EnableAutoRotationHandler.Value = false;
 	g_ui->EnableAutoRotationHandler.connect([](bool v) { 
 		g_autoRotate = v;
-		if (v)
-			g_mouseInput->setTransformation(Rotate);
-		else
-			g_mouseInput->setTransformation(LightRotate);
+		if (v && g_ui->ModelManipulationHandler.Value == 3)
+		{
+			g_ui->ModelManipulationHandler.Value = 0;
+			g_ui->ModelManipulationHandler.handle(true);
+		}
 	});
 
 	g_ui->EnableDirectionalLightHandler.Value = false;
@@ -218,6 +201,27 @@ int main(int argc, char** argv)
 	light.setConeFalloff(coneFalloff);
 	g_ui->SpotConeFalloffHandler.connect([](float e) { g_light->setConeFalloff(e); });
 
+	g_ui->ModelManipulationHandler.Value = 0;
+	g_ui->ModelManipulationHandler.connect([](int o) {
+		switch (o)
+		{
+		case 0:
+			g_mouseInput->setTransformation(Rotate);
+			break;
+		case 1:
+			g_mouseInput->setTransformation(Translate);
+			break;
+		case 2:
+			g_mouseInput->setTransformation(Scale);
+			break;
+		case 3:
+			g_ui->EnableAutoRotationHandler.Value = false;
+			g_ui->EnableAutoRotationHandler.handle(true);
+			g_mouseInput->setTransformation(LightRotate);
+			break;
+		}
+	});
+
 	g_ui->ButtonQuitHandler.connect([](bool v) { g_quit = true; });
 
 	while (0 == glfwWindowShouldClose(window) && false == g_quit)
@@ -229,6 +233,7 @@ int main(int argc, char** argv)
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		floor->draw();
 		harleyCube->draw();
 		sphere->draw();
 
@@ -242,6 +247,7 @@ int main(int argc, char** argv)
 
 	harleyCube->destroy();
 	sphere->destroy();
+	floor->destroy();
 
 	g_ui->destroy();
 

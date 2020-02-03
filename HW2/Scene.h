@@ -25,12 +25,13 @@ private:
 
 	GLenum _polygonMode;
 
-	void setView(const glm::mat4 & view);
-
-	void setProj(const glm::mat4 & proj);
 
 public:
 	Scene(const GLuint & program);
+
+	void setView(glm::mat4 view);
+
+	void setProj(glm::mat4 proj);
 
 	void apply();
 
