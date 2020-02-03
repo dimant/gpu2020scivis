@@ -93,6 +93,11 @@ GLint initShaders(GLuint & program)
 	return GL_TRUE;
 }
 
+float calcScienceFunction(float x, float y)
+{
+	return exp(-(x * x + y * y));
+}
+
 int main(int argc, char** argv)
 {
 	const char * glslVersion = "#version 440 core";
