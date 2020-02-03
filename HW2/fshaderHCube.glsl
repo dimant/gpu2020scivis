@@ -53,8 +53,6 @@ void main()
 		vLightAttenuation.z * (d * d));
 
 	// spot
-	vec3 x = lightIncidence;
-	vec3 y = normalize(vLightDirection);
 	float cosphi = dot(vLightDirection, lightIncidence);
 	float falloff = pow(cosphi, fSpotEpsilon);
 	float spot = step(fSpotCosTheta, cosphi) * falloff;
