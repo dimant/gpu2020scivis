@@ -18,6 +18,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HW2", "HW2\HW2.vcxproj", "{
 		{4618109B-EC95-45B6-A2B2-2761C798EBFF} = {4618109B-EC95-45B6-A2B2-2761C798EBFF}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ex4_HelloSciVis", "Ex4_HelloSciVis\Ex4_HelloSciVis.vcxproj", "{D32E41BF-0237-4052-914D-F01C53ECDC8C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4618109B-EC95-45B6-A2B2-2761C798EBFF} = {4618109B-EC95-45B6-A2B2-2761C798EBFF}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -46,6 +51,10 @@ Global
 		{C5466DA7-73AD-45FE-BA3D-9723D1C6F8CE}.Debug|x64.Build.0 = Debug|x64
 		{C5466DA7-73AD-45FE-BA3D-9723D1C6F8CE}.Release|x64.ActiveCfg = Release|x64
 		{C5466DA7-73AD-45FE-BA3D-9723D1C6F8CE}.Release|x64.Build.0 = Release|x64
+		{D32E41BF-0237-4052-914D-F01C53ECDC8C}.Debug|x64.ActiveCfg = Debug|x64
+		{D32E41BF-0237-4052-914D-F01C53ECDC8C}.Debug|x64.Build.0 = Debug|x64
+		{D32E41BF-0237-4052-914D-F01C53ECDC8C}.Release|x64.ActiveCfg = Release|x64
+		{D32E41BF-0237-4052-914D-F01C53ECDC8C}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

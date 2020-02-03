@@ -1,10 +1,8 @@
 #include <glm\glm.hpp>
 
+#include <gtc\matrix_transform.hpp>
+#include <gtc\matrix_access.hpp>
 #include "MouseInput.h"
-
-MouseInput::MouseInput(Scene* scene) : _scene(scene), _buttonState(0), _transformationType(Rotate)
-{
-}
 
 void MouseInput::leftButtonDown() 
 {
@@ -47,20 +45,37 @@ void MouseInput::moveCursorTo(double xpos, double ypos)
 		switch (_transformationType)
 		{
 			case Rotate:
-				_scene->rotateModelAxis(
-					normalVector(_xpos, _ypos, xpos, ypos),
-					(float) vecLength(_xpos, _ypos, xpos, ypos) * 0.5f);
+				{
+					glm::vec3 n = normalVector(_xpos, _ypos, xpos, ypos);
+					float l = (float)vecLength(_xpos, _ypos, xpos, ypos) * 0.01f;
+					_transformable.transform([n, l](glm::mat4 model) { return glm::rotate(model, l, n); });
+				}
 				break;
+
 			case Translate:
 				// Mouse coordinates begin in top left but model coordinates
 				// begin in bottom left
-				glm::vec3 direction = vector(_xpos, _ypos, xpos, ypos);
-				direction.y = -direction.y;
-				_scene->translateModel(direction * 0.01f);
+				glm::vec3 dir = vector(_xpos, _ypos, xpos, ypos);
+				dir.y = -dir.y;
+				dir *= 0.002f;
+
+				_transformable.transform([dir](glm::mat4 model) { return glm::translate(model, dir); });
 				break;
+
 			case Scale:
-				float factor = (float)(_xpos - xpos);
-				_scene->scaleModel(factor > 0 ? 1.1f : 0.9f);
+				{
+					float f = (_xpos - xpos) > 0 ? 1.1f : 0.9f;
+					_transformable.transform([f](glm::mat4 model) { return glm::scale(model, glm::vec3(f, f, f)); });
+				}
+				break;
+
+			case LightRotate:
+				float l = (float)vecLength(_xpos, _ypos, xpos, ypos) * 0.5f;
+				if (xpos < _xpos)
+				{
+					l = -l;
+				}
+				_light.rotatePosition(l);
 				break;
 		}
 	}
@@ -72,4 +87,9 @@ void MouseInput::moveCursorTo(double xpos, double ypos)
 void MouseInput::setTransformation(MouseTransformationType transformationType)
 {
 	_transformationType = transformationType;
+}
+
+void MouseInput::setTransformable(Transformable & transformable)
+{
+	_transformable = transformable;
 }
