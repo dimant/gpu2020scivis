@@ -13,8 +13,6 @@ class TransformableContainer : public Transformable
 private:
 	std::vector<Transformable*> _transformables;
 
-	glm::mat4 _world;
-
 public:
 	TransformableContainer() : _world(glm::mat4(1.0f))
 	{
