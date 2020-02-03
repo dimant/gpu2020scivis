@@ -14,7 +14,7 @@ private:
 	std::vector<Transformable*> _transformables;
 
 public:
-	TransformableContainer() : _world(glm::mat4(1.0f))
+	TransformableContainer()
 	{
 	}
 
