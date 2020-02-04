@@ -98,6 +98,29 @@ float calcScienceFunction(float x, float y)
 	return exp(-(x * x + y * y));
 }
 
+GLuint lex(const std::vector<GLuint>& n, const std::vector<GLuint>& N)
+{
+	int k, l;
+	int d = N.size() - 1;
+
+	GLuint sum = 0;
+	GLuint prod = 1;
+
+	for (k = 2; k <= d; k++)
+	{
+		prod = 1;
+
+		for (l = 1; l < k - 1; l++)
+		{
+			prod *= N[l - 1];
+		}
+
+		sum += n[k - 1] * prod;
+	}
+
+	return n[0] + sum;
+}
+
 int main(int argc, char** argv)
 {
 	const char * glslVersion = "#version 440 core";
