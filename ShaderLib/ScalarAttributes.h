@@ -12,11 +12,9 @@ public:
 	ScalarAttributes(size_t size) : _values(size)
 	{}
 	
-	void	 setC0Scalar(int i,float v)
-	{ _values[i] = v; }
+	void	 setC0Scalar(int i, float v);
 	
-	float getC0Scalar(int i)
-	{ return _values[i]; }
+	float getC0Scalar(int i);
 
 	float getMin();
 	

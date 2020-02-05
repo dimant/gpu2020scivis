@@ -5,12 +5,12 @@ int	UniformGrid::getCell(int i, int* v)
 {
 	size_t cell_row = i / (_N1-1);
 	size_t cell_col = i % (_N1-1);
-	
+
 	v[0] = i + (int) cell_row;
 	v[1] = v[0] + 1;
 	v[2] = v[1] + (int)_N1;
 	v[3] = v[0] + (int)_N1;
-	
+
 	return 4;
 }
 
@@ -33,4 +33,35 @@ int UniformGrid::findCell(float* p)
 		//go from cell coordinates to cell index
 		return C[0] + C[1] * (int) _N1;
 	}
+}
+
+size_t UniformGrid::numPoints()
+{
+	return _N1 * _N2;
+}
+
+size_t UniformGrid::numCells()
+{
+	return (_N1 - 1) * (_N2 - 1);
+}
+
+void	 UniformGrid::getPoint(int i, float* p)
+{
+	p[0] = _m1 + (i % _N1) * _d1;
+	p[1] = _m2 + (i / _N1) * _d2;
+}
+
+size_t UniformGrid::getDimension1()
+{
+	return _N1;
+}
+
+size_t UniformGrid::getDimension2()
+{
+	return _N2;
+}
+
+ScalarAttributes& UniformGrid::pointScalars()
+{
+	return _scalars;
 }

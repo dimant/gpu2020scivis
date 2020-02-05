@@ -20,6 +20,8 @@
 
 #include "Floor.h"
 
+#include "UniformGrid.h"
+
 UI* g_ui;
 Scene* g_scene;
 Light* g_light;
@@ -119,6 +121,16 @@ GLuint lex(const std::vector<GLuint>& n, const std::vector<GLuint>& N)
 	}
 
 	return n[0] + sum;
+}
+
+UniformGrid* sampleUniformGrid()
+{
+	size_t N = (size_t) round(6.0f / 0.25f);
+	size_t m = -3;
+	size_t M = 3;
+	auto result = new UniformGrid(N, N, m, m, M, M);
+
+
 }
 
 int main(int argc, char** argv)
