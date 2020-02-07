@@ -31,30 +31,21 @@ public:
 		_d2((M2 - m2) / (N2 - 1))
 	{ }
 
-	size_t numPoints() 
-	{ return _N1 * _N2; }
+	size_t numPoints();
 
-	size_t numCells()
-	{ return (_N1 - 1) * (_N2 - 1); }
+	size_t numCells();
 
-	void	 getPoint(int i,float* p) 
-	{
-		p[0] = _m1 + (i % _N1) * _d1;
-		p[1] = _m2 + (i / _N1) * _d2;
-	}
+	void	 getPoint(int i, float* p);
 
-	int getCell(int i,int* c);
+	int getCell(int i, int* v);
 
-	size_t getDimension1()
-	{ return _N1; }
+	size_t getDimension1();
 
-	size_t getDimension2()
-	{ return _N2; }
+	size_t getDimension2();
 
 	int findCell(float*);
 
-	ScalarAttributes& pointScalars()
-	{ return _scalars; }
+	ScalarAttributes& pointScalars();
 };
 
 #endif
