@@ -89,7 +89,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="EX4_UnitTests.cpp" />
+    <ClCompile Include="TriangulationTests.cpp" />
+    <ClCompile Include="UniformGridTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ex4_HelloSciVis\Ex4_HelloSciVis.vcxproj">
@@ -98,6 +99,9 @@
     <ProjectReference Include="..\ShaderLib\ShaderLib.vcxproj">
       <Project>{4618109b-ec95-45b6-a2b2-2761c798ebff}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Macros.h" />
   </ItemGroup>
   <Import Project="$(SolutionDir)\shared\scivis20-gl.targets" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

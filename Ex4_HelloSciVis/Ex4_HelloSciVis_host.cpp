@@ -22,6 +22,8 @@
 
 #include "UniformGrid.h"
 
+#include "DataBuilder.h"
+
 UI* g_ui;
 Scene* g_scene;
 Light* g_light;
@@ -93,11 +95,6 @@ GLint initShaders(GLuint & program)
 	ISOK(buildShaderProgram(program, shaderFiles));
 
 	return GL_TRUE;
-}
-
-float calcScienceFunction(float x, float y)
-{
-	return exp(-(x * x + y * y));
 }
 
 GLuint lex(const std::vector<GLuint>& n, const std::vector<GLuint>& N)
@@ -208,8 +205,19 @@ int main(int argc, char** argv)
 	Scene scene(program);
 	g_scene = &scene;
 
-	auto floor = createFloor(program);
-	floor->init();
+	//auto floor = createFloor(program);
+	//floor->init();
+
+	size_t N = (size_t) round(6.0f / 0.25f);
+	float m = -3;
+	float M = 3;
+	UniformGrid grid(N, N, m, m, M, M);
+
+	auto dataBuilder = new DataBuilder();
+	auto data = dataBuilder->createData(program, grid);
+
+	data->init();
+	tc.add(data.get());
 
 	MouseInput mouseInput(tc, light);
 	g_mouseInput = &mouseInput;
@@ -224,7 +232,7 @@ int main(int argc, char** argv)
 		}
 	});
 
-	g_ui->EnableDirectionalLightHandler.Value = false;
+	g_ui->EnableDirectionalLightHandler.Value = true;
 	light.setDirectionalLight(g_ui->EnableDirectionalLightHandler.Value);
 	g_ui->EnableDirectionalLightHandler.connect([](bool v) { g_light->setDirectionalLight(v); });
 
@@ -281,7 +289,8 @@ int main(int argc, char** argv)
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		floor->draw();
+		//floor->draw();
+		data->draw();
 
 		g_ui->draw();
 
@@ -291,7 +300,8 @@ int main(int argc, char** argv)
 		timeCallback();
 	}
 
-	floor->destroy();
+	//floor->destroy();
+	data->destroy();
 
 	g_ui->destroy();
 

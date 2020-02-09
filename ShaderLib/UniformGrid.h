@@ -43,7 +43,7 @@ public:
 
 	size_t numVertices();
 
-	virtual void	 getPoint(size_t i, Point & p);
+	virtual void getPoint(size_t i, Point & p);
 
 	virtual void getVertex(size_t i, glm::vec3 & v);
 
@@ -53,13 +53,17 @@ public:
 
 	size_t getDimension1();
 
+	glm::vec2 getRange1();
+
 	size_t getDimension2();
+
+	glm::vec2 getRange2();
 
 	size_t findCell(const Point & p);
 
 	void getTris(float * data);
 
-	const ScalarAttributes& pointScalars();
+	ScalarAttributes& pointScalars();
 
 	void sample(std::function<float(float, float)> func);
 };

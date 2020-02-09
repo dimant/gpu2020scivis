@@ -49,7 +49,7 @@ size_t UniformGrid::numVertices()
 	return numCells() * 2 * 3;
 }
 
-void	 UniformGrid::getPoint(size_t i, Point & p)
+void UniformGrid::getPoint(size_t i, Point & p)
 {
 	p.x = _m1 + (i % _N1) * _d1;
 	p.y = _m2 + (i / _N1) * _d2;
@@ -60,12 +60,22 @@ size_t UniformGrid::getDimension1()
 	return _N1;
 }
 
+glm::vec2 UniformGrid::getRange1()
+{
+	return glm::vec2(_m1, _M1);
+}
+
 size_t UniformGrid::getDimension2()
 {
 	return _N2;
 }
 
-const ScalarAttributes& UniformGrid::pointScalars()
+glm::vec2 UniformGrid::getRange2()
+{
+	return glm::vec2(_m2, _M2);
+}
+
+ScalarAttributes& UniformGrid::pointScalars()
 {
 	return _scalars;
 }

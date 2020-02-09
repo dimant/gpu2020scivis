@@ -39,6 +39,9 @@
     <ClCompile Include="Ex4_HelloSciVis_host.cpp">
       <Filter>sources</Filter>
     </ClCompile>
+    <ClCompile Include="DataBuilder.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MouseInput.h">
@@ -66,6 +69,9 @@
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="Floor.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="DataBuilder.h">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>

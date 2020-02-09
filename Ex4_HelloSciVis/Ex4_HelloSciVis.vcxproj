@@ -67,6 +67,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DataBuilder.cpp" />
     <ClCompile Include="Floor.cpp" />
     <ClCompile Include="Ex4_HelloSciVis_host.cpp" />
     <ClCompile Include="Light.cpp" />
@@ -82,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConfigHandler.h" />
+    <ClInclude Include="DataBuilder.h" />
     <ClInclude Include="Floor.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Model.h" />

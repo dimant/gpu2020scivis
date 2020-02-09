@@ -4,16 +4,15 @@
 
 #include <glm\glm.hpp>
 
-#include "triangulation.h"
+#include "Macros.h"
 
-#define EPSILON 0.00001
-#define almosteq(x, y) (abs(x - y) <= EPSILON * max3(1.0f, abs(x), abs(y)))
+#include "triangulation.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace EX4UnitTests
 {
-	TEST_CLASS(EX4UnitTests)
+	TEST_CLASS(TriangulationTests)
 	{
 	public:
 		
