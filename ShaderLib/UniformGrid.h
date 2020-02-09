@@ -41,15 +41,23 @@ public:
 
 	size_t numCells();
 
+	size_t numVertices();
+
 	virtual void	 getPoint(size_t i, Point & p);
 
+	virtual void getVertex(size_t i, glm::vec3 & v);
+
 	void getCell(size_t i, Cell & c);
+
+	void getQuad(size_t i, Quad & quad);
 
 	size_t getDimension1();
 
 	size_t getDimension2();
 
 	size_t findCell(const Point & p);
+
+	void getTris(float * data);
 
 	const ScalarAttributes& pointScalars();
 

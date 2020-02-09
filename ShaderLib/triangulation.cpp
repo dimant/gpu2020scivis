@@ -30,9 +30,9 @@ inline void copyVertex(const glm::vec3 & v, float* data)
 
 // given a Quad, subdivide into 2 tris along optimal diagonal, 
 // write tris to data and return number of written floats
-size_t triangulate(const Quad & quad, float * data)
+size_t triangulate(const Quad & quad, float* data)
 {
-	float * cursor = data;
+	float* cursor = data;
 	bool diag = diagonal(quad);
 
 	if (diag)

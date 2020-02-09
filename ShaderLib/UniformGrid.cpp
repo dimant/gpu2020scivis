@@ -1,5 +1,7 @@
 #include "UniformGrid.h"
 
+#include "triangulation.h"
+
 // given lexicographic index, find cell vertices (quads assumed)
 void UniformGrid::getCell(size_t i, Cell & c)
 {
@@ -41,6 +43,12 @@ size_t UniformGrid::numCells()
 	return (_N1 - 1) * (_N2 - 1);
 }
 
+size_t UniformGrid::numVertices()
+{
+	// 2 tris, 3 vertices each
+	return numCells() * 2 * 3;
+}
+
 void	 UniformGrid::getPoint(size_t i, Point & p)
 {
 	p.x = _m1 + (i % _N1) * _d1;
@@ -60,6 +68,41 @@ size_t UniformGrid::getDimension2()
 const ScalarAttributes& UniformGrid::pointScalars()
 {
 	return _scalars;
+}
+
+void UniformGrid::getVertex(size_t i, glm::vec3 & v)
+{
+	Point p;
+	getPoint(i, p);
+
+	v.x = p.x;
+	v.y = p.y;
+	v.z = _scalars.getC0Scalar(i);
+}
+
+void UniformGrid::getQuad(size_t i, Quad & quad)
+{
+	Cell cell;
+	getCell(i, cell);
+
+	getVertex(cell.v1, quad.v1);
+	getVertex(cell.v2, quad.v2);
+	getVertex(cell.v3, quad.v3);
+	getVertex(cell.v4, quad.v4);
+}
+
+void UniformGrid::getTris(float* data)
+{
+	int i;
+	Quad q;
+	float* cursor = data;
+
+	for (i = 0; i < numCells(); i++)
+	{
+		getQuad(i, q);
+
+		cursor += triangulate(q, cursor);
+	}
 }
 
 void UniformGrid::sample(std::function<float(float, float)> func)
