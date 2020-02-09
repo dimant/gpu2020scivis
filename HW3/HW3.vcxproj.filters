@@ -45,6 +45,9 @@
     <ClCompile Include="LineStrip.cpp">
       <Filter>sources</Filter>
     </ClCompile>
+    <ClCompile Include="IsoBuilder.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MouseInput.h">
@@ -78,6 +81,9 @@
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="LineStrip.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="IsoBuilder.h">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>

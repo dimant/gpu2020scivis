@@ -70,6 +70,7 @@
     <ClCompile Include="DataBuilder.cpp" />
     <ClCompile Include="Floor.cpp" />
     <ClCompile Include="HW3_host.cpp" />
+    <ClCompile Include="IsoBuilder.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="LineStrip.cpp" />
     <ClCompile Include="Model.cpp" />
@@ -88,6 +89,7 @@
     <ClInclude Include="ConfigHandler.h" />
     <ClInclude Include="DataBuilder.h" />
     <ClInclude Include="Floor.h" />
+    <ClInclude Include="IsoBuilder.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="LineStrip.h" />
     <ClInclude Include="Model.h" />

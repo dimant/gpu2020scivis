@@ -12,13 +12,13 @@ public:
 	ScalarAttributes(size_t size) : _values(size)
 	{}
 	
-	void	 setC0Scalar(int i, float v);
+	void setC0Scalar(size_t i, float v);
 	
-	float getC0Scalar(int i);
+	const float getC0Scalar(const size_t i);
 
-	float getMin();
+	const float getMin();
 	
-	float getMax();
+	const float getMax();
 };
 
 #endif

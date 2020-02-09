@@ -2,22 +2,22 @@
 
 #include "ScalarAttributes.h"
 
-float ScalarAttributes::getMin()
+const float ScalarAttributes::getMin()
 {
 	return *std::min_element(_values.begin(), _values.end());
 }
 
-float ScalarAttributes::getMax()
+const float ScalarAttributes::getMax()
 {
 	return *std::max_element(_values.begin(), _values.end());
 }
 
-void	 ScalarAttributes::setC0Scalar(int i, float v)
+void ScalarAttributes::setC0Scalar(const size_t i, const float v)
 {
 	_values[i] = v;
 }
 
-float ScalarAttributes::getC0Scalar(int i)
+const float ScalarAttributes::getC0Scalar(const size_t i)
 {
 	return _values[i];
 }

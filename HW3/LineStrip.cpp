@@ -27,7 +27,7 @@ void LineStrip::init()
 
 	if (GL_FALSE == setMat4(_program, _model, "mModel"))
 	{
-		throw "Could not set model HarleyCube matrix.";
+		throw "Could not set LineStrip matrix.";
 	}
 }
 

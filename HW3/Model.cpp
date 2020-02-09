@@ -41,14 +41,14 @@ void Model::init()
 {
 	if (GL_FALSE == loadTexture(_texture, _textureName))
 	{
-		throw "Could not load HarleyCube texture.";
+		throw "Could not load Model texture.";
 	}
 
 	initVao(_program);
 
 	if (GL_FALSE == setMat4(_program, _model, "mModel"))
 	{
-		throw "Could not set model HarleyCube matrix.";
+		throw "Could not set model Model matrix.";
 	}
 }
 

@@ -24,7 +24,7 @@ class LineStrip : public Transformable
 	void initVao(const GLuint & program);
 
 public:
-	LineStrip(GLuint program, size_t ndata, void* data, const char* textureName) :
+	LineStrip(GLuint program, size_t ndata, void* data) :
 		_program(program),
 		_ndata(ndata),
 		_data(data),

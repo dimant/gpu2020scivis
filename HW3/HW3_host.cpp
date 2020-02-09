@@ -24,6 +24,7 @@
 #include "RectilinearGrid.h"
 
 #include "DataBuilder.h"
+#include "IsoBuilder.h"
 
 UI* g_ui;
 Scene* g_scene;
@@ -227,8 +228,13 @@ int main(int argc, char** argv)
 
 	tc.add(&light);
 
+	GLuint lineProgram;
+	ISOK(initLineShaders(lineProgram));
+
 	Scene scene;
 	scene.addProgram(modelProgram);
+	scene.addProgram(lineProgram);
+	scene.apply();
 	g_scene = &scene;
 
 	//auto floor = createFloor(program);
@@ -241,11 +247,17 @@ int main(int argc, char** argv)
 
 	auto grid = createRectGrid();
 
-	auto dataBuilder = new DataBuilder();
-	auto data = dataBuilder->createData(modelProgram, grid);
+	DataBuilder dataBuilder;
+	auto data = dataBuilder.createData(modelProgram, grid);
 
 	data->init();
 	tc.add(data.get());
+
+	IsoBuilder isoBuilder;
+	auto iso = isoBuilder.createIsoLine(lineProgram, grid, 0.0f);
+
+	iso->init();
+	tc.add(iso.get());
 
 	MouseInput mouseInput(tc, light);
 	g_mouseInput = &mouseInput;
@@ -323,6 +335,7 @@ int main(int argc, char** argv)
 
 		//floor->draw();
 		data->draw();
+		iso->draw();
 
 		g_ui->draw();
 
@@ -334,6 +347,7 @@ int main(int argc, char** argv)
 
 	//floor->destroy();
 	data->destroy();
+	iso->destroy();
 
 	g_ui->destroy();
 
