@@ -2,8 +2,8 @@
 
 std::shared_ptr<Model> DataBuilder::createData(GLuint program, UniformGrid & grid)
 {
-	//auto scienceFunction = [](float x, float y) { return exp(-(x * x + y * y)); };
-	auto scienceFunction = [](float x, float y) { return sin(1 / (x * x + y * y)); };
+	auto scienceFunction = [](float x, float y) { return exp(-(x * x + y * y)); };
+	//auto scienceFunction = [](float x, float y) { return sin(1 / (x * x + y * y)); };
 
 	// assuming that v.z = f(x, y)
 	auto normalFunction = [](glm::vec3 v) {
@@ -48,5 +48,5 @@ std::shared_ptr<Model> DataBuilder::createData(GLuint program, UniformGrid & gri
 		data[i].material = material;
 	}
 
-	return std::make_shared<Model>(program, sizeof(VertAtt) * nVert, data, "textures\\brickwall.jpg");
+	return std::make_shared<Model>(program, sizeof(VertAtt) * nVert, data, "textures\\sphere.jpg");
 }

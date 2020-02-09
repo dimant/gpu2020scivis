@@ -13,6 +13,8 @@ class LineStrip : public Transformable
 
 	size_t _ndata;
 
+	GLuint _lineWidth;
+
 	const GLuint _program;
 
 	glm::mat4 _model;
@@ -28,7 +30,8 @@ public:
 		_program(program),
 		_ndata(ndata),
 		_data(data),
-		_model(glm::mat4(1.0f))
+		_model(glm::mat4(1.0f)),
+		_lineWidth(5)
 	{}
 
 	virtual void transform(Transform t);

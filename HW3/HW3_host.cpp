@@ -254,7 +254,7 @@ int main(int argc, char** argv)
 	tc.add(data.get());
 
 	IsoBuilder isoBuilder;
-	auto iso = isoBuilder.createIsoLine(lineProgram, grid, 0.0f);
+	auto iso = isoBuilder.createIsoLine(lineProgram, grid, 0.5f);
 
 	iso->init();
 	tc.add(iso.get());

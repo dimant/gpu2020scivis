@@ -35,7 +35,9 @@ void LineStrip::draw()
 {
 	setMat4(_program, _model, "mModel");
 	glBindVertexArray(_vao);
-	glDrawArrays(GL_LINE_STRIP, 0, _ndata);
+	glLineWidth(_lineWidth);
+	glDrawArrays(GL_LINES, 0, _ndata);
+	glLineWidth(1);
 	glBindVertexArray(0);
 	setMat4(_program, glm::mat4(), "mModel");
 }

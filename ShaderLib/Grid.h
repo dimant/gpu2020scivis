@@ -5,11 +5,7 @@
 
 #include <glm\glm.hpp>
 
-struct Point
-{
-	float x;
-	float y;
-};
+typedef glm::vec2 Point;
 
 struct Cell
 {
