@@ -28,7 +28,7 @@ uniform float fEnableDirectionalLight;
 
 uniform sampler2D texSampler;
 
-void main()
+vec4 light()
 {
 	// ambient
 	vec3 ambient = vLightColor * material.x;
@@ -57,15 +57,19 @@ void main()
 	float falloff = pow(cosphi, fSpotEpsilon);
 	float spot = step(fSpotCosTheta, cosphi) * falloff;
 
-	// texture
-	vec4 color = texture(texSampler, texCoord);
-
 	// UPL
-	vec4 light = vec4((
+	return vec4((
 		ambient * attenuation +
 		diffuse * attenuation * spot +
 		specular * attenuation * spot
 	), 1.0f);
 
-	frag_color = color * light;
+}
+
+void main()
+{
+	// texture
+	vec4 color = texture(texSampler, texCoord);
+
+	frag_color = color * light();
 }
