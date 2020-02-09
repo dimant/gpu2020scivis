@@ -102,8 +102,8 @@ float calcScienceFunction(float x, float y)
 
 GLuint lex(const std::vector<GLuint>& n, const std::vector<GLuint>& N)
 {
-	int k, l;
-	int d = N.size() - 1;
+	size_t k, l;
+	size_t d = N.size() - 1;
 
 	GLuint sum = 0;
 	GLuint prod = 1;
@@ -123,14 +123,35 @@ GLuint lex(const std::vector<GLuint>& n, const std::vector<GLuint>& N)
 	return n[0] + sum;
 }
 //
-//UniformGrid* sampleUniformGrid()
+//UniformGrid* sampleUniformGrid(
+//	size_t N1, size_t N2,
+//	size_t m1,size_t m2,
+//	size_t M1, size_t M2,
+//	std::function<float(size_t, size_t)> func)
 //{
-//	size_t N = (size_t) round(6.0f / 0.25f);
-//	size_t m = -3;
-//	size_t M = 3;
-//	auto result = new UniformGrid(N, N, m, m, M, M);
+//	//size_t N = (size_t) round(6.0f / 0.25f);
+//	//size_t m = -3;
+//	//size_t M = 3;
+//	UniformGrid* result = new UniformGrid(N1, N2, m1, m2, M1, M2);
 //
+//	float xStep = (M1 - m1) / (N1 - 1.0f);
+//	float ystep = (M2 - m2) / (N2 - 1.0f);
 //
+//	int n1, n2 = 0;
+//	int ilex = 0;
+//	float sample = 0.0f;
+//
+//	for (n2 = 0; n2 < N2; n2++)
+//	{
+//		for (n1 = 0; n1 < N1; n1++)
+//		{
+//			ilex = n1 + n2 * N1;
+//			sample = func(n1, n2);
+//			result->pointScalars().setC0Scalar(ilex, sample);
+//		}
+//	}
+//
+//	return result;
 //}
 
 int main(int argc, char** argv)

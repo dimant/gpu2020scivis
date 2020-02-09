@@ -56,6 +56,9 @@
     <ClCompile Include="UniformGrid.cpp">
       <Filter>Source Files\grids</Filter>
     </ClCompile>
+    <ClCompile Include="triangulation.cpp">
+      <Filter>Source Files\grids</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="shaderlib.h">
@@ -98,6 +101,9 @@
       <Filter>Header Files\grids</Filter>
     </ClInclude>
     <ClInclude Include="UniformGrid.h">
+      <Filter>Header Files\grids</Filter>
+    </ClInclude>
+    <ClInclude Include="triangulation.h">
       <Filter>Header Files\grids</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,38 +1,34 @@
 #include "UniformGrid.h"
 
 // given lexicographic index, find cell vertices (quads assumed)
-int	UniformGrid::getCell(int i, int* v)
+void UniformGrid::getCell(size_t i, Cell & c)
 {
 	size_t cell_row = i / (_N1-1);
 	size_t cell_col = i % (_N1-1);
 
-	v[0] = i + (int) cell_row;
-	v[1] = v[0] + 1;
-	v[2] = v[1] + (int)_N1;
-	v[3] = v[0] + (int)_N1;
-
-	return 4;
+	c.v1 = i + cell_row;
+	c.v2 = c.v1 + 1;
+	c.v3 = c.v2 + _N1;
+	c.v4 = c.v1 + _N1;
 }
 
 // given 2D position p = px[0], py[1] find cell which contains it
-int UniformGrid::findCell(float* p)
+size_t UniformGrid::findCell(const Point & p)
 {
-	int C[2];
-
-	//compute cell coordinates C[0] ,C[1]
-	C[0] = (int) floor((p[0] - _m1) * _N1 / _d1);
-	C[1] = (int) floor((p[1] - _m2) * _N2 / _d2);
+	size_t n1, n2;
 
 	//test if p is inside the dataset
-	if (C[0] < 0 || C[0] >= _N1 - 1 || C[1] < 0 || C[1] >= _N2 - 1)
+	if (p.x < _m1 || p.x >= _N1 - 1 || p.y < _m2 || p.y >= _N2 - 1)
 	{
 		return -1;
 	}
-	else
-	{
-		//go from cell coordinates to cell index
-		return C[0] + C[1] * (int) _N1;
-	}
+
+	//compute cell coordinates C[0] ,C[1]
+	n1 = (size_t) floor((p.x - _m1) * _N1 / _d1);
+	n2 = (size_t) floor((p.x - _m2) * _N2 / _d2);
+
+	//go from cell coordinates to cell index
+	return n1 + n2 * _N1;
 }
 
 size_t UniformGrid::numPoints()
@@ -45,10 +41,10 @@ size_t UniformGrid::numCells()
 	return (_N1 - 1) * (_N2 - 1);
 }
 
-void	 UniformGrid::getPoint(int i, float* p)
+void	 UniformGrid::getPoint(size_t i, Point & p)
 {
-	p[0] = _m1 + (i % _N1) * _d1;
-	p[1] = _m2 + (i / _N1) * _d2;
+	p.x = _m1 + (i % _N1) * _d1;
+	p.y = _m2 + (i / _N1) * _d2;
 }
 
 size_t UniformGrid::getDimension1()
@@ -61,7 +57,20 @@ size_t UniformGrid::getDimension2()
 	return _N2;
 }
 
-ScalarAttributes& UniformGrid::pointScalars()
+const ScalarAttributes& UniformGrid::pointScalars()
 {
 	return _scalars;
+}
+
+void UniformGrid::sample(std::function<float(float, float)> func)
+{
+	float sample = 0.0f;
+	Point p;
+
+	for (int i = 0; i < numPoints(); i++)
+	{
+		getPoint(i, p);
+		sample = func(p.x, p.y);
+		_scalars.setC0Scalar(i, sample);
+	}
 }

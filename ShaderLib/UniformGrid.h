@@ -1,6 +1,8 @@
 #ifndef UNIFORMGRID_H
 #define UNIFORMGRID_H
 
+#include <functional>
+
 #include "Grid.h"
 #include "ScalarAttributes.h"
 
@@ -22,11 +24,15 @@ protected:
 	float _m1;
 	float _m2;
 
+	float _M1;
+	float _M2;
+
 public:
 	UniformGrid(size_t N1, size_t N2, float m1, float m2, float M1, float M2) :
 		_scalars(N1 * N2),
 		_N1(N1), _N2(N2),
 		_m1(m1), _m2(m2),
+		_M1(M1), _M2(M2),
 		_d1((M1 - m1) / (N1 - 1)),
 		_d2((M2 - m2) / (N2 - 1))
 	{ }
@@ -35,17 +41,19 @@ public:
 
 	size_t numCells();
 
-	void	 getPoint(int i, float* p);
+	virtual void	 getPoint(size_t i, Point & p);
 
-	int getCell(int i, int* v);
+	void getCell(size_t i, Cell & c);
 
 	size_t getDimension1();
 
 	size_t getDimension2();
 
-	int findCell(float*);
+	size_t findCell(const Point & p);
 
-	ScalarAttributes& pointScalars();
+	const ScalarAttributes& pointScalars();
+
+	void sample(std::function<float(float, float)> func);
 };
 
 #endif

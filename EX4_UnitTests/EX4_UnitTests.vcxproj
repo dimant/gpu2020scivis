@@ -59,8 +59,9 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -77,6 +78,8 @@
       <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -91,6 +94,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Ex4_HelloSciVis\Ex4_HelloSciVis.vcxproj">
       <Project>{d32e41bf-0237-4052-914d-f01c53ecdc8c}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\ShaderLib\ShaderLib.vcxproj">
+      <Project>{4618109b-ec95-45b6-a2b2-2761c798ebff}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(SolutionDir)\shared\scivis20-gl.targets" />

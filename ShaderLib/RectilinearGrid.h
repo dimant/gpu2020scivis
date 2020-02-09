@@ -26,7 +26,7 @@ public:
 			_dX(dimsX), _dY(dimsY)
 		{ }
 
-	void getPoint(int i, float* p);
+	void	 getPoint(size_t i, Point &  p);
 };
 
 #endif
