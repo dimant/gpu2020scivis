@@ -18,9 +18,12 @@
 #include "Light.h"
 #include "MouseInput.h"
 
-#include "HarleyCube.h"
-#include "SphereBuilder.h"
 #include "Floor.h"
+
+#include "UniformGrid.h"
+#include "RectilinearGrid.h"
+
+#include "DataBuilder.h"
 
 UI* g_ui;
 Scene* g_scene;
@@ -86,13 +89,91 @@ void initCallbacks(GLFWwindow* window)
 
 GLint initModelShaders(GLuint & program)
 {
-	shaderFile vertexShader{ GL_VERTEX_SHADER, "vshaderHCube.glsl" };
-	shaderFile fragmentShader{ GL_FRAGMENT_SHADER, "fshaderHCube.glsl" };
+	shaderFile vertexShader{ GL_VERTEX_SHADER, "ModelVShader.glsl" };
+	shaderFile fragmentShader{ GL_FRAGMENT_SHADER, "ModelFShader.glsl" };
 	std::vector<shaderFile> shaderFiles{ vertexShader, fragmentShader };
 
 	ISOK(buildShaderProgram(program, shaderFiles));
 
 	return GL_TRUE;
+}
+
+GLint initLineShaders(GLuint & program)
+{
+	shaderFile vertexShader{ GL_VERTEX_SHADER, "LineVShader.glsl" };
+	shaderFile fragmentShader{ GL_FRAGMENT_SHADER, "LineFShader.glsl" };
+	std::vector<shaderFile> shaderFiles{ vertexShader, fragmentShader };
+
+	ISOK(buildShaderProgram(program, shaderFiles));
+
+	return GL_TRUE;
+}
+
+GLuint lex(const std::vector<GLuint>& n, const std::vector<GLuint>& N)
+{
+	size_t k, l;
+	size_t d = N.size() - 1;
+
+	GLuint sum = 0;
+	GLuint prod = 1;
+
+	for (k = 2; k <= d; k++)
+	{
+		prod = 1;
+
+		for (l = 1; l < k - 1; l++)
+		{
+			prod *= N[l - 1];
+		}
+
+		sum += n[k - 1] * prod;
+	}
+
+	return n[0] + sum;
+}
+
+// 0.25 for | 2 | < x, y <= | 3 |
+// 0.1 for | 1 | < x, y <= | 2 |
+// 0.025 for 0 <= x, y <= | 1 |
+
+RectilinearGrid createRectGrid()
+{
+	std::vector<float> dimsX;
+	std::vector<float> dimsY;
+
+	float d = -3.0f;
+
+	dimsX.push_back(d);
+	dimsY.push_back(d);
+
+	while (d <= 3.0f)
+	{
+		if (d < -2.0f)
+		{
+			d += 0.25f;
+		}
+		else if (d < -1.0f)
+		{
+			d += 0.1f;
+		}
+		else if (d < 1.0f)
+		{
+			d += 0.025f;
+		}
+		else if (d < 2.0f)
+		{
+			d += 0.1f;
+		}
+		else
+		{
+			d += 0.25f;
+		}
+
+		dimsX.push_back(d);
+		dimsY.push_back(d);
+	}
+
+	return RectilinearGrid(dimsX, dimsY);
 }
 
 int main(int argc, char** argv)
@@ -131,37 +212,40 @@ int main(int argc, char** argv)
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-	GLuint program;
-	ISOK(initModelShaders(program));
-	glUseProgram(program);
+	GLuint modelProgram;
+	ISOK(initModelShaders(modelProgram));
+	glUseProgram(modelProgram);
 
 	UI ui;
 	g_ui = &ui;
 	g_ui->init(window, glslVersion);
 	TransformableContainer tc;
 
-	auto harleyCube = createHarleyCube(program);
-	harleyCube->init();
-	harleyCube->transform([](glm::mat4 m) { return glm::translate(m, glm::vec3(1.0f, 0.0f, 0.0f)); });
-
-	SphereBuilder sphereBuilder;
-	auto sphere = sphereBuilder.createSphere(program, 4);
-	sphere->init();
-	sphere->transform([](glm::mat4 m) { return glm::translate(m, glm::vec3(-1.0f, 0.0f, 0.0f)); });
-
-	Light light(program);
+	Light light(modelProgram);
 	light.setPosition(glm::vec3(0.0f, 3.0f, 3.0f));
 	g_light = &light;
 
-	tc.add(harleyCube.get());
-	tc.add(sphere.get());
 	tc.add(&light);
 
-	Scene scene(program);
+	Scene scene;
+	scene.addProgram(modelProgram);
 	g_scene = &scene;
 
-	auto floor = createFloor(program);
-	floor->init();
+	//auto floor = createFloor(program);
+	//floor->init();
+
+	//size_t N = (size_t) round(6.0f / 0.25f);
+	//float m = -3;
+	//float M = 3;
+	//UniformGrid grid(N, N, m, m, M, M);
+
+	auto grid = createRectGrid();
+
+	auto dataBuilder = new DataBuilder();
+	auto data = dataBuilder->createData(modelProgram, grid);
+
+	data->init();
+	tc.add(data.get());
 
 	MouseInput mouseInput(tc, light);
 	g_mouseInput = &mouseInput;
@@ -176,9 +260,13 @@ int main(int argc, char** argv)
 		}
 	});
 
-	g_ui->EnableDirectionalLightHandler.Value = false;
+	g_ui->EnableDirectionalLightHandler.Value = true;
 	light.setDirectionalLight(g_ui->EnableDirectionalLightHandler.Value);
 	g_ui->EnableDirectionalLightHandler.connect([](bool v) { g_light->setDirectionalLight(v); });
+
+	g_ui->EnableWireFrameHandler.Value = false;
+	g_scene->setPolygonMode(g_ui->EnableWireFrameHandler.Value);
+	g_ui->EnableWireFrameHandler.connect([](bool v) { g_scene->setPolygonMode(v); });
 
 	g_ui->EnableAttenuationLightHandler.Value = true;
 	light.setEnableAttenuation(g_ui->EnableAttenuationLightHandler.Value);
@@ -233,9 +321,8 @@ int main(int argc, char** argv)
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		floor->draw();
-		harleyCube->draw();
-		sphere->draw();
+		//floor->draw();
+		data->draw();
 
 		g_ui->draw();
 
@@ -245,9 +332,8 @@ int main(int argc, char** argv)
 		timeCallback();
 	}
 
-	harleyCube->destroy();
-	sphere->destroy();
-	floor->destroy();
+	//floor->destroy();
+	data->destroy();
 
 	g_ui->destroy();
 

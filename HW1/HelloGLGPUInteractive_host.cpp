@@ -20,7 +20,7 @@ MouseInput* g_mouseInput;
 
 bool g_enableAutoRotation = false;
 
-GLint initShaders(GLuint & program)
+GLint initModelShaders(GLuint & program)
 {
 	GLint status = GL_FALSE;
 
@@ -212,7 +212,7 @@ int main(int argc, char** argv)
 	}
 
 	GLuint program;
-	GLint status = initShaders(program);
+	GLint status = initModelShaders(program);
 
 	if (GL_TRUE == status)
 	{

@@ -25,6 +25,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ex4_HelloSciVis", "Ex4_Hell
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EX4_UnitTests", "EX4_UnitTests\EX4_UnitTests.vcxproj", "{5139DE60-52B0-4848-B9AC-648DE13E4F0E}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HW3", "HW3\HW3.vcxproj", "{049D4A4C-C38F-43A1-A2EF-D6163275E083}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -79,6 +81,12 @@ Global
 		{5139DE60-52B0-4848-B9AC-648DE13E4F0E}.Release|x64.ActiveCfg = Release|x64
 		{5139DE60-52B0-4848-B9AC-648DE13E4F0E}.Release|x64.Build.0 = Release|x64
 		{5139DE60-52B0-4848-B9AC-648DE13E4F0E}.Release|x86.ActiveCfg = Release|x64
+		{049D4A4C-C38F-43A1-A2EF-D6163275E083}.Debug|x64.ActiveCfg = Debug|x64
+		{049D4A4C-C38F-43A1-A2EF-D6163275E083}.Debug|x64.Build.0 = Debug|x64
+		{049D4A4C-C38F-43A1-A2EF-D6163275E083}.Debug|x86.ActiveCfg = Debug|x64
+		{049D4A4C-C38F-43A1-A2EF-D6163275E083}.Release|x64.ActiveCfg = Release|x64
+		{049D4A4C-C38F-43A1-A2EF-D6163275E083}.Release|x64.Build.0 = Release|x64
+		{049D4A4C-C38F-43A1-A2EF-D6163275E083}.Release|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -87,7 +87,7 @@ void initCallbacks(GLFWwindow* window)
 	glfwSetCursorPosCallback(window, mousePositionCallback);
 }
 
-GLint initShaders(GLuint & program)
+GLint initModelShaders(GLuint & program)
 {
 	shaderFile vertexShader{ GL_VERTEX_SHADER, "vshaderHCube.glsl" };
 	shaderFile fragmentShader{ GL_FRAGMENT_SHADER, "fshaderHCube.glsl" };
@@ -202,7 +202,7 @@ int main(int argc, char** argv)
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 	GLuint program;
-	ISOK(initShaders(program));
+	ISOK(initModelShaders(program));
 	glUseProgram(program);
 
 	UI ui;
