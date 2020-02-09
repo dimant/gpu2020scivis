@@ -11,11 +11,11 @@ class RectilinearGrid : public UniformGrid
 {
 private:
 	//Sampling positions along the X and Y axes
-	const std::vector<float>& _dX;
-	const std::vector<float>& _dY;
+	std::vector<float> _dX;
+	std::vector<float> _dY;
 
 public:
-	RectilinearGrid(const std::vector<float>& dimsX, const std::vector<float>& dimsY)
+	RectilinearGrid(std::vector<float> dimsX, std::vector<float> dimsY)
 		: UniformGrid(
 			dimsX.size(), //number of samples along X
 			dimsY.size(), //number of samples along y	
@@ -26,7 +26,7 @@ public:
 			_dX(dimsX), _dY(dimsY)
 		{ }
 
-	void	 getPoint(size_t i, Point &  p);
+	void getPoint(size_t i, Point &  p);
 };
 
 #endif

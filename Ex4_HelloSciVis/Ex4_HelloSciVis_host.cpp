@@ -21,6 +21,7 @@
 #include "Floor.h"
 
 #include "UniformGrid.h"
+#include "RectilinearGrid.h"
 
 #include "DataBuilder.h"
 
@@ -119,37 +120,50 @@ GLuint lex(const std::vector<GLuint>& n, const std::vector<GLuint>& N)
 
 	return n[0] + sum;
 }
-//
-//UniformGrid* sampleUniformGrid(
-//	size_t N1, size_t N2,
-//	size_t m1,size_t m2,
-//	size_t M1, size_t M2,
-//	std::function<float(size_t, size_t)> func)
-//{
-//	//size_t N = (size_t) round(6.0f / 0.25f);
-//	//size_t m = -3;
-//	//size_t M = 3;
-//	UniformGrid* result = new UniformGrid(N1, N2, m1, m2, M1, M2);
-//
-//	float xStep = (M1 - m1) / (N1 - 1.0f);
-//	float ystep = (M2 - m2) / (N2 - 1.0f);
-//
-//	int n1, n2 = 0;
-//	int ilex = 0;
-//	float sample = 0.0f;
-//
-//	for (n2 = 0; n2 < N2; n2++)
-//	{
-//		for (n1 = 0; n1 < N1; n1++)
-//		{
-//			ilex = n1 + n2 * N1;
-//			sample = func(n1, n2);
-//			result->pointScalars().setC0Scalar(ilex, sample);
-//		}
-//	}
-//
-//	return result;
-//}
+
+// 0.25 for | 2 | < x, y <= | 3 |
+// 0.1 for | 1 | < x, y <= | 2 |
+// 0.025 for 0 <= x, y <= | 1 |
+
+RectilinearGrid createRectGrid()
+{
+	std::vector<float> dimsX;
+	std::vector<float> dimsY;
+
+	float d = -3.0f;
+
+	dimsX.push_back(d);
+	dimsY.push_back(d);
+
+	while (d <= 3.0f)
+	{
+		if (d < -2.0f)
+		{
+			d += 0.25f;
+		}
+		else if (d < -1.0f)
+		{
+			d += 0.1f;
+		}
+		else if (d < 1.0f)
+		{
+			d += 0.025f;
+		}
+		else if (d < 2.0f)
+		{
+			d += 0.1f;
+		}
+		else
+		{
+			d += 0.25f;
+		}
+
+		dimsX.push_back(d);
+		dimsY.push_back(d);
+	}
+
+	return RectilinearGrid(dimsX, dimsY);
+}
 
 int main(int argc, char** argv)
 {
@@ -208,10 +222,12 @@ int main(int argc, char** argv)
 	//auto floor = createFloor(program);
 	//floor->init();
 
-	size_t N = (size_t) round(6.0f / 0.25f);
-	float m = -3;
-	float M = 3;
-	UniformGrid grid(N, N, m, m, M, M);
+	//size_t N = (size_t) round(6.0f / 0.25f);
+	//float m = -3;
+	//float M = 3;
+	//UniformGrid grid(N, N, m, m, M, M);
+
+	auto grid = createRectGrid();
 
 	auto dataBuilder = new DataBuilder();
 	auto data = dataBuilder->createData(program, grid);
