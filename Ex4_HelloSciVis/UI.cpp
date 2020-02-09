@@ -44,6 +44,9 @@ void UI::render()
 
 	ImGui::Text("Light");
 
+	changed = ImGui::Checkbox("Wireframe", &EnableWireFrameHandler.Value);
+	EnableWireFrameHandler.handle(changed);
+
 	changed = ImGui::Checkbox("Attenuation", &EnableAttenuationLightHandler.Value);
 	EnableAttenuationLightHandler.handle(changed);
 

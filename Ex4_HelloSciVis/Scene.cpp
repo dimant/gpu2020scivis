@@ -10,14 +10,13 @@
 
 Scene::Scene(const GLuint & program) :
 	_program(program),
-	_camPosition(glm::vec3(0.0f, 0.0f, 0.0f)),
-	_polygonMode(GL_LINE)
+	_camPosition(glm::vec3(0.0f, 0.0f, 0.0f))
 {
 	setView(glm::mat4(1.0f));
 	moveCamZ(4.0f);
 	setProj(glm::perspective(glm::radians(90.0f), 1.0f, 0.1f, 50.0f));
 
-	changePolygonMode();
+	setPolygonMode(false);
 }
 
 void Scene::moveCamZ(const float & factor)
@@ -53,16 +52,15 @@ void Scene::apply()
 	setProj(_proj);
 }
 
-void Scene::changePolygonMode()
+void Scene::setPolygonMode(bool mode)
 {
-	if (_polygonMode == GL_LINE)
+	if (mode)
 	{
-		_polygonMode = GL_FILL;
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	}
 	else
 	{
-		_polygonMode = GL_LINE;
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 
-	glPolygonMode(GL_FRONT_AND_BACK, _polygonMode);
 }

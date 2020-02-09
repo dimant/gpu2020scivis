@@ -23,9 +23,6 @@ private:
 
 	glm::vec3 _camPosition;
 
-	GLenum _polygonMode;
-
-
 public:
 	Scene(const GLuint & program);
 
@@ -37,7 +34,7 @@ public:
 
 	void moveCamZ(const float & factor);
 
-	void changePolygonMode();
+	void setPolygonMode(bool mode);
 };
 
 #endif

@@ -14,6 +14,8 @@ class UI
 private:
 	bool _showDemoWindow;
 public:
+	ConfigHandler<bool> EnableWireFrameHandler;
+
 	ConfigHandler<bool> EnableAutoRotationHandler;
 
 	ConfigHandler<bool> EnableDirectionalLightHandler;

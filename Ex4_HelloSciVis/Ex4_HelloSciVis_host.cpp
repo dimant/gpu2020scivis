@@ -252,6 +252,10 @@ int main(int argc, char** argv)
 	light.setDirectionalLight(g_ui->EnableDirectionalLightHandler.Value);
 	g_ui->EnableDirectionalLightHandler.connect([](bool v) { g_light->setDirectionalLight(v); });
 
+	g_ui->EnableWireFrameHandler.Value = false;
+	g_scene->setPolygonMode(g_ui->EnableWireFrameHandler.Value);
+	g_ui->EnableWireFrameHandler.connect([](bool v) { g_scene->setPolygonMode(v); });
+
 	g_ui->EnableAttenuationLightHandler.Value = true;
 	light.setEnableAttenuation(g_ui->EnableAttenuationLightHandler.Value);
 	g_ui->EnableAttenuationLightHandler.connect([](bool v) { g_light->setEnableAttenuation(v); });
