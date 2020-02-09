@@ -11,7 +11,7 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace EX4UntiTests
+namespace EX4UnitTests
 {
 	TEST_CLASS(EX4UnitTests)
 	{
@@ -68,26 +68,136 @@ namespace EX4UntiTests
 
 		TEST_METHOD(Diagnoal_First)
 		{
-			glm::vec3 v1(0.0f, 0.0f, 0.0f);
-			glm::vec3 v2(1.0f, 0.0f, 0.0f);
-			glm::vec3 v3(5.0f, 5.0f, 0.0f);
-			glm::vec3 v4(0.0f, 1.0f, 0.0f);
+			Quad q;
 
-			bool result = diagonal(v1, v2, v3, v4);
-
-			Assert::IsFalse(result);
-		}
-
-		TEST_METHOD(Diagnoal_Second)
-		{
 			glm::vec3 v1(0.0f, 0.0f, 0.0f);
 			glm::vec3 v2(1.0f, 0.0f, 0.0f);
 			glm::vec3 v3(1.0f, 1.0f, 0.0f);
 			glm::vec3 v4(-5.0f, 5.0f, 0.0f);
 
-			bool result = diagonal(v1, v2, v3, v4);
+			q.v1 = v1;
+			q.v2 = v2;
+			q.v3 = v3;
+			q.v4 = v4;
+
+			bool result = diagonal(q);
 
 			Assert::IsTrue(result);
+		}
+
+		TEST_METHOD(Diagnoal_Second)
+		{
+			Quad q;
+
+			glm::vec3 v1(0.0f, 0.0f, 0.0f);
+			glm::vec3 v2(1.0f, 0.0f, 0.0f);
+			glm::vec3 v3(5.0f, 5.0f, 0.0f);
+			glm::vec3 v4(0.0f, 1.0f, 0.0f);
+
+			q.v1 = v1;
+			q.v2 = v2;
+			q.v3 = v3;
+			q.v4 = v4;
+
+			bool result = diagonal(q);
+
+			Assert::IsFalse(result);
+		}
+
+		TEST_METHOD(Triangulate_First)
+		{
+			Quad q;
+
+			glm::vec3 v1(0.0f, 0.0f, 0.0f);
+			glm::vec3 v2(1.0f, 0.0f, 0.0f);
+			glm::vec3 v3(1.0f, 1.0f, 0.0f);
+			glm::vec3 v4(-5.0f, 5.0f, 0.0f);
+
+			q.v1 = v1;
+			q.v2 = v2;
+			q.v3 = v3;
+			q.v4 = v4;
+
+			// three coordinates, three vertices, 2 triangles
+			const size_t nTris = 3 * 3 * 2;
+			float tris[nTris];
+
+			size_t result = triangulate(q, tris);
+
+			Assert::AreEqual(nTris, result);
+
+			Assert::IsTrue(almosteq(tris[0], v1.x));
+			Assert::IsTrue(almosteq(tris[1], v1.y));
+			Assert::IsTrue(almosteq(tris[2], v1.z));
+
+			Assert::IsTrue(almosteq(tris[3], v2.x));
+			Assert::IsTrue(almosteq(tris[4], v2.y));
+			Assert::IsTrue(almosteq(tris[5], v2.z));
+
+			Assert::IsTrue(almosteq(tris[6], v3.x));
+			Assert::IsTrue(almosteq(tris[7], v3.y));
+			Assert::IsTrue(almosteq(tris[8], v3.z));
+
+
+			Assert::IsTrue(almosteq(tris[9],  v1.x));
+			Assert::IsTrue(almosteq(tris[10], v1.y));
+			Assert::IsTrue(almosteq(tris[11], v1.z));
+
+			Assert::IsTrue(almosteq(tris[12], v3.x));
+			Assert::IsTrue(almosteq(tris[13], v3.y));
+			Assert::IsTrue(almosteq(tris[14], v3.z));
+
+			Assert::IsTrue(almosteq(tris[15], v4.x));
+			Assert::IsTrue(almosteq(tris[16], v4.y));
+			Assert::IsTrue(almosteq(tris[17], v4.z));
+		}
+
+		TEST_METHOD(Triangulate_Second)
+		{
+			Quad q;
+
+			glm::vec3 v1(0.0f, 0.0f, 0.0f);
+			glm::vec3 v2(1.0f, 0.0f, 0.0f);
+			glm::vec3 v3(5.0f, 5.0f, 0.0f);
+			glm::vec3 v4(0.0f, 1.0f, 0.0f);
+
+			q.v1 = v1;
+			q.v2 = v2;
+			q.v3 = v3;
+			q.v4 = v4;
+
+			// three coordinates, three vertices, 2 triangles
+			const size_t nTris = 3 * 3 * 2;
+			float tris[nTris];
+
+			size_t result = triangulate(q, tris);
+
+			Assert::AreEqual(nTris, result);
+
+			Assert::IsTrue(almosteq(tris[0], v1.x));
+			Assert::IsTrue(almosteq(tris[1], v1.y));
+			Assert::IsTrue(almosteq(tris[2], v1.z));
+
+			Assert::IsTrue(almosteq(tris[3], v2.x));
+			Assert::IsTrue(almosteq(tris[4], v2.y));
+			Assert::IsTrue(almosteq(tris[5], v2.z));
+
+			Assert::IsTrue(almosteq(tris[6], v4.x));
+			Assert::IsTrue(almosteq(tris[7], v4.y));
+			Assert::IsTrue(almosteq(tris[8], v4.z));
+
+
+			Assert::IsTrue(almosteq(tris[9],  v2.x));
+			Assert::IsTrue(almosteq(tris[10], v2.y));
+			Assert::IsTrue(almosteq(tris[11], v2.z));
+
+			Assert::IsTrue(almosteq(tris[12], v3.x));
+			Assert::IsTrue(almosteq(tris[13], v3.y));
+			Assert::IsTrue(almosteq(tris[14], v3.z));
+
+			Assert::IsTrue(almosteq(tris[15], v4.x));
+			Assert::IsTrue(almosteq(tris[16], v4.y));
+			Assert::IsTrue(almosteq(tris[17], v4.z));
 		}
 	};
 }

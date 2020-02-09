@@ -15,7 +15,46 @@ float minAngle(const glm::vec3 & v1, const glm::vec3 & v2, const glm::vec3 & v3)
 }
 
 // returns true if v1 v3 diagonal is better, false if v2 v4 diagonal is better
-bool diagonal(const glm::vec3 & v1, const glm::vec3 & v2, const glm::vec3 & v3, const glm::vec3 & v4)
+bool diagonal(const Quad & quad)
 {
-	return min(minAngle(v1, v2, v3), minAngle(v1, v3, v4)) > min(minAngle(v1, v2, v4), minAngle(v2, v3, v4));
+	return		min(minAngle(quad.v1, quad.v2, quad.v3), minAngle(quad.v1, quad.v3, quad.v4)) 
+			>	min(minAngle(quad.v1, quad.v2, quad.v4), minAngle(quad.v2, quad.v3, quad.v4));
+}
+
+inline void copyVertex(const glm::vec3 & v, float* data)
+{
+	data[0] = v.x;
+	data[1] = v.y;
+	data[2] = v.z;
+}
+
+// given a Quad, subdivide into 2 tris along optimal diagonal, 
+// write tris to data and return number of written floats
+size_t triangulate(const Quad & quad, float * data)
+{
+	float * cursor = data;
+	bool diag = diagonal(quad);
+
+	if (diag)
+	{
+		copyVertex(quad.v1, cursor); cursor += 3;
+		copyVertex(quad.v2, cursor); cursor += 3;
+		copyVertex(quad.v3, cursor); cursor += 3;
+
+		copyVertex(quad.v1, cursor); cursor += 3;
+		copyVertex(quad.v3, cursor); cursor += 3;
+		copyVertex(quad.v4, cursor); cursor += 3;
+	}
+	else
+	{
+		copyVertex(quad.v1, cursor); cursor += 3;
+		copyVertex(quad.v2, cursor); cursor += 3;
+		copyVertex(quad.v4, cursor); cursor += 3;
+
+		copyVertex(quad.v2, cursor); cursor += 3;
+		copyVertex(quad.v3, cursor); cursor += 3;
+		copyVertex(quad.v4, cursor); cursor += 3;
+	}
+
+	return cursor - data;
 }
