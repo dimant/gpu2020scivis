@@ -46,6 +46,15 @@ void LineStrip::init()
 	}
 }
 
+void LineStrip::reset(size_t ndata, void* data)
+{
+	_ndata = ndata;
+	delete _data;
+	_data = data;
+	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, ndata, data);
+}
+
 void LineStrip::draw()
 {
 	setMat4(_program, _model, "mModel");
@@ -61,5 +70,7 @@ void LineStrip::destroy()
 {
 	glDeleteBuffers(1, &_vbo);
 	glDeleteVertexArrays(1, &_vao);
+
+	delete _data;
 }
 

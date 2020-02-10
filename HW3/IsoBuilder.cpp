@@ -6,20 +6,16 @@
 
 #include "VertAtt.h"
 
-std::shared_ptr<LineStrip> IsoBuilder::createIsoLine(
-	GLuint program,
-	UniformGrid & grid,
-	float threshold)
+void IsoBuilder::createIsoLine(float threshold, LineStrip* lineStrip)
 {
 	std::list<glm::vec3> list;
 
-
-	size_t nx = grid.getDimension1();
-	size_t ny = grid.getDimension2();
+	size_t nx = _grid.getDimension1();
+	size_t ny = _grid.getDimension2();
 	size_t x, y, i = 0;
 
-	ScalarAttributes& scalars = grid.pointScalars();
-	std::vector<int> thresholdField(grid.numPoints());
+	ScalarAttributes& scalars = _grid.pointScalars();
+	std::vector<int> thresholdField(_grid.numPoints());
 
 	for (y = 0; y < ny; y++)
 	{
@@ -50,20 +46,20 @@ std::shared_ptr<LineStrip> IsoBuilder::createIsoLine(
 		return (u * (v.z - threshold) + v * (threshold - u.z)) / (v.z - u.z);
 	};
 
-	for (i = 0; i < grid.numCells(); i++)
+	for (i = 0; i < _grid.numCells(); i++)
 	{
 		r = 0;
-		grid.getCell(i, cell);
+		_grid.getCell(i, cell);
 
 		r |= thresholdField[cell.v1] << 0;
 		r |= thresholdField[cell.v2] << 1;
 		r |= thresholdField[cell.v3] << 2;
 		r |= thresholdField[cell.v4] << 3;
 
-		grid.getVertex(cell.v1, p1);
-		grid.getVertex(cell.v2, p2);
-		grid.getVertex(cell.v3, p3);
-		grid.getVertex(cell.v4, p4);
+		_grid.getVertex(cell.v1, p1);
+		_grid.getVertex(cell.v2, p2);
+		_grid.getVertex(cell.v3, p3);
+		_grid.getVertex(cell.v4, p4);
 
 		switch (r)
 		{
@@ -121,5 +117,5 @@ std::shared_ptr<LineStrip> IsoBuilder::createIsoLine(
 		i++;
 	}
 
-	return std::make_shared<LineStrip>(program, ndata, data);
+	lineStrip->reset(ndata, data);
 }

@@ -8,12 +8,16 @@
 
 class IsoBuilder
 {
+private:
+	UniformGrid & _grid;
+
 public:
-	IsoBuilder()
+	IsoBuilder(UniformGrid & grid) :
+		_grid(grid)
 	{
 	}
 
-	std::shared_ptr<LineStrip> createIsoLine(GLuint program, UniformGrid & grid, float threshold);
+	void createIsoLine(float threshold, LineStrip* lineStrip);
 };
 
 #endif

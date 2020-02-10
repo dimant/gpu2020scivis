@@ -36,6 +36,8 @@ public:
 
 	virtual void transform(Transform t);
 
+	void reset(size_t ndata, void* data);
+
 	void init();
 
 	void draw();

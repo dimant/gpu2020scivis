@@ -30,6 +30,8 @@ UI* g_ui;
 Scene* g_scene;
 Light* g_light;
 MouseInput* g_mouseInput;
+IsoBuilder* g_isoBuilder;
+LineStrip* g_lineStrip;
 
 bool g_autoRotate = true;
 bool g_quit = false;
@@ -238,11 +240,13 @@ int main(int argc, char** argv)
 	data->init();
 	tc.add(data.get());
 
-	IsoBuilder isoBuilder;
-	auto iso = isoBuilder.createIsoLine(modelProgram, grid, 0.5f);
+	IsoBuilder isoBuilder(grid);
+	g_isoBuilder = &isoBuilder;
+	g_lineStrip = new LineStrip(modelProgram, grid.numVertices(), NULL);
+	g_lineStrip->init();
+	isoBuilder.createIsoLine(0.5f, g_lineStrip);
 
-	iso->init();
-	tc.add(iso.get());
+	tc.add(g_lineStrip);
 
 	MouseInput mouseInput(tc, light);
 	g_mouseInput = &mouseInput;
@@ -320,7 +324,7 @@ int main(int argc, char** argv)
 
 		//floor->draw();
 		data->draw();
-		iso->draw();
+		g_lineStrip->draw();
 
 		g_ui->draw();
 
@@ -332,7 +336,7 @@ int main(int argc, char** argv)
 
 	//floor->destroy();
 	data->destroy();
-	iso->destroy();
+	g_lineStrip->destroy();
 
 	g_ui->destroy();
 
