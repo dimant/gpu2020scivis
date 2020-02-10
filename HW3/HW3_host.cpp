@@ -240,16 +240,20 @@ int main(int argc, char** argv)
 	data->init();
 	tc.add(data.get());
 
+	float initialThreshold = 0.5f;
 	IsoBuilder isoBuilder(grid);
 	g_isoBuilder = &isoBuilder;
 	g_lineStrip = new LineStrip(modelProgram, grid.numVertices(), NULL);
 	g_lineStrip->init();
-	isoBuilder.createIsoLine(0.5f, g_lineStrip);
+	isoBuilder.createIsoLine(initialThreshold, g_lineStrip);
 
 	tc.add(g_lineStrip);
 
 	MouseInput mouseInput(tc, light);
 	g_mouseInput = &mouseInput;
+
+	g_ui->IsoThresholdHandler.Value = initialThreshold;
+	g_ui->IsoThresholdHandler.connect([](float v) { g_isoBuilder->createIsoLine(v, g_lineStrip); });
 
 	g_autoRotate = g_ui->EnableAutoRotationHandler.Value = false;
 	g_ui->EnableAutoRotationHandler.connect([](bool v) { 
