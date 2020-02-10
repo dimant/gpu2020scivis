@@ -1,6 +1,9 @@
 #include "LineStrip.h"
 #include <shaderlib.h>
 
+#include <iostream>
+#include "VertAtt.h"
+
 void LineStrip::initVao(const GLuint & program)
 {
 	glGenVertexArrays(1, &_vao);
@@ -8,7 +11,7 @@ void LineStrip::initVao(const GLuint & program)
 
 	glGenBuffers(1, &_vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-	glBufferData(GL_ARRAY_BUFFER, _ndata, _data, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, _ndata, _data, GL_DYNAMIC_DRAW);
 
 	// 3 floats for x, y, z coordinates
 	GLuint locPosition = glGetAttribLocation(program, "in_vPosition");
@@ -51,6 +54,8 @@ void LineStrip::reset(size_t ndata, void* data)
 	_ndata = ndata;
 	delete _data;
 	_data = data;
+
+	glInvalidateBufferData(_vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, ndata, data);
 }
@@ -60,7 +65,7 @@ void LineStrip::draw()
 	setMat4(_program, _model, "mModel");
 	glBindVertexArray(_vao);
 	glLineWidth(_lineWidth);
-	glDrawArrays(GL_LINES, 0, _ndata);
+	glDrawArrays(GL_LINES, 0, _ndata / sizeof(VertAtt));
 	glLineWidth(1);
 	glBindVertexArray(0);
 	setMat4(_program, glm::mat4(), "mModel");
@@ -73,4 +78,3 @@ void LineStrip::destroy()
 
 	delete _data;
 }
-
