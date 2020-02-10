@@ -80,8 +80,6 @@
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="LineFShader.glsl" />
-    <None Include="LineVShader.glsl" />
     <None Include="ModelFShader.glsl" />
     <None Include="ModelVShader.glsl" />
   </ItemGroup>
@@ -98,6 +96,7 @@
     <ClInclude Include="Transformable.h" />
     <ClInclude Include="TransformableContainer.h" />
     <ClInclude Include="UI.h" />
+    <ClInclude Include="VertAtt.h" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="textures\Bars-Chart_monochrome_600x300.png">

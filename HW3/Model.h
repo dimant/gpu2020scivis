@@ -6,14 +6,6 @@
 
 #include "Transformable.h"
 
-struct VertAtt
-{
-	glm::vec3 vertex;
-	glm::vec2 texel;
-	glm::vec3 normal;
-	glm::vec3 material;
-};
-
 class Model : public Transformable
 {
 private:

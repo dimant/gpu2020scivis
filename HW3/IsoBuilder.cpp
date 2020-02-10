@@ -4,6 +4,8 @@
 #include <vector>
 #include <algorithm>
 
+#include "VertAtt.h"
+
 std::shared_ptr<LineStrip> IsoBuilder::createIsoLine(
 	GLuint program,
 	UniformGrid & grid,
@@ -106,8 +108,18 @@ std::shared_ptr<LineStrip> IsoBuilder::createIsoLine(
 		}
 	}
 
-	glm::vec3* data = new glm::vec3[list.size()];
-	std::copy(list.begin(), list.end(), data);
+	size_t ndata = sizeof(VertAtt) * list.size();
+	VertAtt* data = new VertAtt[ndata];
 
-	return std::make_shared<LineStrip>(program, sizeof(glm::vec3) * list.size(), data);
+	i = 0;
+	for (auto v : list)
+	{
+		data[i].vertex = v;
+		data[i].normal = glm::vec3(0.0f, 1.0f, 0.0f);
+		data[i].texel = glm::vec2(0.0f);
+		data[i].material = glm::vec3(0.1f, 12.0f, 2.0f);
+		i++;
+	}
+
+	return std::make_shared<LineStrip>(program, ndata, data);
 }

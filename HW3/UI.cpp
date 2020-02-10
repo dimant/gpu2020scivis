@@ -47,6 +47,9 @@ void UI::render()
 	changed = ImGui::Checkbox("Wireframe", &EnableWireFrameHandler.Value);
 	EnableWireFrameHandler.handle(changed);
 
+	changed = ImGui::SliderFloat("Iso Threshold", &IsoThresholdHandler.Value, -1.0f, 1.0f);
+	IsoThresholdHandler.handle(changed);
+
 	changed = ImGui::Checkbox("Attenuation", &EnableAttenuationLightHandler.Value);
 	EnableAttenuationLightHandler.handle(changed);
 

@@ -99,17 +99,6 @@ GLint initModelShaders(GLuint & program)
 	return GL_TRUE;
 }
 
-GLint initLineShaders(GLuint & program)
-{
-	shaderFile vertexShader{ GL_VERTEX_SHADER, "LineVShader.glsl" };
-	shaderFile fragmentShader{ GL_FRAGMENT_SHADER, "LineFShader.glsl" };
-	std::vector<shaderFile> shaderFiles{ vertexShader, fragmentShader };
-
-	ISOK(buildShaderProgram(program, shaderFiles));
-
-	return GL_TRUE;
-}
-
 GLuint lex(const std::vector<GLuint>& n, const std::vector<GLuint>& N)
 {
 	size_t k, l;
@@ -228,12 +217,8 @@ int main(int argc, char** argv)
 
 	tc.add(&light);
 
-	GLuint lineProgram;
-	ISOK(initLineShaders(lineProgram));
-
 	Scene scene;
 	scene.addProgram(modelProgram);
-	scene.addProgram(lineProgram);
 	scene.apply();
 	g_scene = &scene;
 
@@ -254,7 +239,7 @@ int main(int argc, char** argv)
 	tc.add(data.get());
 
 	IsoBuilder isoBuilder;
-	auto iso = isoBuilder.createIsoLine(lineProgram, grid, 0.5f);
+	auto iso = isoBuilder.createIsoLine(modelProgram, grid, 0.5f);
 
 	iso->init();
 	tc.add(iso.get());

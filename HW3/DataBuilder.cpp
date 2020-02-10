@@ -1,5 +1,7 @@
 #include "DataBuilder.h"
 
+#include "VertAtt.h"
+
 std::shared_ptr<Model> DataBuilder::createData(GLuint program, UniformGrid & grid)
 {
 	auto scienceFunction = [](float x, float y) { return exp(-(x * x + y * y)); };

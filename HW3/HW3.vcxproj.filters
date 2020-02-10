@@ -86,18 +86,15 @@
     <ClInclude Include="IsoBuilder.h">
       <Filter>headers</Filter>
     </ClInclude>
+    <ClInclude Include="VertAtt.h">
+      <Filter>headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ModelFShader.glsl">
       <Filter>shaders</Filter>
     </None>
     <None Include="ModelVShader.glsl">
-      <Filter>shaders</Filter>
-    </None>
-    <None Include="LineFShader.glsl">
-      <Filter>shaders</Filter>
-    </None>
-    <None Include="LineVShader.glsl">
       <Filter>shaders</Filter>
     </None>
   </ItemGroup>
