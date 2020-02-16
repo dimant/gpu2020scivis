@@ -1,6 +1,6 @@
-#include "RectilinearGrid.h"
+#include "RectilinearGrid2.h"
 
-void RectilinearGrid::getPoint(size_t i, Point &  p)
+void RectilinearGrid2::getPoint(size_t i, Point2 &  p)
 {
 	//Compute vertex grid-coordinates row, col
 	size_t row = i / _N1;

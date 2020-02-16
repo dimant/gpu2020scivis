@@ -2,12 +2,12 @@
 #define RECTILINEARGRID_H
 #include <vector>
 
-#include "UniformGrid.h"
+#include "UniformGrid2.h"
 
 // INPUTS
 // dimsX : a float vector of world-space x-coordinates of sample points
 // dimsY : a float vector of world-space y-coordinates of sample points
-class RectilinearGrid : public UniformGrid
+class RectilinearGrid2 : public UniformGrid2
 {
 private:
 	//Sampling positions along the X and Y axes
@@ -15,8 +15,8 @@ private:
 	std::vector<float> _dY;
 
 public:
-	RectilinearGrid(std::vector<float> dimsX, std::vector<float> dimsY)
-		: UniformGrid(
+	RectilinearGrid2(std::vector<float> dimsX, std::vector<float> dimsY)
+		: UniformGrid2(
 			dimsX.size(), //number of samples along X
 			dimsY.size(), //number of samples along y	
 			dimsX.front(), //minimal X value
@@ -26,7 +26,7 @@ public:
 			_dX(dimsX), _dY(dimsY)
 		{ }
 
-	void getPoint(size_t i, Point &  p);
+	void getPoint(size_t i, Point2 &  p);
 };
 
 #endif

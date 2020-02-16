@@ -1,9 +1,9 @@
-#include "UniformGrid.h"
+#include "UniformGrid2.h"
 
 #include "triangulation.h"
 
 // given lexicographic index, find cell vertices (quads assumed)
-void UniformGrid::getCell(size_t i, Cell & c)
+void UniformGrid2::getCell(size_t i, Cell2 & c)
 {
 	size_t cell_row = i / (_N1-1);
 	size_t cell_col = i % (_N1-1);
@@ -15,7 +15,7 @@ void UniformGrid::getCell(size_t i, Cell & c)
 }
 
 // given 2D position p = px[0], py[1] find cell which contains it
-size_t UniformGrid::findCell(const Point & p)
+size_t UniformGrid2::findCell(const Point2 & p)
 {
 	size_t n1, n2;
 
@@ -33,56 +33,56 @@ size_t UniformGrid::findCell(const Point & p)
 	return n1 + n2 * _N1;
 }
 
-size_t UniformGrid::numPoints()
+size_t UniformGrid2::numPoints()
 {
 	return _N1 * _N2;
 }
 
-size_t UniformGrid::numCells()
+size_t UniformGrid2::numCells()
 {
 	return (_N1 - 1) * (_N2 - 1);
 }
 
-size_t UniformGrid::numVertices()
+size_t UniformGrid2::numVertices()
 {
 	// 2 tris, 3 vertices each
 	return numCells() * 2 * 3;
 }
 
-void UniformGrid::getPoint(size_t i, Point & p)
+void UniformGrid2::getPoint(size_t i, Point2 & p)
 {
 	p.x = _m1 + (i % _N1) * _d1;
 	p.y = _m2 + (i / _N1) * _d2;
 }
 
-size_t UniformGrid::getDimension1()
+size_t UniformGrid2::getDimension1()
 {
 	return _N1;
 }
 
-glm::vec2 UniformGrid::getRange1()
+glm::vec2 UniformGrid2::getRange1()
 {
 	return glm::vec2(_m1, _M1);
 }
 
-size_t UniformGrid::getDimension2()
+size_t UniformGrid2::getDimension2()
 {
 	return _N2;
 }
 
-glm::vec2 UniformGrid::getRange2()
+glm::vec2 UniformGrid2::getRange2()
 {
 	return glm::vec2(_m2, _M2);
 }
 
-ScalarAttributes& UniformGrid::pointScalars()
+ScalarAttributes& UniformGrid2::pointScalars()
 {
 	return _scalars;
 }
 
-void UniformGrid::getVertex(size_t i, glm::vec3 & v)
+void UniformGrid2::getVertex(size_t i, glm::vec3 & v)
 {
-	Point p;
+	Point2 p;
 	getPoint(i, p);
 
 	v.x = p.x;
@@ -90,9 +90,9 @@ void UniformGrid::getVertex(size_t i, glm::vec3 & v)
 	v.z = _scalars.getC0Scalar(i);
 }
 
-void UniformGrid::getQuad(size_t i, Quad & quad)
+void UniformGrid2::getQuad(size_t i, Quad & quad)
 {
-	Cell cell;
+	Cell2 cell;
 	getCell(i, cell);
 
 	getVertex(cell.v1, quad.v1);
@@ -101,7 +101,7 @@ void UniformGrid::getQuad(size_t i, Quad & quad)
 	getVertex(cell.v4, quad.v4);
 }
 
-void UniformGrid::getTris(float* data)
+void UniformGrid2::getTris(float* data)
 {
 	int i;
 	Quad q;
@@ -115,10 +115,10 @@ void UniformGrid::getTris(float* data)
 	}
 }
 
-void UniformGrid::sample(std::function<float(float, float)> func)
+void UniformGrid2::sample(std::function<float(float, float)> func)
 {
 	float sample = 0.0f;
-	Point p;
+	Point2 p;
 
 	for (int i = 0; i < numPoints(); i++)
 	{

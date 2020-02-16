@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "UniformGrid.h"
+#include "UniformGrid2.h"
 
 #include "Model.h"
 
@@ -14,7 +14,7 @@ public:
 	{
 	}
 
-	std::shared_ptr<Model> createData(GLuint program, UniformGrid & grid);
+	std::shared_ptr<Model> createData(GLuint program, UniformGrid2 & grid);
 };
 
 #endif

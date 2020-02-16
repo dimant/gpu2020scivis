@@ -1,6 +1,6 @@
 #include "DataBuilder.h"
 
-std::shared_ptr<Model> DataBuilder::createData(GLuint program, UniformGrid & grid)
+std::shared_ptr<Model> DataBuilder::createData(GLuint program, UniformGrid2 & grid)
 {
 	//auto scienceFunction = [](float x, float y) { return exp(-(x * x + y * y)); };
 	auto scienceFunction = [](float x, float y) { return sin(1 / (x * x + y * y)); };

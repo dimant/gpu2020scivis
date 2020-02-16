@@ -34,7 +34,7 @@ void IsoBuilder::createIsoLine(float threshold, LineStrip* lineStrip)
 		}
 	}
 
-	Cell cell;
+	Cell2 cell;
 	glm::vec3 p1;
 	glm::vec3 p2;
 	glm::vec3 p3;

@@ -128,7 +128,7 @@ GLuint lex(const std::vector<GLuint>& n, const std::vector<GLuint>& N)
 // 0.1 for | 1 | < x, y <= | 2 |
 // 0.025 for 0 <= x, y <= | 1 |
 
-RectilinearGrid createRectGrid()
+RectilinearGrid2 createRectGrid()
 {
 	std::vector<float> dimsX;
 	std::vector<float> dimsY;
@@ -165,7 +165,7 @@ RectilinearGrid createRectGrid()
 		dimsY.push_back(d);
 	}
 
-	return RectilinearGrid(dimsX, dimsY);
+	return RectilinearGrid2(dimsX, dimsY);
 }
 
 int main(int argc, char** argv)

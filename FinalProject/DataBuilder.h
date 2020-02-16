@@ -14,7 +14,7 @@ public:
 	{
 	}
 
-	std::shared_ptr<Model> createData(GLuint program, UniformGrid & grid);
+	std::shared_ptr<Model> createData(GLuint program, UniformGrid2 & grid);
 };
 
 #endif

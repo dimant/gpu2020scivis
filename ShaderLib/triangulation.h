@@ -1,7 +1,7 @@
 #ifndef TRIANGULATION_H
 #define TRIANGULATION_H
 
-#include "Grid.h"
+#include "UniformGrid2.h"
 
 #define max(x, y) ((x > y) ? x : y)
 #define max3(x, y, z) (max(x, max(y, z)))

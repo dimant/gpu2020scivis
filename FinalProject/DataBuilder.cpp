@@ -2,7 +2,7 @@
 
 #include "VertAtt.h"
 
-std::shared_ptr<Model> DataBuilder::createData(GLuint program, UniformGrid & grid)
+std::shared_ptr<Model> DataBuilder::createData(GLuint program, UniformGrid2 & grid)
 {
 	auto scienceFunction = [](float x, float y) {
 		float d = 0.8;

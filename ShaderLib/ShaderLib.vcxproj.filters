@@ -47,16 +47,19 @@
     <ClCompile Include="imgui_widgets.cpp">
       <Filter>Source Files\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="RectilinearGrid.cpp">
-      <Filter>Source Files\grids</Filter>
-    </ClCompile>
     <ClCompile Include="ScalarAttributes.cpp">
       <Filter>Source Files\grids</Filter>
     </ClCompile>
-    <ClCompile Include="UniformGrid.cpp">
+    <ClCompile Include="triangulation.cpp">
       <Filter>Source Files\grids</Filter>
     </ClCompile>
-    <ClCompile Include="triangulation.cpp">
+    <ClCompile Include="gradients.cpp">
+      <Filter>Source Files\grids</Filter>
+    </ClCompile>
+    <ClCompile Include="UniformGrid2.cpp">
+      <Filter>Source Files\grids</Filter>
+    </ClCompile>
+    <ClCompile Include="RectilinearGrid2.cpp">
       <Filter>Source Files\grids</Filter>
     </ClCompile>
   </ItemGroup>
@@ -94,16 +97,19 @@
     <ClInclude Include="Grid.h">
       <Filter>Header Files\grids</Filter>
     </ClInclude>
-    <ClInclude Include="RectilinearGrid.h">
-      <Filter>Header Files\grids</Filter>
-    </ClInclude>
     <ClInclude Include="ScalarAttributes.h">
       <Filter>Header Files\grids</Filter>
     </ClInclude>
-    <ClInclude Include="UniformGrid.h">
+    <ClInclude Include="triangulation.h">
       <Filter>Header Files\grids</Filter>
     </ClInclude>
-    <ClInclude Include="triangulation.h">
+    <ClInclude Include="gradients.h">
+      <Filter>Header Files\grids</Filter>
+    </ClInclude>
+    <ClInclude Include="UniformGrid2.h">
+      <Filter>Header Files\grids</Filter>
+    </ClInclude>
+    <ClInclude Include="RectilinearGrid2.h">
       <Filter>Header Files\grids</Filter>
     </ClInclude>
   </ItemGroup>

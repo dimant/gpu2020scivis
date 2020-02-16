@@ -18,7 +18,7 @@ namespace EX4UnitTests
 
 		TEST_METHOD(Sample_values)
 		{
-			UniformGrid grid(5, 5, 0, 0, 5, 5);
+			UniformGrid2 grid(5, 5, 0, 0, 5, 5);
 
 			auto func = [](float x, float y) { return x + y; };
 
@@ -31,7 +31,7 @@ namespace EX4UnitTests
 
 		TEST_METHOD(getVertex_z)
 		{
-			UniformGrid grid(5, 5, 0, 0, 5, 5);
+			UniformGrid2 grid(5, 5, 0, 0, 5, 5);
 
 			auto func = [](float x, float y) { return x + y; };
 
@@ -57,7 +57,7 @@ namespace EX4UnitTests
 
 		TEST_METHOD(getTris_data)
 		{
-			UniformGrid grid(5, 5, 0, 0, 5, 5);
+			UniformGrid2 grid(5, 5, 0, 0, 5, 5);
 
 			auto func = [](float x, float y) { return x + y; };
 

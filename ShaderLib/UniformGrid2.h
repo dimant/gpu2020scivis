@@ -6,7 +6,25 @@
 #include "Grid.h"
 #include "ScalarAttributes.h"
 
-class UniformGrid : public Grid
+typedef glm::vec2 Point2;
+
+struct Cell2
+{
+	size_t v1;
+	size_t v2;
+	size_t v3;
+	size_t v4;
+};
+
+struct Quad
+{
+	glm::vec3 v1;
+	glm::vec3 v2;
+	glm::vec3 v3;
+	glm::vec3 v4;
+};
+
+class UniformGrid2 : public Grid
 {
 private:
 	//Cell sizes in this grid
@@ -28,7 +46,7 @@ protected:
 	float _M2;
 
 public:
-	UniformGrid(size_t N1, size_t N2, float m1, float m2, float M1, float M2) :
+	UniformGrid2(size_t N1, size_t N2, float m1, float m2, float M1, float M2) :
 		_scalars(N1 * N2),
 		_N1(N1), _N2(N2),
 		_m1(m1), _m2(m2),
@@ -43,11 +61,11 @@ public:
 
 	size_t numVertices();
 
-	virtual void getPoint(size_t i, Point & p);
+	virtual void getPoint(size_t i, Point2 & p);
 
 	virtual void getVertex(size_t i, glm::vec3 & v);
 
-	void getCell(size_t i, Cell & c);
+	void getCell(size_t i, Cell2 & c);
 
 	void getQuad(size_t i, Quad & quad);
 
@@ -59,7 +77,7 @@ public:
 
 	glm::vec2 getRange2();
 
-	size_t findCell(const Point & p);
+	size_t findCell(const Point2 & p);
 
 	void getTris(float * data);
 

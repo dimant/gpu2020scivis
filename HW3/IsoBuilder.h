@@ -4,15 +4,15 @@
 #include <memory>
 
 #include "LineStrip.h"
-#include "UniformGrid.h"
+#include "UniformGrid2.h"
 
 class IsoBuilder
 {
 private:
-	UniformGrid & _grid;
+	UniformGrid2 & _grid;
 
 public:
-	IsoBuilder(UniformGrid & grid) :
+	IsoBuilder(UniformGrid2 & grid) :
 		_grid(grid)
 	{
 	}
