@@ -3,7 +3,8 @@
 
 #include <functional>
 
-#include "Grid.h"
+#include <glm/glm.hpp>
+
 #include "ScalarAttributes.h"
 
 struct Point3
@@ -53,7 +54,7 @@ struct Cube
 	glm::vec3 n7;
 };
 
-class UniformGrid3 : public Grid
+class UniformGrid3
 {
 private:
 	//Cell sizes in this grid

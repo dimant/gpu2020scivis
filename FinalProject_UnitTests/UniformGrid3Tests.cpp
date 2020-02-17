@@ -13,126 +13,99 @@ namespace FinalProject_Tests
 	public:
 		TEST_METHOD(numPoints_count_correct)
 		{
-			UniformGrid3 grid(
-				4, 4, 4, 
-				glm::vec3(0.0f, 0.0f, 0.0f),
-				glm::vec3(1.0f, 1.0f, 1.0f));
+			UniformGrid3 grid(4, 4, 4);
 
 			Assert::AreEqual((size_t) 64, grid.numPoints());
 		}
 
 		TEST_METHOD(numCells_count_correct)
 		{
-			UniformGrid3 grid(
-				4, 4, 4,
-				glm::vec3(0.0f, 0.0f, 0.0f),
-				glm::vec3(1.0f, 1.0f, 1.0f));
+			UniformGrid3 grid(4, 4, 4);
 
 			Assert::AreEqual((size_t)27, grid.numCells());
 		}
 
 		TEST_METHOD(getPoint_1d_correct)
 		{
-			UniformGrid3 grid(
-				4, 4, 4,
-				glm::vec3(0.0f, 0.0f, 0.0f),
-				glm::vec3(1.0f, 1.0f, 1.0f));
+			UniformGrid3 grid(4, 4, 4);
 
 			Point3 p;
 
 			grid.getPoint(3, p);
 
-			Assert::IsTrue(almosteq(3.0f, p.x));
-			Assert::IsTrue(almosteq(0.0f, p.y));
-			Assert::IsTrue(almosteq(0.0f, p.z));
+			Assert::AreEqual((size_t)3, p.x);
+			Assert::AreEqual((size_t)0, p.y);
+			Assert::AreEqual((size_t)0, p.z);
 		}
 
 		TEST_METHOD(getPoint_2d_correct)
 		{
-			UniformGrid3 grid(
-				4, 4, 4,
-				glm::vec3(0.0f, 0.0f, 0.0f),
-				glm::vec3(1.0f, 1.0f, 1.0f));
+			UniformGrid3 grid(4, 4, 4);
 
 			Point3 p;
 
 			grid.getPoint(5, p);
 
-			Assert::IsTrue(almosteq(1.0f, p.x));
-			Assert::IsTrue(almosteq(1.0f, p.y));
-			Assert::IsTrue(almosteq(0.0f, p.z));
+			Assert::AreEqual((size_t)1, p.y);
+			Assert::AreEqual((size_t)1, p.y);
+			Assert::AreEqual((size_t)0, p.z);
 		}
 
 		TEST_METHOD(getPoint_3d_correct_111)
 		{
-			UniformGrid3 grid(
-				4, 4, 4,
-				glm::vec3(0.0f, 0.0f, 0.0f),
-				glm::vec3(1.0f, 1.0f, 1.0f));
+			UniformGrid3 grid(4, 4, 4);
 
 			Point3 p;
 
 			grid.getPoint(21, p);
 
-			Assert::IsTrue(almosteq(1.0f, p.x));
-			Assert::IsTrue(almosteq(1.0f, p.y));
-			Assert::IsTrue(almosteq(1.0f, p.z));
+			Assert::AreEqual((size_t)1, p.x);
+			Assert::AreEqual((size_t)1, p.y);
+			Assert::AreEqual((size_t)1, p.z);
 		}
 
 		TEST_METHOD(getPoint_3d_correct_001)
 		{
-			UniformGrid3 grid(
-				4, 4, 4,
-				glm::vec3(0.0f, 0.0f, 0.0f),
-				glm::vec3(1.0f, 1.0f, 1.0f));
+			UniformGrid3 grid(4, 4, 4);
 
 			Point3 p;
 
 			grid.getPoint(16, p);
 
-			Assert::IsTrue(almosteq(0.0f, p.x));
-			Assert::IsTrue(almosteq(0.0f, p.y));
-			Assert::IsTrue(almosteq(1.0f, p.z));
+			Assert::AreEqual((size_t)0, p.x);
+			Assert::AreEqual((size_t)0, p.y);
+			Assert::AreEqual((size_t)1, p.z);
 		}
 
 		TEST_METHOD(getPoint_3d_correct_121)
 		{
-			UniformGrid3 grid(
-				4, 4, 4,
-				glm::vec3(0.0f, 0.0f, 0.0f),
-				glm::vec3(1.0f, 1.0f, 1.0f));
+			UniformGrid3 grid(4, 4, 4);
 
 			Point3 p;
 
 			grid.getPoint(25, p);
 
-			Assert::IsTrue(almosteq(1.0f, p.x));
-			Assert::IsTrue(almosteq(2.0f, p.y));
-			Assert::IsTrue(almosteq(1.0f, p.z));
+			Assert::AreEqual((size_t)1, p.x);
+			Assert::AreEqual((size_t)2, p.y);
+			Assert::AreEqual((size_t)1, p.z);
 		}
 
 		TEST_METHOD(getPoint_3d_correct_last)
 		{
-			UniformGrid3 grid(
-				4, 4, 4,
-				glm::vec3(0.0f, 0.0f, 0.0f),
-				glm::vec3(1.0f, 1.0f, 1.0f));
+			UniformGrid3 grid(4, 4, 4);
 
 			Point3 p;
 			size_t last = grid.numPoints() - 1;
 			grid.getPoint(last, p);
 
-			Assert::IsTrue(almosteq(3.0f, p.x));
-			Assert::IsTrue(almosteq(3.0f, p.y));
-			Assert::IsTrue(almosteq(3.0f, p.z));
+			Assert::AreEqual((size_t)3, p.x);
+			Assert::AreEqual((size_t)3, p.y);
+			Assert::AreEqual((size_t)3, p.z);
 		}
 
 		TEST_METHOD(getCell_correct_0)
 		{
-			UniformGrid3 grid(
-				4, 4, 4,
-				glm::vec3(0.0f, 0.0f, 0.0f),
-				glm::vec3(1.0f, 1.0f, 1.0f));
+			UniformGrid3 grid(4, 4, 4);
 
 			Cell3 cell;
 
@@ -151,10 +124,7 @@ namespace FinalProject_Tests
 
 		TEST_METHOD(getCell_correct_13)
 		{
-			UniformGrid3 grid(
-				4, 4, 4,
-				glm::vec3(0.0f, 0.0f, 0.0f),
-				glm::vec3(1.0f, 1.0f, 1.0f));
+			UniformGrid3 grid(4, 4, 4);
 
 			Cell3 cell;
 
@@ -165,10 +135,7 @@ namespace FinalProject_Tests
 
 		TEST_METHOD(getCell_correct_last)
 		{
-			UniformGrid3 grid(
-				4, 4, 4,
-				glm::vec3(0.0f, 0.0f, 0.0f),
-				glm::vec3(1.0f, 1.0f, 1.0f));
+			UniformGrid3 grid(4, 4, 4);
 
 			size_t last = grid.numCells() - 1;
 
@@ -181,10 +148,7 @@ namespace FinalProject_Tests
 
 		TEST_METHOD(getVertex_sample_matches)
 		{
-			UniformGrid3 grid(
-				4, 4, 4,
-				glm::vec3(0.0f, 0.0f, 0.0f),
-				glm::vec3(1.0f, 1.0f, 1.0f));
+			UniformGrid3 grid(4, 4, 4);
 
 			float idx = 0.0f;
 			auto func = [idx](float, float, float) mutable { return idx++; };
@@ -199,10 +163,7 @@ namespace FinalProject_Tests
 
 		TEST_METHOD(getCube_sample_matches)
 		{
-			UniformGrid3 grid(
-				4, 4, 4,
-				glm::vec3(0.0f, 0.0f, 0.0f),
-				glm::vec3(1.0f, 1.0f, 1.0f));
+			UniformGrid3 grid(4, 4, 4);
 
 			float idx = 0.0f;
 			auto func = [idx](float, float, float) mutable { return idx++; };

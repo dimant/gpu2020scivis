@@ -89,6 +89,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="polygoniseTests.cpp" />
     <ClCompile Include="TriangulationTests.cpp" />
     <ClCompile Include="UniformGrid2Tests.cpp" />
     <ClCompile Include="UniformGrid3Tests.cpp" />

@@ -3,7 +3,8 @@
 
 #include <functional>
 
-#include "Grid.h"
+#include <glm/glm.hpp>
+
 #include "ScalarAttributes.h"
 
 typedef glm::vec2 Point2;
@@ -24,7 +25,7 @@ struct Quad
 	glm::vec3 v4;
 };
 
-class UniformGrid2 : public Grid
+class UniformGrid2
 {
 private:
 	//Cell sizes in this grid
