@@ -1,6 +1,9 @@
 // The code in this file is inspired by:
 // http://paulbourke.net/geometry/polygonise/
-//
+// the original code is
+// - changed to make use of glm
+// - extended with normal interpolation
+// - refactored for unit-testing
 
 #include "glm/glm.hpp"
 
