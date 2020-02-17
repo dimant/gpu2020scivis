@@ -110,5 +110,21 @@ namespace FinalProject_Tests
 			Assert::IsTrue(almosteq(2.0f, p.y));
 			Assert::IsTrue(almosteq(1.0f, p.z));
 		}
+
+		TEST_METHOD(getPoint_3d_correct_last)
+		{
+			UniformGrid3 grid(
+				4, 4, 4,
+				glm::vec3(0.0f, 0.0f, 0.0f),
+				glm::vec3(1.0f, 1.0f, 1.0f));
+
+			Point3 p;
+			size_t last = grid.numPoints() - 1;
+			grid.getPoint(last, p);
+
+			Assert::IsTrue(almosteq(3.0f, p.x));
+			Assert::IsTrue(almosteq(3.0f, p.y));
+			Assert::IsTrue(almosteq(3.0f, p.z));
+		}
 	};
 }
