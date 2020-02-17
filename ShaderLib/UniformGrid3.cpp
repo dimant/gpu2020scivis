@@ -11,15 +11,15 @@ void UniformGrid3::getCell(size_t i, Cell3 & c)
 
 	size_t j = i % ((_N1 - 1) * (_N2 - 1));
 
-	 c.v0 = j + cell_y + cell_z * _N1 * _N2;
-	 c.v1 = c.v0 + 1;
-	 c.v2 = c.v1 + _N1 * _N2;
-	 c.v3 = c.v0 + _N1 * _N2;
+	c.v0 = j + cell_y + cell_z * _N1 * _N2;
+	c.v1 = c.v0 + 1;
+	c.v2 = c.v1 + _N1 * _N2;
+	c.v3 = c.v0 + _N1 * _N2;
 
-	 c.v4 = c.v0 + _N1;
-	 c.v5 = c.v1 + _N1;
-	 c.v6 = c.v2 + _N1;
-	 c.v7 = c.v3 + _N1;
+	c.v4 = c.v0 + _N1;
+	c.v5 = c.v1 + _N1;
+	c.v6 = c.v2 + _N1;
+	c.v7 = c.v3 + _N1;
 }
 
 size_t UniformGrid3::numPoints()
@@ -115,4 +115,3 @@ void UniformGrid3::sample(std::function<float(float, float, float)> func)
 		_scalars.setC0Scalar(i, sample);
 	}
 }
-
