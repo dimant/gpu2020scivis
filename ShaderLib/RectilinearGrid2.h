@@ -1,5 +1,5 @@
-#ifndef RECTILINEARGRID_H
-#define RECTILINEARGRID_H
+#ifndef RECTILINEARGRID2_H
+#define RECTILINEARGRID2_H
 #include <vector>
 
 #include "UniformGrid2.h"

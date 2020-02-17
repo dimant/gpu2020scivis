@@ -6,13 +6,13 @@
 
 #include "Macros.h"
 
-#include "UniformGrid.h"
+#include "UniformGrid2.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace EX4UnitTests
+namespace FinalProject_Tests
 {
-	TEST_CLASS(UniformGridTests)
+	TEST_CLASS(UniformGrid2Tests)
 	{
 	public:
 

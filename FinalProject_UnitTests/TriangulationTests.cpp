@@ -10,7 +10,7 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace EX4UnitTests
+namespace FinalProject_Tests
 {
 	TEST_CLASS(TriangulationTests)
 	{

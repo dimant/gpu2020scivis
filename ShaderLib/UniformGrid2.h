@@ -1,5 +1,5 @@
-#ifndef UNIFORMGRID_H
-#define UNIFORMGRID_H
+#ifndef UNIFORMGRID2_H
+#define UNIFORMGRID2_H
 
 #include <functional>
 

@@ -62,6 +62,9 @@
     <ClCompile Include="RectilinearGrid2.cpp">
       <Filter>Source Files\grids</Filter>
     </ClCompile>
+    <ClCompile Include="UniformGrid3.cpp">
+      <Filter>Source Files\grids</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="shaderlib.h">
@@ -110,6 +113,9 @@
       <Filter>Header Files\grids</Filter>
     </ClInclude>
     <ClInclude Include="RectilinearGrid2.h">
+      <Filter>Header Files\grids</Filter>
+    </ClInclude>
+    <ClInclude Include="UniformGrid3.h">
       <Filter>Header Files\grids</Filter>
     </ClInclude>
   </ItemGroup>
