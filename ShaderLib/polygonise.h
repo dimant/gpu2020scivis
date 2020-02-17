@@ -24,8 +24,8 @@ void getCubeIndex(int & cubeindex, const Cube & cube, const float & isolevel);
 
 // Copies marched values to *vertices
 // The pointer must have enough space for 5 triangles.
-// 5 triangles, 3 vertices each, 1 normal per vertex
-// = 5 * 3 * 2 = 30 floats
+// 5 triangles, 3 vertices, 1 vertex + 1 normal, 3 coordinates each
+// = 5 * 3 * 2 * 3 = 90 floats
 int getTriangles(
 	const int triTable[][16],
 	const glm::vec3 vertlist[],

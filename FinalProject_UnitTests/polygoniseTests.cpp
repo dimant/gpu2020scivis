@@ -66,5 +66,80 @@ namespace FinalProject_Tests
 			Assert::IsTrue(almosteq(n.x, n.y));
 			Assert::IsTrue(almosteq(1.0f, glm::length(n)));
 		}
+
+		TEST_METHOD(getTriangles_test)
+		{
+			int triTable[1][16]
+			{
+				{0, 1, 2, 
+				 3, 4, 5, 
+				 6, 7, 8, 
+				 9, 10, 11, 
+				 12, 13, 14, 
+				-1}
+			};
+
+			glm::vec3 vertlist[15] = 
+			{
+				glm::vec3(0.0f, 0.0f, 0.0f),
+				glm::vec3(0.0f, 0.0f, 1.0f),
+				glm::vec3(0.0f, 0.0f, 2.0f),
+				glm::vec3(0.0f, 0.0f, 3.0f),
+				glm::vec3(0.0f, 0.0f, 4.0f),
+				glm::vec3(0.0f, 0.0f, 5.0f),
+				glm::vec3(0.0f, 0.0f, 6.0f),
+				glm::vec3(0.0f, 0.0f, 7.0f),
+				glm::vec3(0.0f, 0.0f, 8.0f),
+				glm::vec3(0.0f, 0.0f, 9.0f),
+				glm::vec3(0.0f, 0.0f, 10.0f),
+				glm::vec3(0.0f, 0.0f, 11.0f),
+				glm::vec3(0.0f, 0.0f, 12.0f),
+				glm::vec3(0.0f, 0.0f, 13.0f),
+				glm::vec3(0.0f, 0.0f, 14.0f),
+			};
+
+			glm::vec3 normlist[15] =
+			{
+				glm::vec3(0.0f, 0.0f, 0.0f),
+				glm::vec3(0.0f, 1.0f, 0.0f),
+				glm::vec3(0.0f, 2.0f, 0.0f),
+				glm::vec3(0.0f, 3.0f, 0.0f),
+				glm::vec3(0.0f, 4.0f, 0.0f),
+				glm::vec3(0.0f, 5.0f, 0.0f),
+				glm::vec3(0.0f, 6.0f, 0.0f),
+				glm::vec3(0.0f, 7.0f, 0.0f),
+				glm::vec3(0.0f, 8.0f, 0.0f),
+				glm::vec3(0.0f, 9.0f, 0.0f),
+				glm::vec3(0.0f, 10.0f, 0.0f),
+				glm::vec3(0.0f, 11.0f, 0.0f),
+				glm::vec3(0.0f, 12.0f, 0.0f),
+				glm::vec3(0.0f, 13.0f, 0.0f),
+				glm::vec3(0.0f, 14.0f, 0.0f),
+			};
+
+			int cubeindex = 0;
+
+			float vertices[90];
+
+			for (int i = 0; i < 90; i++)
+			{
+				vertices[i] = 90;
+			}
+
+			int nfloats = getTriangles(triTable, vertlist, normlist, cubeindex, vertices);
+
+			Assert::AreEqual(90, nfloats);
+
+			glm::vec3* vvert = (glm::vec3*) vertices;
+
+			for (int i = 0; i < 15; i++)
+			{
+				glm::vec3 v = vvert[i * 2];
+				glm::vec3 n = vvert[i * 2 + 1];
+
+				Assert::IsTrue(almosteq((float)(i), v.z));
+				Assert::IsTrue(almosteq((float)(i), n.y));
+			}
+		}
 	};
 }

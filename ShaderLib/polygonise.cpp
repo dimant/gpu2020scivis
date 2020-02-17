@@ -72,23 +72,23 @@ int getTriangles(
 	const int& cubeindex,
 	float* vertices)
 {
-	int nvert = 0;
+	int nfloats = 0;
 	int tri = 0;
 
-	for (int i = 0; triTable[cubeindex][i] != -1; i += 3)
+	for (int i = 0; triTable[cubeindex][i] != -1; i++)
 	{
 		tri = triTable[cubeindex][i];
 
-		vertices[nvert++] = vertlist[tri].x;
-		vertices[nvert++] = vertlist[tri].y;
-		vertices[nvert++] = vertlist[tri].z;
+		vertices[nfloats++] = vertlist[tri].x;
+		vertices[nfloats++] = vertlist[tri].y;
+		vertices[nfloats++] = vertlist[tri].z;
 
-		vertices[nvert++] = normlist[tri].x;
-		vertices[nvert++] = normlist[tri].y;
-		vertices[nvert++] = normlist[tri].z;
+		vertices[nfloats++] = normlist[tri].x;
+		vertices[nfloats++] = normlist[tri].y;
+		vertices[nfloats++] = normlist[tri].z;
 	}
 
-	return nvert;
+	return nfloats;
 }
 
 /*
