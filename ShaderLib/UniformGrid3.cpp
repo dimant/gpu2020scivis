@@ -2,7 +2,7 @@
 
 
 // given lexicographic index, find cell vertices (quads assumed)
-void UniformGrid3::getCell(size_t i, Cell3 & c)
+void UniformGrid3::getCell(size_t i, Cell3 & c) const
 {
 	size_t cell_z = i / ((_N1 - 1) * (_N2 - 1));
 	size_t t = i - cell_z * (_N1 - 1) * (_N2 - 1);
@@ -22,17 +22,17 @@ void UniformGrid3::getCell(size_t i, Cell3 & c)
 	c.v7 = c.v3 + _N1;
 }
 
-size_t UniformGrid3::numPoints()
+size_t UniformGrid3::numPoints() const
 {
 	return _N1 * _N2 * _N3;
 }
 
-size_t UniformGrid3::numCells()
+size_t UniformGrid3::numCells() const
 {
 	return (_N1 - 1) * (_N2 - 1) * (_N3 - 1);
 }
 
-void UniformGrid3::getPoint(size_t i, Point3 & p)
+void UniformGrid3::getPoint(size_t i, Point3 & p) const
 {
 	p.z = i / (_N1 * _N2);
 	size_t t = i - p.z * (_N1 * _N2);
@@ -40,33 +40,33 @@ void UniformGrid3::getPoint(size_t i, Point3 & p)
 	p.x = t % _N1;
 }
 
-size_t UniformGrid3::getDimension1()
+size_t UniformGrid3::getDimension1() const
 {
 	return _N1;
 }
 
-glm::vec2 UniformGrid3::getRange1()
+glm::vec2 UniformGrid3::getRange1() const
 {
 	return glm::vec2(_m1, _M1);
 }
 
-size_t UniformGrid3::getDimension2()
+size_t UniformGrid3::getDimension2() const
 {
 	return _N2;
 }
 
-glm::vec2 UniformGrid3::getRange2()
+glm::vec2 UniformGrid3::getRange2() const
 {
 	return glm::vec2(_m2, _M2);
 }
 
 
-size_t UniformGrid3::getDimension3()
+size_t UniformGrid3::getDimension3() const
 {
 	return _N3;
 }
 
-glm::vec2 UniformGrid3::getRange3()
+glm::vec2 UniformGrid3::getRange3() const
 {
 	return glm::vec2(_m3, _M3);
 }
@@ -76,7 +76,7 @@ ScalarAttributes& UniformGrid3::pointScalars()
 	return _scalars;
 }
 
-void UniformGrid3::getCube(size_t i, Cube& quad)
+void UniformGrid3::getCube(size_t i, Cube& quad) const
 {
 	Cell3 cell;
 	getCell(i, cell);
@@ -92,7 +92,7 @@ void UniformGrid3::getCube(size_t i, Cube& quad)
 	getVertex(cell.v7, quad.v7);
 }
 
-void UniformGrid3::getVertex(size_t i, glm::vec4 & v)
+void UniformGrid3::getVertex(size_t i, glm::vec4 & v) const
 {
 	Point3 p;
 	getPoint(i, p);
@@ -101,6 +101,13 @@ void UniformGrid3::getVertex(size_t i, glm::vec4 & v)
 	v.y = p.y;
 	v.z = p.z;
 	v.w = _scalars.getC0Scalar(i);
+}
+
+const float UniformGrid3::getScalar(size_t x, size_t y, size_t z) const
+{
+	size_t i = x + y * _N1 + z * _N1 * _N2;
+
+	return _scalars.getC0Scalar(i);
 }
 
 void UniformGrid3::sample(std::function<float(float, float, float)> func)

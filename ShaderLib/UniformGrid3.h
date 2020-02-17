@@ -73,35 +73,37 @@ public:
 		_d3((M.z - m.z) / (N3 - 1))
 	{ }
 
-	size_t numPoints();
+	size_t numPoints() const;
 
-	size_t numCells();
+	size_t numCells() const;
 
-	virtual void getPoint(size_t i, Point3 & p);
+	virtual void getPoint(size_t i, Point3 & p) const;
 
-	virtual void getVertex(size_t i, glm::vec4 & v);
+	virtual void getVertex(size_t i, glm::vec4 & v) const;
 
-	void getCell(size_t i, Cell3 & c);
+	void getCell(size_t i, Cell3 & c) const;
 
-	void getCube(size_t i, Cube & quad);
+	void getCube(size_t i, Cube & quad) const;
 
-	size_t getDimension1();
+	size_t getDimension1() const;
 
-	glm::vec2 getRange1();
+	glm::vec2 getRange1() const;
 
-	size_t getDimension2();
+	float getDelta1() const { return _d1; }
 
-	glm::vec2 getRange2();
+	size_t getDimension2() const;
 
-	size_t getDimension3();
+	glm::vec2 getRange2() const;
 
-	glm::vec2 getRange3();
+	float getDelta2() const { return _d2; }
 
-	//size_t findCell(const Point3 & p);
+	size_t getDimension3() const;
 
-	virtual size_t numVertices() { return 0; }
+	glm::vec2 getRange3() const;
 
-	virtual void getVertex(size_t i, glm::vec3 & v) { }
+	float getDelta3() const { return _d3; }
+
+	const float getScalar(size_t x, size_t y, size_t z) const;
 
 	virtual void getTris(float * data) { }
 

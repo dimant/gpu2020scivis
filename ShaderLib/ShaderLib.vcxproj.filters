@@ -53,9 +53,6 @@
     <ClCompile Include="triangulation.cpp">
       <Filter>Source Files\grids</Filter>
     </ClCompile>
-    <ClCompile Include="gradients.cpp">
-      <Filter>Source Files\grids</Filter>
-    </ClCompile>
     <ClCompile Include="UniformGrid2.cpp">
       <Filter>Source Files\grids</Filter>
     </ClCompile>
@@ -63,6 +60,9 @@
       <Filter>Source Files\grids</Filter>
     </ClCompile>
     <ClCompile Include="UniformGrid3.cpp">
+      <Filter>Source Files\grids</Filter>
+    </ClCompile>
+    <ClCompile Include="Gradients.cpp">
       <Filter>Source Files\grids</Filter>
     </ClCompile>
   </ItemGroup>
@@ -106,9 +106,6 @@
     <ClInclude Include="triangulation.h">
       <Filter>Header Files\grids</Filter>
     </ClInclude>
-    <ClInclude Include="gradients.h">
-      <Filter>Header Files\grids</Filter>
-    </ClInclude>
     <ClInclude Include="UniformGrid2.h">
       <Filter>Header Files\grids</Filter>
     </ClInclude>
@@ -116,6 +113,9 @@
       <Filter>Header Files\grids</Filter>
     </ClInclude>
     <ClInclude Include="UniformGrid3.h">
+      <Filter>Header Files\grids</Filter>
+    </ClInclude>
+    <ClInclude Include="Gradients.h">
       <Filter>Header Files\grids</Filter>
     </ClInclude>
   </ItemGroup>

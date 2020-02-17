@@ -17,7 +17,7 @@ void ScalarAttributes::setC0Scalar(const size_t i, const float v)
 	_values[i] = v;
 }
 
-const float ScalarAttributes::getC0Scalar(const size_t i)
+const float ScalarAttributes::getC0Scalar(const size_t i) const
 {
 	return _values[i];
 }

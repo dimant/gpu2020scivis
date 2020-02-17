@@ -14,7 +14,7 @@ public:
 	
 	void setC0Scalar(size_t i, float v);
 	
-	const float getC0Scalar(const size_t i);
+	const float getC0Scalar(const size_t i)const;
 
 	const float getMin();
 	
