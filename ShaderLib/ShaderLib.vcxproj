@@ -85,6 +85,7 @@
     <ClCompile Include="imgui_impl_glfw.cpp" />
     <ClCompile Include="imgui_impl_opengl3.cpp" />
     <ClCompile Include="imgui_widgets.cpp" />
+    <ClCompile Include="polygonise.cpp" />
     <ClCompile Include="RectilinearGrid2.cpp" />
     <ClCompile Include="ScalarAttributes.cpp" />
     <ClCompile Include="shaderlib.cpp" />

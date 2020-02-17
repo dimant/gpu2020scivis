@@ -65,6 +65,9 @@
     <ClCompile Include="Gradients.cpp">
       <Filter>Source Files\grids</Filter>
     </ClCompile>
+    <ClCompile Include="polygonise.cpp">
+      <Filter>Header Files\grids</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="shaderlib.h">
