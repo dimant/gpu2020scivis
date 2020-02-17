@@ -20,8 +20,8 @@
 
 #include "Floor.h"
 
-#include "UniformGrid.h"
-#include "RectilinearGrid.h"
+#include "UniformGrid2.h"
+#include "RectilinearGrid2.h"
 
 #include "DataBuilder.h"
 #include "IsoBuilder.h"

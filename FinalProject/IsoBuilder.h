@@ -4,7 +4,7 @@
 #include <memory>
 
 #include "LineStrip.h"
-#include "UniformGrid.h"
+#include "UniformGrid2.h"
 
 class IsoBuilder
 {

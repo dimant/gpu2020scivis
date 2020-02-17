@@ -13,6 +13,9 @@
       <UniqueIdentifier>{2e6200fd-5872-499e-a521-0f79f700511d}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
+    <Filter Include="pvmdds">
+      <UniqueIdentifier>{8e105a03-c2bd-4689-b807-61ccd9180cdf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MouseInput.cpp">
@@ -36,9 +39,6 @@
     <ClCompile Include="Floor.cpp">
       <Filter>sources</Filter>
     </ClCompile>
-    <ClCompile Include="HW3_host.cpp">
-      <Filter>sources</Filter>
-    </ClCompile>
     <ClCompile Include="DataBuilder.cpp">
       <Filter>sources</Filter>
     </ClCompile>
@@ -47,6 +47,12 @@
     </ClCompile>
     <ClCompile Include="IsoBuilder.cpp">
       <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="FinalProject_host.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="ddsbase.cpp">
+      <Filter>pvmdds</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +94,12 @@
     </ClInclude>
     <ClInclude Include="VertAtt.h">
       <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codebase.h">
+      <Filter>pvmdds</Filter>
+    </ClInclude>
+    <ClInclude Include="ddsbase.h">
+      <Filter>pvmdds</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
