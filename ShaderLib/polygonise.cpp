@@ -4,9 +4,7 @@
 
 #include "glm/glm.hpp"
 
-#include "UniformGrid3.h"
-
-#define INTERP1(u, v, t) ((t - u) / (v - u))
+#include "polygonise.h"
 
 /*
    Linearly interpolate the position where an isosurface cuts
