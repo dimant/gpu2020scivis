@@ -55,11 +55,6 @@ size_t UniformGrid3::getDimension3() const
 	return _N3;
 }
 
-ScalarAttributes& UniformGrid3::pointScalars()
-{
-	return _scalars;
-}
-
 void UniformGrid3::getCube(size_t i, Cube& cube) const
 {
 	Cell3 cell;
@@ -99,14 +94,12 @@ void UniformGrid3::getVertex(size_t i, glm::vec4 & v) const
 	v.x = p.x;
 	v.y = p.y;
 	v.z = p.z;
-	v.w = _scalars.getC0Scalar(i);
+	v.w = _values[i];
 }
 
-const float UniformGrid3::getScalar(const size_t & x, const size_t & y, const size_t & z) const
+inline const float UniformGrid3::getScalar(const size_t & x, const size_t & y, const size_t & z) const
 {
-	size_t i = x + y * _N1 + z * _N1 * _N2;
-
-	return _scalars.getC0Scalar(i);
+	return _values[x + y * _N1 + z * _N1 * _N2];
 }
 
 void UniformGrid3::sample(std::function<float(float, float, float)> func)
@@ -118,7 +111,7 @@ void UniformGrid3::sample(std::function<float(float, float, float)> func)
 	{
 		getVertex(i, v);
 		sample = func(v.x, v.y, v.z);
-		_scalars.setC0Scalar(i, sample);
+		_values[i] = sample;
 	}
 }
 
