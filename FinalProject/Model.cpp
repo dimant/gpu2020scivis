@@ -2,6 +2,8 @@
 
 #include "Model.h"
 
+#include "VertAtt.h"
+
 void Model::initVao(const GLuint & program)
 {
 	glGenVertexArrays(1, &_vao);
@@ -59,7 +61,9 @@ void Model::draw()
 	setMat4(_program, _model, "mModel");
 	glBindTexture(GL_TEXTURE_2D, _texture);
 	glBindVertexArray(_vao);
-	glDrawArrays(GL_TRIANGLES, 0, _ndata);
+	//glDrawArrays(GL_TRIANGLES, 0, _ndata / sizeof(VertAtt));
+	glPointSize(10.0f);
+	glDrawArrays(GL_POINTS, 0, _ndata / sizeof(VertAtt));
 	glBindVertexArray(0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	setMat4(_program, glm::mat4(), "mModel");

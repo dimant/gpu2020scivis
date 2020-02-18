@@ -1,5 +1,5 @@
 ﻿#ifndef UNIFORMGRID3_H
-#define UINFORMGRID3_H
+#define UNIFORMGRID3_H
 
 #include <functional>
 
@@ -70,12 +70,25 @@ protected:
 	size_t _N2;
 	size_t _N3;
 
+	glm::vec3 _min;
+
+	glm::vec3 _max;
+
+	glm::vec3 _delta;
+
 public:
 	UniformGrid3(
-		size_t N1, size_t N2, size_t N3) :
+		size_t N1, size_t N2, size_t N3,
+		glm::vec3 min, glm::vec3 max) :
 		_scalars(N1 * N2 * N3),
-		_N1(N1), _N2(N2), _N3(N3)
+		_N1(N1), _N2(N2), _N3(N3),
+		_min(min), _max(max),
+		_delta((max - min) / glm::vec3(N1, N2, N3))
 	{ }
+
+	const glm::vec3 getMin() const { return _min; }
+
+	const glm::vec3 getMax() const { return _max; }
 
 	size_t numPoints() const;
 
@@ -87,7 +100,7 @@ public:
 
 	void getCell(size_t i, Cell3 & c) const;
 
-	void getCube(size_t i, Cube & quad) const;
+	void getCube(size_t i, Cube & cube) const;
 
 	size_t getDimension1() const;
 
@@ -101,10 +114,9 @@ public:
 
 	ScalarAttributes& pointScalars();
 
-	void sample(std::function<float(size_t, size_t, size_t)> func);
+	void sample(std::function<float(float, float, float)> func);
 
-	void getGradient(glm::vec3& n, 
-		const size_t & x, const size_t & y, const size_t & z) const;
+	void getGradient(glm::vec3& n, size_t i) const;
 };
 
 #endif

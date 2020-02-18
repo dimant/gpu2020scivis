@@ -13,21 +13,21 @@ namespace FinalProject_Tests
 	public:
 		TEST_METHOD(numPoints_count_correct)
 		{
-			UniformGrid3 grid(4, 4, 4);
+			UniformGrid3 grid(4, 4, 4, glm::vec3(0.0f), glm::vec3(4.0f));
 
 			Assert::AreEqual((size_t) 64, grid.numPoints());
 		}
 
 		TEST_METHOD(numCells_count_correct)
 		{
-			UniformGrid3 grid(4, 4, 4);
+			UniformGrid3 grid(4, 4, 4, glm::vec3(0.0f), glm::vec3(4.0f));
 
 			Assert::AreEqual((size_t)27, grid.numCells());
 		}
 
 		TEST_METHOD(getPoint_1d_correct)
 		{
-			UniformGrid3 grid(4, 4, 4);
+			UniformGrid3 grid(4, 4, 4, glm::vec3(0.0f), glm::vec3(4.0f));
 
 			Point3 p;
 
@@ -40,7 +40,7 @@ namespace FinalProject_Tests
 
 		TEST_METHOD(getPoint_2d_correct)
 		{
-			UniformGrid3 grid(4, 4, 4);
+			UniformGrid3 grid(4, 4, 4, glm::vec3(0.0f), glm::vec3(4.0f));
 
 			Point3 p;
 
@@ -53,7 +53,7 @@ namespace FinalProject_Tests
 
 		TEST_METHOD(getPoint_3d_correct_111)
 		{
-			UniformGrid3 grid(4, 4, 4);
+			UniformGrid3 grid(4, 4, 4, glm::vec3(0.0f), glm::vec3(4.0f));
 
 			Point3 p;
 
@@ -66,7 +66,7 @@ namespace FinalProject_Tests
 
 		TEST_METHOD(getPoint_3d_correct_001)
 		{
-			UniformGrid3 grid(4, 4, 4);
+			UniformGrid3 grid(4, 4, 4, glm::vec3(0.0f), glm::vec3(4.0f));
 
 			Point3 p;
 
@@ -79,7 +79,7 @@ namespace FinalProject_Tests
 
 		TEST_METHOD(getPoint_3d_correct_121)
 		{
-			UniformGrid3 grid(4, 4, 4);
+			UniformGrid3 grid(4, 4, 4, glm::vec3(0.0f), glm::vec3(4.0f));
 
 			Point3 p;
 
@@ -92,7 +92,7 @@ namespace FinalProject_Tests
 
 		TEST_METHOD(getPoint_3d_correct_last)
 		{
-			UniformGrid3 grid(4, 4, 4);
+			UniformGrid3 grid(4, 4, 4, glm::vec3(0.0f), glm::vec3(4.0f));
 
 			Point3 p;
 			size_t last = grid.numPoints() - 1;
@@ -105,7 +105,7 @@ namespace FinalProject_Tests
 
 		TEST_METHOD(getCell_correct_0)
 		{
-			UniformGrid3 grid(4, 4, 4);
+			UniformGrid3 grid(4, 4, 4, glm::vec3(0.0f), glm::vec3(4.0f));
 
 			Cell3 cell;
 
@@ -124,7 +124,7 @@ namespace FinalProject_Tests
 
 		TEST_METHOD(getCell_correct_13)
 		{
-			UniformGrid3 grid(4, 4, 4);
+			UniformGrid3 grid(4, 4, 4, glm::vec3(0.0f), glm::vec3(4.0f));
 
 			Cell3 cell;
 
@@ -135,7 +135,7 @@ namespace FinalProject_Tests
 
 		TEST_METHOD(getCell_correct_last)
 		{
-			UniformGrid3 grid(4, 4, 4);
+			UniformGrid3 grid(4, 4, 4, glm::vec3(0.0f), glm::vec3(4.0f));
 
 			size_t last = grid.numCells() - 1;
 
@@ -148,7 +148,7 @@ namespace FinalProject_Tests
 
 		TEST_METHOD(getVertex_sample_matches)
 		{
-			UniformGrid3 grid(4, 4, 4);
+			UniformGrid3 grid(4, 4, 4, glm::vec3(0.0f), glm::vec3(4.0f));
 
 			float idx = 0.0f;
 			auto func = [idx](float, float, float) mutable { return idx++; };
@@ -163,7 +163,7 @@ namespace FinalProject_Tests
 
 		TEST_METHOD(getCube_sample_matches)
 		{
-			UniformGrid3 grid(4, 4, 4);
+			UniformGrid3 grid(4, 4, 4, glm::vec3(0.0f), glm::vec3(4.0f));
 
 			float idx = 0.0f;
 			auto func = [idx](float, float, float) mutable { return idx++; };

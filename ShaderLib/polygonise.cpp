@@ -43,15 +43,8 @@ void interpolate(
 	{
 		mu = INTERP1(p1.w, p2.w, isolevel);
 
-		p.x = p1.x + mu * (p2.x - p1.x);
-		p.y = p1.y + mu * (p2.y - p1.y);
-		p.z = p1.z + mu * (p2.z - p1.z);
-
-		n = glm::normalize(
-				glm::vec3(
-					n1.x + mu * (n2.x - n1.x),
-					n1.y + mu * (n2.y - n1.y),
-					n1.z + mu * (n2.z - n1.z)));
+		p = p1 + mu * (p2 - p1);
+		n = glm::normalize(n1 + mu * (n2 - n1));
 	}
 }
 
@@ -106,6 +99,34 @@ int getTriangles(
 	0 will be returned if the grid cell is either totally above
 	of totally below the isolevel.
 */
+int xpolygonise(const Cube& cube, const float& isolevel, float *vertices)
+{
+	int cubeindex;
+	getCubeIndex(cubeindex, cube, isolevel);
+
+	if (cubeindex > 0)
+	{
+		glm::vec3 r = (
+			cube.v0 +
+			cube.v1 +
+			cube.v2 +
+			cube.v3 +
+			cube.v4 +
+			cube.v5 +
+			cube.v6 +
+			cube.v7) / 8.0f;
+
+		vertices[0] = r.x;
+		vertices[1] = r.y;
+		vertices[2] = r.z;
+		return 3;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
 int polygonise(const Cube& cube, const float& isolevel, float *vertices)
 {
 	static const unsigned int edgeTable[256] = {
@@ -402,7 +423,6 @@ int polygonise(const Cube& cube, const float& isolevel, float *vertices)
 		{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}
 	};
 
-	int i, nvert;
 	int cubeindex;
 	const size_t maxvert = 12;
 	glm::vec3 vertlist[maxvert];

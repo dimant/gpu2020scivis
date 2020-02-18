@@ -18,20 +18,12 @@
 #include "Light.h"
 #include "MouseInput.h"
 
-#include "Floor.h"
-
-#include "UniformGrid2.h"
-#include "RectilinearGrid2.h"
-
 #include "DataBuilder.h"
-#include "IsoBuilder.h"
 
 UI* g_ui;
 Scene* g_scene;
 Light* g_light;
 MouseInput* g_mouseInput;
-IsoBuilder* g_isoBuilder;
-LineStrip* g_lineStrip;
 
 bool g_autoRotate = true;
 bool g_quit = false;
@@ -101,71 +93,70 @@ GLint initModelShaders(GLuint & program)
 	return GL_TRUE;
 }
 
-GLuint lex(const std::vector<GLuint>& n, const std::vector<GLuint>& N)
+void createUI()
 {
-	size_t k, l;
-	size_t d = N.size() - 1;
 
-	GLuint sum = 0;
-	GLuint prod = 1;
-
-	for (k = 2; k <= d; k++)
-	{
-		prod = 1;
-
-		for (l = 1; l < k - 1; l++)
+	g_autoRotate = g_ui->EnableAutoRotationHandler.Value = false;
+	g_ui->EnableAutoRotationHandler.connect([](bool v) {
+		g_autoRotate = v;
+		if (v && g_ui->ModelManipulationHandler.Value == 3)
 		{
-			prod *= N[l - 1];
+			g_ui->ModelManipulationHandler.Value = 0;
+			g_ui->ModelManipulationHandler.handle(true);
 		}
+	});
 
-		sum += n[k - 1] * prod;
-	}
+	g_ui->EnableDirectionalLightHandler.Value = true;
+	g_light->setDirectionalLight(g_ui->EnableDirectionalLightHandler.Value);
+	g_ui->EnableDirectionalLightHandler.connect([](bool v) { g_light->setDirectionalLight(v); });
 
-	return n[0] + sum;
-}
+	g_ui->EnableWireFrameHandler.Value = false;
+	g_scene->setPolygonMode(g_ui->EnableWireFrameHandler.Value);
+	g_ui->EnableWireFrameHandler.connect([](bool v) { g_scene->setPolygonMode(v); });
 
-// 0.25 for | 2 | < x, y <= | 3 |
-// 0.1 for | 1 | < x, y <= | 2 |
-// 0.025 for 0 <= x, y <= | 1 |
+	g_ui->EnableAttenuationLightHandler.Value = true;
+	g_light->setEnableAttenuation(g_ui->EnableAttenuationLightHandler.Value);
+	g_ui->EnableAttenuationLightHandler.connect([](bool v) { g_light->setEnableAttenuation(v); });
 
-RectilinearGrid2 createRectGrid()
-{
-	std::vector<float> dimsX;
-	std::vector<float> dimsY;
+	g_ui->ShinynessExponentHandler.Value = 4;
+	g_light->setShininess((float)(1 << g_ui->ShinynessExponentHandler.Value));
+	g_ui->ShinynessExponentHandler.connect([](int e) { g_light->setShininess((float)(1 << e)); });
 
-	float d = -3.0f;
+	g_ui->LightDistanceHandler.Value = g_light->getLightDistance();
+	g_ui->LightDistanceHandler.connect([](float d) { g_light->setLightDistance(d); });
 
-	dimsX.push_back(d);
-	dimsY.push_back(d);
+	float coneAngle = 12.5f;
+	g_ui->SpotConeAngleHandler.Value = coneAngle;
+	g_light->setConeAngle(coneAngle);
+	g_ui->SpotConeAngleHandler.connect([](float a) { g_light->setConeAngle(a); });
 
-	while (d <= 3.0f)
-	{
-		if (d < -2.0f)
+	float coneFalloff = 32.0f;
+	g_ui->SpotConeFalloffHandler.Value = coneFalloff;
+	g_light->setConeFalloff(coneFalloff);
+	g_ui->SpotConeFalloffHandler.connect([](float e) { g_light->setConeFalloff(e); });
+
+	g_ui->ModelManipulationHandler.Value = 0;
+	g_ui->ModelManipulationHandler.connect([](int o) {
+		switch (o)
 		{
-			d += 0.25f;
+		case 0:
+			g_mouseInput->setTransformation(Rotate);
+			break;
+		case 1:
+			g_mouseInput->setTransformation(Translate);
+			break;
+		case 2:
+			g_mouseInput->setTransformation(Scale);
+			break;
+		case 3:
+			g_ui->EnableAutoRotationHandler.Value = false;
+			g_ui->EnableAutoRotationHandler.handle(true);
+			g_mouseInput->setTransformation(LightRotate);
+			break;
 		}
-		else if (d < -1.0f)
-		{
-			d += 0.1f;
-		}
-		else if (d < 1.0f)
-		{
-			d += 0.025f;
-		}
-		else if (d < 2.0f)
-		{
-			d += 0.1f;
-		}
-		else
-		{
-			d += 0.25f;
-		}
+	});
 
-		dimsX.push_back(d);
-		dimsY.push_back(d);
-	}
-
-	return RectilinearGrid2(dimsX, dimsY);
+	g_ui->ButtonQuitHandler.connect([](bool v) { g_quit = true; });
 }
 
 int main(int argc, char** argv)
@@ -224,15 +215,7 @@ int main(int argc, char** argv)
 	scene.apply();
 	g_scene = &scene;
 
-	//auto floor = createFloor(program);
-	//floor->init();
-
-	//size_t N = (size_t) round(6.0f / 0.25f);
-	//float m = -3;
-	//float M = 3;
-	//UniformGrid grid(N, N, m, m, M, M);
-
-	auto grid = createRectGrid();
+	UniformGrid3 grid(10, 10, 10, glm::vec3(0.0f), glm::vec3(10.0f));
 
 	DataBuilder dataBuilder;
 	auto data = dataBuilder.createData(modelProgram, grid);
@@ -240,82 +223,10 @@ int main(int argc, char** argv)
 	data->init();
 	tc.add(data.get());
 
-	float initialThreshold = 0.5f;
-	IsoBuilder isoBuilder(grid);
-	g_isoBuilder = &isoBuilder;
-	g_lineStrip = new LineStrip(modelProgram, grid.numVertices(), NULL);
-	g_lineStrip->init();
-	isoBuilder.createIsoLine(initialThreshold, g_lineStrip);
-
-	tc.add(g_lineStrip);
-
 	MouseInput mouseInput(tc, light);
 	g_mouseInput = &mouseInput;
 
-	g_ui->IsoThresholdHandler.Value = initialThreshold;
-	g_ui->IsoThresholdHandler.connect([](float v) { g_isoBuilder->createIsoLine(v, g_lineStrip); });
-
-	g_autoRotate = g_ui->EnableAutoRotationHandler.Value = false;
-	g_ui->EnableAutoRotationHandler.connect([](bool v) { 
-		g_autoRotate = v;
-		if (v && g_ui->ModelManipulationHandler.Value == 3)
-		{
-			g_ui->ModelManipulationHandler.Value = 0;
-			g_ui->ModelManipulationHandler.handle(true);
-		}
-	});
-
-	g_ui->EnableDirectionalLightHandler.Value = true;
-	light.setDirectionalLight(g_ui->EnableDirectionalLightHandler.Value);
-	g_ui->EnableDirectionalLightHandler.connect([](bool v) { g_light->setDirectionalLight(v); });
-
-	g_ui->EnableWireFrameHandler.Value = false;
-	g_scene->setPolygonMode(g_ui->EnableWireFrameHandler.Value);
-	g_ui->EnableWireFrameHandler.connect([](bool v) { g_scene->setPolygonMode(v); });
-
-	g_ui->EnableAttenuationLightHandler.Value = true;
-	light.setEnableAttenuation(g_ui->EnableAttenuationLightHandler.Value);
-	g_ui->EnableAttenuationLightHandler.connect([](bool v) { g_light->setEnableAttenuation(v); });
-
-	g_ui->ShinynessExponentHandler.Value = 4;
-	light.setShininess((float)(1 << g_ui->ShinynessExponentHandler.Value));
-	g_ui->ShinynessExponentHandler.connect([](int e) { g_light->setShininess((float)(1 << e)); });
-
-	g_ui->LightDistanceHandler.Value = light.getLightDistance();
-	g_ui->LightDistanceHandler.connect([](float d) { g_light->setLightDistance(d); });
-
-	float coneAngle = 12.5f;
-	g_ui->SpotConeAngleHandler.Value = coneAngle;
-	light.setConeAngle(coneAngle);
-	g_ui->SpotConeAngleHandler.connect([](float a) { g_light->setConeAngle(a); });
-
-	float coneFalloff = 32.0f;
-	g_ui->SpotConeFalloffHandler.Value = coneFalloff;
-	light.setConeFalloff(coneFalloff);
-	g_ui->SpotConeFalloffHandler.connect([](float e) { g_light->setConeFalloff(e); });
-
-	g_ui->ModelManipulationHandler.Value = 0;
-	g_ui->ModelManipulationHandler.connect([](int o) {
-		switch (o)
-		{
-		case 0:
-			g_mouseInput->setTransformation(Rotate);
-			break;
-		case 1:
-			g_mouseInput->setTransformation(Translate);
-			break;
-		case 2:
-			g_mouseInput->setTransformation(Scale);
-			break;
-		case 3:
-			g_ui->EnableAutoRotationHandler.Value = false;
-			g_ui->EnableAutoRotationHandler.handle(true);
-			g_mouseInput->setTransformation(LightRotate);
-			break;
-		}
-	});
-
-	g_ui->ButtonQuitHandler.connect([](bool v) { g_quit = true; });
+	createUI();
 
 	while (0 == glfwWindowShouldClose(window) && false == g_quit)
 	{
@@ -326,9 +237,7 @@ int main(int argc, char** argv)
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		//floor->draw();
 		data->draw();
-		g_lineStrip->draw();
 
 		g_ui->draw();
 
@@ -338,9 +247,7 @@ int main(int argc, char** argv)
 		timeCallback();
 	}
 
-	//floor->destroy();
 	data->destroy();
-	g_lineStrip->destroy();
 
 	g_ui->destroy();
 

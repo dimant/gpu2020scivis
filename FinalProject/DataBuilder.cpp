@@ -1,79 +1,58 @@
 #include "DataBuilder.h"
 
+#include "polygonise.h"
+
 #include "VertAtt.h"
 
-std::shared_ptr<Model> DataBuilder::createData(GLuint program, UniformGrid2 & grid)
+std::shared_ptr<Model> DataBuilder::createData(GLuint program, UniformGrid3 & grid)
 {
-	auto scienceFunction = [](float x, float y) {
-		float d = 0.8;
-		float x1 = x + d;
-		float x2 = x - d;
-		float y1 = y + d;
-		float y2 = y - d;
-		return exp(-(x1 * x1 + y1 * y1)) + exp(-(x2 * x2 + y2 * y2));
+	glm::vec3 center = (grid.getMax() - grid.getMin()) / 2.0f;
+
+	// creates a 'sphere' by returning the distance from a given center
+	// which can then be thresholded to the desired size
+	auto scienceFunction = [center](float x, float y, float z) {
+		return glm::length(glm::vec3(x, y, z) - center);
 	};
-	//auto scienceFunction = [](float x, float y) { return sin(1 / (x * x + y * y)); };
-
-	// fractional brownian motion
-	//auto scienceFunction = [](float x, float y) {
-	//	float amplitude = 1.;
-	//	float frequency = 1.;
-	//	float z = sin(x * frequency);
-	//	float t = 0.01*(-y * 130.0);
-	//	z += sin(x*frequency*2.1 + t)*4.5;
-	//	z += sin(x*frequency*1.72 + t * 1.121)*4.0;
-	//	z += sin(x*frequency*2.221 + t * 0.437)*5.0;
-	//	z += sin(x*frequency*3.1122 + t * 4.269)*2.5;
-	//	z *= amplitude * 0.06;
-	//	return z;
-	//};
-
-	// assuming that v.z = f(x, y)
-	auto normalFunction = [](glm::vec3 v) {
-		return glm::vec3(
-			-2 * v.x * v.z,
-			-2 * v.y * v.z,
-			1.0f);
-	};
-
-	//auto normalFunction = [](glm::vec3 v) {
-	//	return glm::vec3(0.0f, 1.0f, 0.0f);
-	//};
 
 	grid.sample(scienceFunction);
 
-	size_t nVert = grid.numVertices();
+	float isolevel = 1.0f;
 
-	// three coordinates per vertex
-	size_t sizeTris = nVert * 3;
-	float* tris = new float[sizeTris];
-	float* triCursor = tris;
-
-	// triangulate sampled grid
-	grid.getTris(tris);
-
-	// populate data representation
-	VertAtt* data = new VertAtt[nVert];
-
+	float buffer[90];
+	size_t nfloats;
+	Cube cube;
 	auto material = glm::vec3(0.1f, 12.0f, 2.0f);
 
-	float d1 = grid.getRange1().y - grid.getRange1().x;
-	float m1 = grid.getRange1().x;
-	float d2 = grid.getRange2().y - grid.getRange2().x;
-	float m2 = grid.getRange2().x;
+	std::vector<VertAtt> vertices;
 
-	for (int i = 0; i < nVert; i++)
+	for (size_t i = 0; i < grid.numCells(); i++)
 	{
-		data[i].vertex = *((glm::vec3*) triCursor);
-		triCursor += 3;
+		grid.getCube(i, cube);
 
-		data[i].texel = glm::vec2(
-			(data[i].vertex.x + m1) / d1,
-			(data[i].vertex.y + m2) / d2
-		);
-		data[i].normal = normalFunction(data[i].vertex);
-		data[i].material = material;
+		nfloats = polygonise(cube, isolevel, buffer);
+
+		if (nfloats > 0)
+		{
+			for (size_t j = 0; j < (nfloats / 3); j++)
+			{
+				VertAtt va;
+				va.vertex.x = buffer[j + 0];
+				va.vertex.y = buffer[j + 1];
+				va.vertex.z = buffer[j + 2];
+
+				//va.normal.x = buffer[j + 3];
+				//va.normal.y = buffer[j + 4];
+				//va.normal.z = buffer[j + 5];
+
+				va.material = material;
+				va.texel = glm::vec2(0.0f);
+				vertices.push_back(va);
+			}
+		}
 	}
 
-	return std::make_shared<Model>(program, sizeof(VertAtt) * nVert, data, "textures\\sphere.jpg");
+	VertAtt* data = new VertAtt[vertices.size()];
+	std::copy(vertices.begin(), vertices.end(), data);
+
+	return std::make_shared<Model>(program, sizeof(VertAtt) * vertices.size(), data, "textures\\sphere.jpg");
 }

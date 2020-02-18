@@ -60,49 +60,41 @@ ScalarAttributes& UniformGrid3::pointScalars()
 	return _scalars;
 }
 
-void UniformGrid3::getCube(size_t i, Cube& quad) const
+void UniformGrid3::getCube(size_t i, Cube& cube) const
 {
 	Cell3 cell;
-	Point3 p;
 	getCell(i, cell);
 
-	getVertex(cell.v0, quad.v0);
-	getPoint(cell.v0, p);
-	getGradient(quad.n0, p.x, p.y, p.z);
+	getVertex(cell.v0, cube.v0);
+	getGradient(cube.n0, i);
 
-	getVertex(cell.v1, quad.v1);
-	getPoint(cell.v1, p);
-	getGradient(quad.n1, p.x, p.y, p.z);
+	getVertex(cell.v1, cube.v1);
+	getGradient(cube.n1, i);
 
-	getVertex(cell.v2, quad.v2);
-	getPoint(cell.v2, p);
-	getGradient(quad.n2, p.x, p.y, p.z);
+	getVertex(cell.v2, cube.v2);
+	getGradient(cube.n2, i);
 
-	getVertex(cell.v3, quad.v3);
-	getPoint(cell.v3, p);
-	getGradient(quad.n3, p.x, p.y, p.z);
+	getVertex(cell.v3, cube.v3);
+	getGradient(cube.n3, i);
 
-	getVertex(cell.v4, quad.v4);
-	getPoint(cell.v4, p);
-	getGradient(quad.n4, p.x, p.y, p.z);
+	getVertex(cell.v4, cube.v4);
+	getGradient(cube.n4, i);
 
-	getVertex(cell.v5, quad.v5);
-	getPoint(cell.v5, p);
-	getGradient(quad.n5, p.x, p.y, p.z);
+	getVertex(cell.v5, cube.v5);
+	getGradient(cube.n5, i);
 
-	getVertex(cell.v6, quad.v6);
-	getPoint(cell.v6, p);
-	getGradient(quad.n6, p.x, p.y, p.z);
+	getVertex(cell.v6, cube.v6);
+	getGradient(cube.n6, i);
 
-	getVertex(cell.v7, quad.v7);
-	getPoint(cell.v7, p);
-	getGradient(quad.n7, p.x, p.y, p.z);
+	getVertex(cell.v7, cube.v7);
+	getGradient(cube.n7, i);
 }
 
 void UniformGrid3::getVertex(size_t i, glm::vec4 & v) const
 {
-	Point3 p;
-	getPoint(i, p);
+	Point3 point;
+	getPoint(i, point);
+	glm::vec3 p = _min + _delta * glm::vec3(point.x, point.y, point.z);
 
 	v.x = p.x;
 	v.y = p.y;
@@ -117,39 +109,41 @@ const float UniformGrid3::getScalar(const size_t & x, const size_t & y, const si
 	return _scalars.getC0Scalar(i);
 }
 
-void UniformGrid3::sample(std::function<float(size_t, size_t, size_t)> func)
+void UniformGrid3::sample(std::function<float(float, float, float)> func)
 {
 	float sample = 0.0f;
-	Point3 p;
+	glm::vec4 v;
 
 	for (int i = 0; i < numPoints(); i++)
 	{
-		getPoint(i, p);
-		sample = func(p.x, p.y, p.z);
+		getVertex(i, v);
+		sample = func(v.x, v.y, v.z);
 		_scalars.setC0Scalar(i, sample);
 	}
 }
 
-void UniformGrid3::getGradient(glm::vec3& n,
-	const size_t & x, const size_t & y, const size_t & z) const
+void UniformGrid3::getGradient(glm::vec3& n, size_t i) const
 {
 	float x1, x2;
 	float gx;
+	Point3 p;
 
-	if (x == 0)
+	getPoint(i, p);
+
+	if (p.x == 0)
 	{
-		x1 = getScalar(x, y, z);
-		x2 = getScalar(x + 1, y, z);
+		x1 = getScalar(p.x, p.y, p.z);
+		x2 = getScalar(p.x + 1, p.y, p.z);
 	}
-	else if (x == getDimension1() - 1)
+	else if (p.x == getDimension1() - 1)
 	{
-		x1 = getScalar(x - 1, y, z);
-		x2 = getScalar(x, y, z);
+		x1 = getScalar(p.x - 1, p.y, p.z);
+		x2 = getScalar(p.x, p.y, p.z);
 	}
 	else
 	{
-		x1 = getScalar(x - 1, y, z);
-		x2 = getScalar(x + 1, y, z);
+		x1 = getScalar(p.x - 1, p.y, p.z);
+		x2 = getScalar(p.x + 1, p.y, p.z);
 	}
 
 	gx = (x2 - x1);
@@ -157,20 +151,20 @@ void UniformGrid3::getGradient(glm::vec3& n,
 	float y1, y2;
 	float gy;
 
-	if (y == 0)
+	if (p.y == 0)
 	{
-		y1 = getScalar(x, y, z);
-		y2 = getScalar(x, y + 1, z);
+		y1 = getScalar(p.x, p.y, p.z);
+		y2 = getScalar(p.x, p.y + 1, p.z);
 	}
-	else if (y == getDimension2() - 1)
+	else if (p.y == getDimension2() - 1)
 	{
-		y1 = getScalar(x, y - 1, z);
-		y2 = getScalar(x, y, z);
+		y1 = getScalar(p.x, p.y - 1, p.z);
+		y2 = getScalar(p.x, p.y, p.z);
 	}
 	else
 	{
-		y1 = getScalar(x, y - 1, z);
-		y2 = getScalar(x, y + 1, z);
+		y1 = getScalar(p.x, p.y - 1, p.z);
+		y2 = getScalar(p.x, p.y + 1, p.z);
 	}
 
 	gy = (y2 - y1);
@@ -178,20 +172,20 @@ void UniformGrid3::getGradient(glm::vec3& n,
 	float z1, z2;
 	float gz;
 
-	if (z == 0)
+	if (p.z == 0)
 	{
-		z1 = getScalar(x, y, z);
-		z2 = getScalar(x, y, z + 1);
+		z1 = getScalar(p.x, p.y, p.z);
+		z2 = getScalar(p.x, p.y, p.z + 1);
 	}
-	else if (z == getDimension3() - 1)
+	else if (p.z == getDimension3() - 1)
 	{
-		z1 = getScalar(x, y, z - z);
-		z2 = getScalar(x, y, z);
+		z1 = getScalar(p.x, p.y, p.z - p.z);
+		z2 = getScalar(p.x, p.y, p.z);
 	}
 	else
 	{
-		z1 = getScalar(x, y, z - 1);
-		z2 = getScalar(x, y, z + 1);
+		z1 = getScalar(p.x, p.y, p.z - 1);
+		z2 = getScalar(p.x, p.y, p.z + 1);
 	}
 
 	gz = (z2 - z1);
