@@ -25,6 +25,9 @@ std::shared_ptr<Model> DataBuilder::createData(GLuint program, UniformGrid3 & gr
 
 	std::vector<VertAtt> vertices;
 
+	int tris = 1;
+	int x = 0;
+
 	for (size_t i = 0; i < grid.numCells(); i++)
 	{
 		grid.getCube(i, cube);
@@ -40,16 +43,21 @@ std::shared_ptr<Model> DataBuilder::createData(GLuint program, UniformGrid3 & gr
 				va.vertex.y = buffer[j + 1];
 				va.vertex.z = buffer[j + 2];
 
-				//va.normal.x = buffer[j + 3];
-				//va.normal.y = buffer[j + 4];
-				//va.normal.z = buffer[j + 5];
+				va.normal.x = buffer[j + 3];
+				va.normal.y = buffer[j + 4];
+				va.normal.z = buffer[j + 5];
 
 				va.material = material;
 				va.texel = glm::vec2(0.0f);
 				vertices.push_back(va);
+
+				x++;
+				if (x == tris * 3)
+					goto stop;
 			}
 		}
 	}
+stop:
 
 	VertAtt* data = new VertAtt[vertices.size()];
 	std::copy(vertices.begin(), vertices.end(), data);
