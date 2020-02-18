@@ -4,7 +4,7 @@
 
 #include "VertAtt.h"
 
-std::shared_ptr<Model> DataBuilder::createData(GLuint program, UniformGrid3 & grid)
+std::shared_ptr<Model> DataBuilder::createData(GLuint program, UniformGrid3 & grid, float isolevel)
 {
 	glm::vec3 center = (grid.getMax() - grid.getMin()) / 2.0f;
 
@@ -15,8 +15,6 @@ std::shared_ptr<Model> DataBuilder::createData(GLuint program, UniformGrid3 & gr
 	};
 
 	grid.sample(scienceFunction);
-
-	float isolevel = 1.5f;
 
 	float buffer[90];
 	size_t nfloats;
