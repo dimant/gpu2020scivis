@@ -156,7 +156,9 @@ namespace FinalProject_Tests
 			grid.sample(func);
 
 			glm::vec4 v;
-			grid.getVertex(23, v);
+			Point3 p;
+			grid.getPoint(23, p);
+			grid.getVertex(23, p, v);
 
 			Assert::IsTrue(almosteq(23.0f, v.w));
 		}

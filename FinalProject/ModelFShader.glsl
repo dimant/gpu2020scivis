@@ -36,10 +36,8 @@ vec4 light()
 	// diffuse
 	vec3 norm = normalize(normal);
 	vec3 lightIncidence =
-		clamp(
-			normalize(vLightPosition - fragmentPosition
-				* fEnableDirectionalLight),
-			0.0, 1.0);
+		normalize(vLightPosition - fragmentPosition
+			* fEnableDirectionalLight);
 	float diff = max(dot(norm, lightIncidence), 0.0);
 	vec3 diffuse = material.y * diff * ambient;
 

@@ -12,7 +12,16 @@ Scene::Scene() :
 	_camPosition(glm::vec3(0.0f, 0.0f, 0.0f))
 {
 	setView(glm::mat4(1.0f));
-	moveCamZ(4.0f);
+
+	_camPosition.y += 8.0f;
+	_camPosition.z += 15.0f;
+
+	setView(
+		glm::lookAt(
+			_camPosition,
+			glm::vec3(0.0f, 0.0f, 0.0f),
+			glm::vec3(0.0f, 1.0f, 0.0f)));
+
 	setProj(glm::perspective(glm::radians(90.0f), 1.0f, 0.1f, 50.0f));
 
 	setPolygonMode(false);
@@ -32,8 +41,6 @@ void Scene::moveCamZ(const float & factor)
 			_camPosition,
 			glm::vec3(0.0f, 0.0f, 0.0f),
 			glm::vec3(0.0f, 1.0f, 0.0f)));
-
-	//setVec3(_program, _camPosition, "vCameraPosition");
 }
 
 void Scene::setView(glm::mat4 view)

@@ -6,6 +6,8 @@
 
 #include "ddsbase.h"
 
+#include "triangulation.h"
+
 #define ROUNDINT(f) ((int)(f >= 0.0 ? (f + 0.5) : (f - 0.5)))
 
 std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel, char* filename)
@@ -20,7 +22,7 @@ std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel, c
 	unsigned char* paramter;
 	unsigned char* comment;
 
-	const char* fname = "C:\\Users\\diman\\Downloads\\CT-Chest.pvm";
+	const char* fname = "C:\\Users\\diman\\Downloads\\Engine.pvm";
 
 	data = readPVMvolume(fname,
 		&width, &height, &depth,
@@ -28,15 +30,29 @@ std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel, c
 		&scalex, &scaley, &scalez,
 		&description, &courtesy, &paramter, &comment);
 
-	UniformGrid3 grid(
-		width, height, depth,
-		glm::vec3(0.0f),
-		glm::vec3(width*scalex, height*scaley, depth*scalez));
+	if (components == 2)
+	{
+		data = quantize(data, width, height, depth, true, false, false);
+	}
 
-	auto loader = [data, width, height, depth](size_t x, size_t y, size_t z) {
-		int _x = ROUNDINT(x);
-		int _y = ROUNDINT(y);
-		int _z = ROUNDINT(z);
+	glm::vec3 gmin(0.0f);
+
+	unsigned int max_side = max3(width, height, depth);
+	float factor = 15.0 / (float)max_side;
+
+	glm::vec3 gmax(width*scalex, height*scaley, depth*scalez);
+	gmax *= factor;
+
+	glm::vec3 gmid = (gmax + gmin) / 2.0f;
+	glm::vec3 gdelta = (gmax - gmin) / glm::vec3(width, height, depth);
+	glm::vec3 idelta = 1.0f / gdelta;
+
+	UniformGrid3 grid(width, height, depth, gmin, gmax);
+
+	auto loader = [data, width, height, depth, idelta](float x, float y, float z) {
+		int _x = ROUNDINT(x * idelta.x);
+		int _y = ROUNDINT(y * idelta.y);
+		int _z = ROUNDINT(z * idelta.z);
 		return (float)data[_x + (_y + _z * height) * width];
 	};
 
@@ -64,7 +80,7 @@ std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel, c
 				va.vertex.y = buffer[j * 6 + 1];
 				va.vertex.z = buffer[j * 6 + 2];
 
-				va.vertex -= glm::vec3(width/2, height/2, depth/2);
+				va.vertex -= gmid;
 
 				va.normal.x = buffer[j * 6 + 3];
 				va.normal.y = buffer[j * 6 + 4];
@@ -99,23 +115,24 @@ float fbm(float x, float y)
 
 std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel)
 {
-	UniformGrid3 grid(70, 70, 70, glm::vec3(0.0f), glm::vec3(10.0f));
-
-	glm::vec3 center = (grid.getMax() - grid.getMin()) / 2.0f;
+	glm::vec3 gmin(-5.0f);
+	glm::vec3 gmax(5.0f);
+	glm::vec3 gmid = (gmax + gmin) / 2.0f;
+	UniformGrid3 grid(70, 70, 70, gmin, gmax);
 
 	// creates a 'sphere' by returning the distance from a given center
 	//// which can then be thresholded to the desired size
-	//auto scienceFunction = [center](float x, float y, float z) {
-	//	return glm::length(glm::vec3(x, y, z) - center);
-	//};
-
-	auto scienceFunction = [center](float x, float y, float z) {
-		float f = 3.0f;
-		return glm::length(glm::vec3(x, y, z) - center) + 
-			sin(x * f) + 
-			sin(y * f) +
-			sin(z * f);
+	auto scienceFunction = [gmid](float x, float y, float z) {
+		return glm::length(glm::vec3(x, y, z) - gmid);
 	};
+
+	//auto scienceFunction = [center](float x, float y, float z) {
+	//	float f = 3.0f;
+	//	return glm::length(glm::vec3(x, y, z) - center) + 
+	//		sin(x * f) + 
+	//		sin(y * f) +
+	//		sin(z * f);
+	//};
 
 
 	auto normalFunction = [scienceFunction](glm::vec3 p) {
@@ -150,7 +167,7 @@ std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel)
 				va.vertex.y = buffer[j * 6 + 1];
 				va.vertex.z = buffer[j * 6 + 2];
 
-				va.vertex -= glm::vec3(5.0f);
+				va.vertex -= gmid;
 
 				va.normal.x = buffer[j * 6 + 3];
 				va.normal.y = buffer[j * 6 + 4];

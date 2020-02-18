@@ -205,7 +205,7 @@ int main(int argc, char** argv)
 	TransformableContainer tc;
 
 	Light light(modelProgram);
-	light.setPosition(glm::vec3(0.0f, 3.0f, 3.0f));
+	light.setPosition(glm::vec3(0.0f, 24.0f, 24.0f));
 	g_light = &light;
 
 	tc.add(&light);
@@ -216,7 +216,7 @@ int main(int argc, char** argv)
 	g_scene = &scene;
 
 	DataBuilder dataBuilder;
-	auto data = dataBuilder.createData(modelProgram, 2.0f, "");
+	auto data = dataBuilder.createData(modelProgram, 64.f, "");
 	//auto data = dataBuilder.createData(modelProgram, 2.0f);
 
 	data->init();

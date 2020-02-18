@@ -57,11 +57,6 @@ struct Cube
 class UniformGrid3
 {
 private:
-	//Cell sizes in this grid
-	float _d1;
-	float _d2;
-	float _d3;
-
 	std::vector<float> _values;
 
 	glm::vec3 _min;

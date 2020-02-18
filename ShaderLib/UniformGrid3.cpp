@@ -189,7 +189,7 @@ void UniformGrid3::getGradient(glm::vec3& n, const Point3 & p) const
 
 	gz = (z2 - z1);
 
-	float m = 1.0f / glm::sqrt(gx * gx + gy * gy + gz * gz);
+	float m = -1.0f / glm::sqrt(gx * gx + gy * gy + gz * gz);
 
 	n.x = gx * m;
 	n.y = gy * m;
