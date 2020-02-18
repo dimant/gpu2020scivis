@@ -94,9 +94,9 @@ public:
 
 	size_t numCells() const;
 
-	virtual void getPoint(size_t i, Point3 & p) const;
+	void getPoint(size_t i, Point3 & p) const;
 
-	virtual void getVertex(size_t i, glm::vec4 & v) const;
+	void getVertex(size_t i, const Point3 & point, glm::vec4 & v) const;
 
 	void getCell(size_t i, Cell3 & c) const;
 
@@ -112,7 +112,7 @@ public:
 
 	void sample(std::function<float(float, float, float)> func);
 
-	void getGradient(glm::vec3& n, size_t i) const;
+	void getGradient(glm::vec3& n, const Point3 & p) const;
 };
 
 #endif

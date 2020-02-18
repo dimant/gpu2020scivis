@@ -32,7 +32,7 @@ size_t UniformGrid3::numCells() const
 	return (_N1 - 1) * (_N2 - 1) * (_N3 - 1);
 }
 
-void UniformGrid3::getPoint(size_t i, Point3 & p) const
+inline void UniformGrid3::getPoint(size_t i, Point3 & p) const
 {
 	p.z = i / (_N1 * _N2);
 	size_t t = i - p.z * (_N1 * _N2);
@@ -58,37 +58,44 @@ size_t UniformGrid3::getDimension3() const
 void UniformGrid3::getCube(size_t i, Cube& cube) const
 {
 	Cell3 cell;
+	Point3 point;
 	getCell(i, cell);
 
-	getVertex(cell.v0, cube.v0);
-	getGradient(cube.n0, i);
+	getPoint(cell.v0, point);
+	getVertex(cell.v0, point, cube.v0);
+	getGradient(cube.n0, point);
 
-	getVertex(cell.v1, cube.v1);
-	getGradient(cube.n1, i);
+	getPoint(cell.v1, point);
+	getVertex(cell.v1, point, cube.v1);
+	getGradient(cube.n1, point);
 
-	getVertex(cell.v2, cube.v2);
-	getGradient(cube.n2, i);
+	getPoint(cell.v2, point);
+	getVertex(cell.v2, point, cube.v2);
+	getGradient(cube.n2, point);
 
-	getVertex(cell.v3, cube.v3);
-	getGradient(cube.n3, i);
+	getPoint(cell.v3, point);
+	getVertex(cell.v3, point, cube.v3);
+	getGradient(cube.n3, point);
 
-	getVertex(cell.v4, cube.v4);
-	getGradient(cube.n4, i);
+	getPoint(cell.v4, point);
+	getVertex(cell.v4, point, cube.v4);
+	getGradient(cube.n4, point);
 
-	getVertex(cell.v5, cube.v5);
-	getGradient(cube.n5, i);
+	getPoint(cell.v5, point);
+	getVertex(cell.v5, point, cube.v5);
+	getGradient(cube.n5, point);
 
-	getVertex(cell.v6, cube.v6);
-	getGradient(cube.n6, i);
+	getPoint(cell.v6, point);
+	getVertex(cell.v6, point, cube.v6);
+	getGradient(cube.n6, point);
 
-	getVertex(cell.v7, cube.v7);
-	getGradient(cube.n7, i);
+	getPoint(cell.v7, point);
+	getVertex(cell.v7, point, cube.v7);
+	getGradient(cube.n7, point);
 }
 
-void UniformGrid3::getVertex(size_t i, glm::vec4 & v) const
+inline void UniformGrid3::getVertex(size_t i, const Point3 & point, glm::vec4 & v) const
 {
-	Point3 point;
-	getPoint(i, point);
 	glm::vec3 p = _min + _delta * glm::vec3(point.x, point.y, point.z);
 
 	v.x = p.x;
@@ -104,31 +111,30 @@ inline const float UniformGrid3::getScalar(const size_t & x, const size_t & y, c
 
 void UniformGrid3::sample(std::function<float(float, float, float)> func)
 {
+	Point3 p;
 	float sample = 0.0f;
 	glm::vec4 v;
 
 	for (int i = 0; i < numPoints(); i++)
 	{
-		getVertex(i, v);
+		getPoint(i, p);
+		getVertex(i, p, v);
 		sample = func(v.x, v.y, v.z);
 		_values[i] = sample;
 	}
 }
 
-void UniformGrid3::getGradient(glm::vec3& n, size_t i) const
+void UniformGrid3::getGradient(glm::vec3& n, const Point3 & p) const
 {
 	float x1, x2;
 	float gx;
-	Point3 p;
-
-	getPoint(i, p);
 
 	if (p.x == 0)
 	{
 		x1 = getScalar(p.x, p.y, p.z);
 		x2 = getScalar(p.x + 1, p.y, p.z);
 	}
-	else if (p.x == getDimension1() - 1)
+	else if (p.x == _N1 - 1)
 	{
 		x1 = getScalar(p.x - 1, p.y, p.z);
 		x2 = getScalar(p.x, p.y, p.z);
@@ -149,7 +155,7 @@ void UniformGrid3::getGradient(glm::vec3& n, size_t i) const
 		y1 = getScalar(p.x, p.y, p.z);
 		y2 = getScalar(p.x, p.y + 1, p.z);
 	}
-	else if (p.y == getDimension2() - 1)
+	else if (p.y == _N2 - 1)
 	{
 		y1 = getScalar(p.x, p.y - 1, p.z);
 		y2 = getScalar(p.x, p.y, p.z);
@@ -170,7 +176,7 @@ void UniformGrid3::getGradient(glm::vec3& n, size_t i) const
 		z1 = getScalar(p.x, p.y, p.z);
 		z2 = getScalar(p.x, p.y, p.z + 1);
 	}
-	else if (p.z == getDimension3() - 1)
+	else if (p.z == _N3 - 1)
 	{
 		z1 = getScalar(p.x, p.y, p.z - p.z);
 		z2 = getScalar(p.x, p.y, p.z);
@@ -183,5 +189,9 @@ void UniformGrid3::getGradient(glm::vec3& n, size_t i) const
 
 	gz = (z2 - z1);
 
-	n = glm::normalize(glm::vec3(gx, gy, gz));
+	float m = 1.0f / glm::sqrt(gx * gx + gy * gy + gz * gz);
+
+	n.x = gx * m;
+	n.y = gy * m;
+	n.z = gz * m;
 }

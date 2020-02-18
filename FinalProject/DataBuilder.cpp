@@ -64,14 +64,14 @@ std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel, c
 				va.vertex.y = buffer[j * 6 + 1];
 				va.vertex.z = buffer[j * 6 + 2];
 
-				va.vertex -= glm::vec3(5.0f);
+				va.vertex -= glm::vec3(width/2, height/2, depth/2);
 
 				va.normal.x = buffer[j * 6 + 3];
 				va.normal.y = buffer[j * 6 + 4];
 				va.normal.z = buffer[j * 6 + 5];
 
 				va.material = material; +
-					va.texel = glm::vec2(0.0f);
+				va.texel = glm::vec2(0.0f);
 				vertices.push_back(va);
 			}
 		}
@@ -152,11 +152,11 @@ std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel)
 
 				va.vertex -= glm::vec3(5.0f);
 
-				//va.normal.x = buffer[j * 6 + 3];
-				//va.normal.y = buffer[j * 6 + 4];
-				//va.normal.z = buffer[j * 6 + 5];
+				va.normal.x = buffer[j * 6 + 3];
+				va.normal.y = buffer[j * 6 + 4];
+				va.normal.z = buffer[j * 6 + 5];
 
-				va.normal = normalFunction(va.vertex);
+				//va.normal = normalFunction(va.vertex);
 
 				va.material = material;+
 				va.texel = glm::vec2(0.0f);
