@@ -216,7 +216,7 @@ int main(int argc, char** argv)
 	g_scene = &scene;
 
 	DataBuilder dataBuilder;
-	auto data = dataBuilder.createData(modelProgram, 64.f, "");
+	auto data = dataBuilder.createData(modelProgram, 2.f, "");
 	//auto data = dataBuilder.createData(modelProgram, 2.0f);
 
 	data->init();

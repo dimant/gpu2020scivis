@@ -1,27 +1,5 @@
 #include "UniformGrid3.h"
 
-
-// given lexicographic index, find cell vertices (quads assumed)
-void UniformGrid3::getCell(size_t i, Cell3 & c) const
-{
-	size_t cell_z = i / ((_N1 - 1) * (_N2 - 1));
-	size_t t = i - cell_z * (_N1 - 1) * (_N2 - 1);
-	size_t cell_y = t / (_N1 - 1);
-	size_t cell_x = t % (_N1 - 1);
-
-	size_t j = i % ((_N1 - 1) * (_N2 - 1));
-
-	c.v0 = j + cell_y + cell_z * _N1 * _N2;
-	c.v1 = c.v0 + 1;
-	c.v2 = c.v1 + _N1 * _N2;
-	c.v3 = c.v0 + _N1 * _N2;
-
-	c.v4 = c.v0 + _N1;
-	c.v5 = c.v1 + _N1;
-	c.v6 = c.v2 + _N1;
-	c.v7 = c.v3 + _N1;
-}
-
 size_t UniformGrid3::numPoints() const
 {
 	return _N1 * _N2 * _N3;
@@ -30,14 +8,6 @@ size_t UniformGrid3::numPoints() const
 size_t UniformGrid3::numCells() const
 {
 	return (_N1 - 1) * (_N2 - 1) * (_N3 - 1);
-}
-
-inline void UniformGrid3::getPoint(size_t i, Point3 & p) const
-{
-	p.z = i / (_N1 * _N2);
-	size_t t = i - p.z * (_N1 * _N2);
-	p.y = (t / _N1);
-	p.x = t % _N1;
 }
 
 size_t UniformGrid3::getDimension1() const
@@ -55,6 +25,37 @@ size_t UniformGrid3::getDimension3() const
 	return _N3;
 }
 
+void UniformGrid3::getGradients(size_t i, Cube& cube) const
+{
+	Cell3 cell;
+	Point3 point;
+	getCell(i, cell);
+
+	getPoint(cell.v0, point);
+	getGradient(cube.n0, point);
+
+	getPoint(cell.v0, point);
+	getGradient(cube.n1, point);
+
+	getPoint(cell.v0, point);
+	getGradient(cube.n2, point);
+
+	getPoint(cell.v0, point);
+	getGradient(cube.n3, point);
+
+	getPoint(cell.v0, point);
+	getGradient(cube.n4, point);
+
+	getPoint(cell.v0, point);
+	getGradient(cube.n5, point);
+
+	getPoint(cell.v0, point);
+	getGradient(cube.n6, point);
+
+	getPoint(cell.v0, point);
+	getGradient(cube.n7, point);
+}
+
 void UniformGrid3::getCube(size_t i, Cube& cube) const
 {
 	Cell3 cell;
@@ -63,44 +64,64 @@ void UniformGrid3::getCube(size_t i, Cube& cube) const
 
 	getPoint(cell.v0, point);
 	getVertex(cell.v0, point, cube.v0);
-	getGradient(cube.n0, point);
 
 	getPoint(cell.v1, point);
 	getVertex(cell.v1, point, cube.v1);
-	getGradient(cube.n1, point);
 
 	getPoint(cell.v2, point);
 	getVertex(cell.v2, point, cube.v2);
-	getGradient(cube.n2, point);
 
 	getPoint(cell.v3, point);
 	getVertex(cell.v3, point, cube.v3);
-	getGradient(cube.n3, point);
 
 	getPoint(cell.v4, point);
 	getVertex(cell.v4, point, cube.v4);
-	getGradient(cube.n4, point);
 
 	getPoint(cell.v5, point);
 	getVertex(cell.v5, point, cube.v5);
-	getGradient(cube.n5, point);
 
 	getPoint(cell.v6, point);
 	getVertex(cell.v6, point, cube.v6);
-	getGradient(cube.n6, point);
 
 	getPoint(cell.v7, point);
 	getVertex(cell.v7, point, cube.v7);
-	getGradient(cube.n7, point);
+}
+
+
+// given lexicographic index, find cell vertices (quads assumed)
+inline void UniformGrid3::getCell(size_t i, Cell3 & c) const
+{
+	size_t cell_z = i / _N12m1;
+	size_t t = i - cell_z * _N12m1;
+	size_t cell_y = t / (_N1 - 1);
+	size_t cell_x = t % (_N1 - 1);
+
+	size_t j = i % _N12m1;
+
+	c.v0 = j + cell_y + cell_z * _N12;
+	c.v1 = c.v0 + 1;
+	c.v2 = c.v1 + _N12;
+	c.v3 = c.v0 + _N12;
+
+	c.v4 = c.v0 + _N1;
+	c.v5 = c.v1 + _N1;
+	c.v6 = c.v2 + _N1;
+	c.v7 = c.v3 + _N1;
+}
+
+inline void UniformGrid3::getPoint(size_t i, Point3 & p) const
+{
+	p.z = i / _N12;
+	size_t t = i - p.z * _N12;
+	p.y = (t / _N1);
+	p.x = t % _N1;
 }
 
 inline void UniformGrid3::getVertex(size_t i, const Point3 & point, glm::vec4 & v) const
 {
-	glm::vec3 p = _min + _delta * glm::vec3(point.x, point.y, point.z);
-
-	v.x = p.x;
-	v.y = p.y;
-	v.z = p.z;
+	v.x = _min.x + _delta.x * point.x;
+	v.y = _min.y + _delta.y * point.y;
+	v.z = _min.z + _delta.z * point.z;
 	v.w = _values[i];
 }
 
@@ -124,7 +145,7 @@ void UniformGrid3::sample(std::function<float(float, float, float)> func)
 	}
 }
 
-void UniformGrid3::getGradient(glm::vec3& n, const Point3 & p) const
+inline void UniformGrid3::getGradient(glm::vec3& n, const Point3 & p) const
 {
 	float x1, x2;
 	float gx;

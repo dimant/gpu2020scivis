@@ -22,7 +22,7 @@ std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel, c
 	unsigned char* paramter;
 	unsigned char* comment;
 
-	const char* fname = "C:\\Users\\diman\\Downloads\\Engine.pvm";
+	const char* fname = "C:\\Users\\diman\\Downloads\\CT-Chest.pvm";
 
 	data = readPVMvolume(fname,
 		&width, &height, &depth,
@@ -58,14 +58,18 @@ std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel, c
 
 	grid.sample(loader);
 
-	float buffer[90];
-	size_t nfloats;
-	Cube cube;
 	auto material = glm::vec3(0.1f, 12.0f, 2.0f);
 
 	std::vector<VertAtt> vertices;
+	size_t ncells = grid.numCells();
+	glm::vec2 texel = glm::vec2(0.0f);
 
-	for (size_t i = 0; i < grid.numCells(); i++)
+
+	float buffer[90];
+	size_t nfloats;
+	Cube cube;
+
+	for (size_t i = 0; i < ncells; i++)
 	{
 		grid.getCube(i, cube);
 
@@ -73,6 +77,8 @@ std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel, c
 
 		if (nfloats > 0)
 		{
+			grid.getGradients(i, cube);
+
 			for (int j = 0; j < nfloats / 6; j++)
 			{
 				VertAtt va;
@@ -86,8 +92,8 @@ std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel, c
 				va.normal.y = buffer[j * 6 + 4];
 				va.normal.z = buffer[j * 6 + 5];
 
-				va.material = material; +
-				va.texel = glm::vec2(0.0f);
+				va.material = material;
+				va.texel = texel;
 				vertices.push_back(va);
 			}
 		}

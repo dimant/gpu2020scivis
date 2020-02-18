@@ -65,6 +65,10 @@ private:
 
 	glm::vec3 _delta;
 
+	const size_t _N12;
+
+	const size_t _N12m1;
+
 protected:
 	//Number of points along the x− and y−axes 
 	size_t _N1;
@@ -78,7 +82,9 @@ public:
 		_values(N1 * N2 * N3),
 		_N1(N1), _N2(N2), _N3(N3),
 		_min(min), _max(max),
-		_delta((max - min) / glm::vec3(N1, N2, N3))
+		_delta((max - min) / glm::vec3(N1, N2, N3)),
+		_N12(N1*N2),
+		_N12m1((N1-1)*(N2-1))
 	{ }
 
 	const glm::vec3 getMin() const { return _min; }
@@ -108,6 +114,8 @@ public:
 	void sample(std::function<float(float, float, float)> func);
 
 	void getGradient(glm::vec3& n, const Point3 & p) const;
+
+	void getGradients(size_t i, Cube& cube) const;
 };
 
 #endif
