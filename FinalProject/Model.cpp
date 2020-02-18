@@ -61,9 +61,9 @@ void Model::draw()
 	setMat4(_program, _model, "mModel");
 	glBindTexture(GL_TEXTURE_2D, _texture);
 	glBindVertexArray(_vao);
-	//glDrawArrays(GL_TRIANGLES, 0, _ndata / sizeof(VertAtt));
-	glPointSize(10.0f);
-	glDrawArrays(GL_POINTS, 0, _ndata / sizeof(VertAtt));
+	glDrawArrays(GL_TRIANGLES, 0, _ndata / sizeof(VertAtt));
+	//glPointSize(10.0f);
+	//glDrawArrays(GL_POINTS, 0, _ndata / sizeof(VertAtt));
 	glBindVertexArray(0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	setMat4(_program, glm::mat4(), "mModel");

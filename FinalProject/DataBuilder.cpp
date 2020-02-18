@@ -16,7 +16,7 @@ std::shared_ptr<Model> DataBuilder::createData(GLuint program, UniformGrid3 & gr
 
 	grid.sample(scienceFunction);
 
-	float isolevel = 1.0f;
+	float isolevel = 1.5f;
 
 	float buffer[90];
 	size_t nfloats;
@@ -24,9 +24,6 @@ std::shared_ptr<Model> DataBuilder::createData(GLuint program, UniformGrid3 & gr
 	auto material = glm::vec3(0.1f, 12.0f, 2.0f);
 
 	std::vector<VertAtt> vertices;
-
-	int tris = 1;
-	int x = 0;
 
 	for (size_t i = 0; i < grid.numCells(); i++)
 	{
@@ -36,28 +33,23 @@ std::shared_ptr<Model> DataBuilder::createData(GLuint program, UniformGrid3 & gr
 
 		if (nfloats > 0)
 		{
-			for (size_t j = 0; j < (nfloats / 3); j++)
+			for (int j = 0; j < nfloats / 6; j++)
 			{
 				VertAtt va;
-				va.vertex.x = buffer[j + 0];
-				va.vertex.y = buffer[j + 1];
-				va.vertex.z = buffer[j + 2];
+				va.vertex.x = buffer[j * 6 + 0];
+				va.vertex.y = buffer[j * 6 + 1];
+				va.vertex.z = buffer[j * 6 + 2];
 
-				va.normal.x = buffer[j + 3];
-				va.normal.y = buffer[j + 4];
-				va.normal.z = buffer[j + 5];
+				va.normal.x = buffer[j * 6 + 3];
+				va.normal.y = buffer[j * 6 + 4];
+				va.normal.z = buffer[j * 6 + 5];
 
-				va.material = material;
+				va.material = material;+
 				va.texel = glm::vec2(0.0f);
 				vertices.push_back(va);
-
-				x++;
-				if (x == tris * 3)
-					goto stop;
 			}
 		}
 	}
-stop:
 
 	VertAtt* data = new VertAtt[vertices.size()];
 	std::copy(vertices.begin(), vertices.end(), data);

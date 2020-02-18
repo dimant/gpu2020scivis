@@ -215,7 +215,7 @@ int main(int argc, char** argv)
 	scene.apply();
 	g_scene = &scene;
 
-	UniformGrid3 grid(10, 10, 10, glm::vec3(0.0f), glm::vec3(10.0f));
+	UniformGrid3 grid(50, 50, 50, glm::vec3(0.0f), glm::vec3(5.0f));
 
 	DataBuilder dataBuilder;
 	auto data = dataBuilder.createData(modelProgram, grid);

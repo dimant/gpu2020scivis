@@ -434,45 +434,47 @@ int polygonise(const Cube& cube, const float& isolevel, float *vertices)
 	*/
 	getCubeIndex(cubeindex, cube, isolevel);
 
+	int intersectedEdges = edgeTable[cubeindex];
+
 	/* Cube is entirely in/out of the surface */
-	if (edgeTable[cubeindex] == 0)
+	if (intersectedEdges == 0)
 		return(0);
 
 	/* Find the vertices where the surface intersects the cube */
-	if (edgeTable[cubeindex] & 1)
+	if (intersectedEdges & 1)
 		interpolate(vertlist[0], normlist[0],
 			isolevel, cube.v0, cube.n0, cube.v1, cube.n1);
-	if (edgeTable[cubeindex] & 2)
+	if (intersectedEdges & 2)
 		interpolate(vertlist[1], normlist[1],
 			isolevel, cube.v1, cube.n1, cube.v2, cube.n2);
-	if (edgeTable[cubeindex] & 4)
+	if (intersectedEdges & 4)
 		interpolate(vertlist[2], normlist[2],
 			isolevel, cube.v2, cube.n2, cube.v3, cube.n3);
-	if (edgeTable[cubeindex] & 8)
+	if (intersectedEdges & 8)
 		interpolate(vertlist[3], normlist[3],
 			isolevel, cube.v3, cube.n3, cube.v0, cube.n0);
-	if (edgeTable[cubeindex] & 16)
+	if (intersectedEdges & 16)
 		interpolate(vertlist[4], normlist[4],
 			isolevel, cube.v4, cube.n4, cube.v5, cube.n5);
-	if (edgeTable[cubeindex] & 32)
+	if (intersectedEdges & 32)
 		interpolate(vertlist[5], normlist[5],
 			isolevel, cube.v5, cube.n5, cube.v6, cube.n6);
-	if (edgeTable[cubeindex] & 64)
+	if (intersectedEdges & 64)
 		interpolate(vertlist[6], normlist[6],
 			isolevel, cube.v6, cube.n6, cube.v7, cube.n7);
-	if (edgeTable[cubeindex] & 128)
+	if (intersectedEdges & 128)
 		interpolate(vertlist[7], normlist[7],
 			isolevel, cube.v7, cube.n7, cube.v4, cube.n4);
-	if (edgeTable[cubeindex] & 256)
+	if (intersectedEdges & 256)
 		interpolate(vertlist[8], normlist[8],
 			isolevel, cube.v0, cube.n0, cube.v4, cube.n4);
-	if (edgeTable[cubeindex] & 512)
+	if (intersectedEdges & 512)
 		interpolate(vertlist[9], normlist[9],
 			isolevel, cube.v1, cube.n1, cube.v5, cube.n5);
-	if (edgeTable[cubeindex] & 1024)
+	if (intersectedEdges & 1024)
 		interpolate(vertlist[10], normlist[10],
 			isolevel, cube.v2, cube.n2, cube.v6, cube.n6);
-	if (edgeTable[cubeindex] & 2048)
+	if (intersectedEdges & 2048)
 		interpolate(vertlist[11], normlist[11],
 			isolevel, cube.v3, cube.n3, cube.v7, cube.n7);
 
