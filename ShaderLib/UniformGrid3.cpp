@@ -27,64 +27,51 @@ size_t UniformGrid3::getDimension3() const
 
 void UniformGrid3::getGradients(size_t i, Cube& cube) const
 {
-	Cell3 cell;
-	Point3 point;
-	getCell(i, cell);
+	getGradient(cube.n0, cube.p0);
 
-	getPoint(cell.v0, point);
-	getGradient(cube.n0, point);
+	getGradient(cube.n1, cube.p1);
 
-	getPoint(cell.v0, point);
-	getGradient(cube.n1, point);
+	getGradient(cube.n2, cube.p2);
 
-	getPoint(cell.v0, point);
-	getGradient(cube.n2, point);
+	getGradient(cube.n3, cube.p3);
 
-	getPoint(cell.v0, point);
-	getGradient(cube.n3, point);
+	getGradient(cube.n4, cube.p4);
 
-	getPoint(cell.v0, point);
-	getGradient(cube.n4, point);
+	getGradient(cube.n5, cube.p5);
 
-	getPoint(cell.v0, point);
-	getGradient(cube.n5, point);
+	getGradient(cube.n6, cube.p6);
 
-	getPoint(cell.v0, point);
-	getGradient(cube.n6, point);
-
-	getPoint(cell.v0, point);
-	getGradient(cube.n7, point);
+	getGradient(cube.n7, cube.p7);
 }
 
 void UniformGrid3::getCube(size_t i, Cube& cube) const
 {
 	Cell3 cell;
-	Point3 point;
 	getCell(i, cell);
 
-	getPoint(cell.v0, point);
-	getVertex(cell.v0, point, cube.v0);
+	getPoint(cell.v0, cube.p0);
+	getVertex(cell.v0, cube.p0, cube.v0);
 
-	getPoint(cell.v1, point);
-	getVertex(cell.v1, point, cube.v1);
+	getPoint(cell.v1, cube.p1);
+	getVertex(cell.v1, cube.p1, cube.v1);
 
-	getPoint(cell.v2, point);
-	getVertex(cell.v2, point, cube.v2);
+	getPoint(cell.v2, cube.p2);
+	getVertex(cell.v2, cube.p2, cube.v2);
 
-	getPoint(cell.v3, point);
-	getVertex(cell.v3, point, cube.v3);
+	getPoint(cell.v3, cube.p3);
+	getVertex(cell.v3, cube.p3, cube.v3);
 
-	getPoint(cell.v4, point);
-	getVertex(cell.v4, point, cube.v4);
+	getPoint(cell.v4, cube.p4);
+	getVertex(cell.v4, cube.p4, cube.v4);
 
-	getPoint(cell.v5, point);
-	getVertex(cell.v5, point, cube.v5);
+	getPoint(cell.v5, cube.p5);
+	getVertex(cell.v5, cube.p5, cube.v5);
 
-	getPoint(cell.v6, point);
-	getVertex(cell.v6, point, cube.v6);
+	getPoint(cell.v6, cube.p6);
+	getVertex(cell.v6, cube.p6, cube.v6);
 
-	getPoint(cell.v7, point);
-	getVertex(cell.v7, point, cube.v7);
+	getPoint(cell.v7, cube.p7);
+	getVertex(cell.v7, cube.p7, cube.v7);
 }
 
 

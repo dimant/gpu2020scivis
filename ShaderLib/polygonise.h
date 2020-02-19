@@ -20,7 +20,18 @@ void interpolate(
 
 // Check each cube vertex against the isolevel and compute
 // a bitmask to use against the look-up table.
-void getCubeIndex(int & cubeindex, const Cube & cube, const float & isolevel);
+inline void getCubeIndex(int & cubeindex, const Cube & cube, const float & isolevel)
+{
+	cubeindex = 0;
+	if (cube.v0.w < isolevel) cubeindex |= 1;
+	if (cube.v1.w < isolevel) cubeindex |= 2;
+	if (cube.v2.w < isolevel) cubeindex |= 4;
+	if (cube.v3.w < isolevel) cubeindex |= 8;
+	if (cube.v4.w < isolevel) cubeindex |= 16;
+	if (cube.v5.w < isolevel) cubeindex |= 32;
+	if (cube.v6.w < isolevel) cubeindex |= 64;
+	if (cube.v7.w < isolevel) cubeindex |= 128;
+}
 
 // Copies marched values to *vertices
 // The pointer must have enough space for 5 triangles.
@@ -34,6 +45,6 @@ int getTriangles(
 	float* vertices);
 
 // implements marching cubes algorithm
-int polygonise(const Cube& cube, const float& isolevel, float *vertices);
+int polygonise(const Cube& cube, int cubeindex, const float& isolevel, float *vertices);
 
 #endif

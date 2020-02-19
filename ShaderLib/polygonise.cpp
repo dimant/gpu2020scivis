@@ -48,19 +48,6 @@ void interpolate(
 	}
 }
 
-void getCubeIndex(int & cubeindex, const Cube & cube, const float & isolevel)
-{
-	cubeindex = 0;
-	if (cube.v0.w < isolevel) cubeindex |= 1;
-	if (cube.v1.w < isolevel) cubeindex |= 2;
-	if (cube.v2.w < isolevel) cubeindex |= 4;
-	if (cube.v3.w < isolevel) cubeindex |= 8;
-	if (cube.v4.w < isolevel) cubeindex |= 16;
-	if (cube.v5.w < isolevel) cubeindex |= 32;
-	if (cube.v6.w < isolevel) cubeindex |= 64;
-	if (cube.v7.w < isolevel) cubeindex |= 128;
-}
-
 int getTriangles(
 	const int triTable[][16],
 	const glm::vec3 vertlist[],
@@ -87,47 +74,7 @@ int getTriangles(
 	return nfloats;
 }
 
-/*
-	Given a grid cell and an isolevel, calculate the triangular
-	facets required to represent the isosurface through the cell.
-	Return the number of triangular facets, the array "vertices"
-	will be loaded up with the vertices at most 5 triangular facets
-	with 3 vertices each.
-
-	Ensure that vertices has 15 floats available.
-
-	0 will be returned if the grid cell is either totally above
-	of totally below the isolevel.
-*/
-int xpolygonise(const Cube& cube, const float& isolevel, float *vertices)
-{
-	int cubeindex;
-	getCubeIndex(cubeindex, cube, isolevel);
-
-	if (cubeindex > 0)
-	{
-		glm::vec3 r = (
-			cube.v0 +
-			cube.v1 +
-			cube.v2 +
-			cube.v3 +
-			cube.v4 +
-			cube.v5 +
-			cube.v6 +
-			cube.v7) / 8.0f;
-
-		vertices[0] = r.x;
-		vertices[1] = r.y;
-		vertices[2] = r.z;
-		return 3;
-	}
-	else
-	{
-		return 0;
-	}
-}
-
-int polygonise(const Cube& cube, const float& isolevel, float *vertices)
+int polygonise(const Cube& cube, int cubeindex, const float& isolevel, float *vertices)
 {
 	static const unsigned int edgeTable[256] = {
 	0x0  , 0x109, 0x203, 0x30a, 0x406, 0x50f, 0x605, 0x70c,
@@ -423,22 +370,11 @@ int polygonise(const Cube& cube, const float& isolevel, float *vertices)
 		{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}
 	};
 
-	int cubeindex;
 	const size_t maxvert = 12;
 	glm::vec3 vertlist[maxvert];
 	glm::vec3 normlist[maxvert];
 
-	/*
-	   Determine the index into the edge table which
-	   tells us which vertices are inside of the surface
-	*/
-	getCubeIndex(cubeindex, cube, isolevel);
-
 	int intersectedEdges = edgeTable[cubeindex];
-
-	/* Cube is entirely in/out of the surface */
-	if (intersectedEdges == 0)
-		return(0);
 
 	/* Find the vertices where the surface intersects the cube */
 	if (intersectedEdges & 1)

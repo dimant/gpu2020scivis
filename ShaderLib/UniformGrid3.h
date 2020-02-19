@@ -29,27 +29,35 @@ struct Cell3
 
 struct Cube
 {
+	Point3 p0;
 	glm::vec4 v0;
 	glm::vec3 n0;
 
+	Point3 p1;
 	glm::vec4 v1;
 	glm::vec3 n1;
 
+	Point3 p2;
 	glm::vec4 v2;
 	glm::vec3 n2;
 
+	Point3 p3;
 	glm::vec4 v3;
 	glm::vec3 n3;
 
+	Point3 p4;
 	glm::vec4 v4;
 	glm::vec3 n4;
 
+	Point3 p5;
 	glm::vec4 v5;
 	glm::vec3 n5;
 
+	Point3 p6;
 	glm::vec4 v6;
 	glm::vec3 n6;
 
+	Point3 p7;
 	glm::vec4 v7;
 	glm::vec3 n7;
 };

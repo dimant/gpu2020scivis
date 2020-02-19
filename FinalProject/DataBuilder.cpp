@@ -68,16 +68,22 @@ std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel, c
 	float buffer[90];
 	size_t nfloats;
 	Cube cube;
+	int cubeindex;
 
 	for (size_t i = 0; i < ncells; i++)
 	{
 		grid.getCube(i, cube);
 
-		nfloats = polygonise(cube, isolevel, buffer);
+		/*
+		   Determine the index into the edge table which
+		   tells us which vertices are inside of the surface
+		*/
+		getCubeIndex(cubeindex, cube, isolevel);
 
-		if (nfloats > 0)
+		if (cubeindex != 0)
 		{
 			grid.getGradients(i, cube);
+			nfloats = polygonise(cube, cubeindex, isolevel, buffer);
 
 			for (int j = 0; j < nfloats / 6; j++)
 			{
@@ -154,6 +160,7 @@ std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel)
 	float buffer[90];
 	size_t nfloats;
 	Cube cube;
+	int cubeindex;
 	auto material = glm::vec3(0.1f, 12.0f, 2.0f);
 
 	std::vector<VertAtt> vertices;
@@ -161,11 +168,12 @@ std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel)
 	for (size_t i = 0; i < grid.numCells(); i++)
 	{
 		grid.getCube(i, cube);
+		getCubeIndex(cubeindex, cube, isolevel);
 
-		nfloats = polygonise(cube, isolevel, buffer);
-
-		if (nfloats > 0)
+		if (cubeindex != 0)
 		{
+			grid.getGradients(i, cube);
+			nfloats = polygonise(cube, cubeindex, isolevel, buffer);
 			for (int j = 0; j < nfloats / 6; j++)
 			{
 				VertAtt va;
