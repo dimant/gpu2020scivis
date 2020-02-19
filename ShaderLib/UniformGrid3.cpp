@@ -145,6 +145,31 @@ void UniformGrid3::sample(std::function<float(float, float, float)> func)
 	}
 }
 
+// function to find the inverse square root
+// https://www.geeksforgeeks.org/fast-inverse-square-root/
+inline float inverse_rsqrt(const float & number)
+{
+	const float threehalfs = 1.5F;
+
+	float x2 = number * 0.5F;
+	float y = number;
+
+	// evil floating point bit level hacking 
+	long i = *(long *)&y;
+
+	// value is pre-assumed 
+	i = 0x5f3759df - (i >> 1);
+	y = *(float *)&i;
+
+	// 1st iteration 
+	y = y * (threehalfs - (x2 * y * y));
+
+	// 2nd iteration, this can be removed 
+	// y = y * ( threehalfs - ( x2 * y * y ) ); 
+
+	return y;
+}
+
 inline void UniformGrid3::getGradient(glm::vec3& n, const Point3 & p) const
 {
 	float x1, x2;
@@ -210,7 +235,9 @@ inline void UniformGrid3::getGradient(glm::vec3& n, const Point3 & p) const
 
 	gz = (z2 - z1);
 
-	float m = -1.0f / glm::sqrt(gx * gx + gy * gy + gz * gz);
+	//float m = -1.0f / glm::sqrt(gx * gx + gy * gy + gz * gz);
+
+	float m = -inverse_rsqrt(gx * gx + gy * gy + gz * gz);
 
 	n.x = gx * m;
 	n.y = gy * m;

@@ -219,6 +219,8 @@ int main(int argc, char** argv)
 	auto data = dataBuilder.createData(modelProgram, 2.f, "");
 	//auto data = dataBuilder.createData(modelProgram, 2.0f);
 
+	//return 0;
+
 	data->init();
 	tc.add(data.get());
 
