@@ -52,28 +52,41 @@ void UniformGrid3::getCube(size_t i, Cube& cube) const
 	getPoint(cell.v0, cube.p0);
 	getVertex(cell.v0, cube.p0, cube.v0);
 
-	getPoint(cell.v1, cube.p1);
+	cube.p1.x = cube.p0.x + 1;
+	cube.p1.y = cube.p0.y;
+	cube.p1.z = cube.p0.z;
 	getVertex(cell.v1, cube.p1, cube.v1);
 
-	getPoint(cell.v2, cube.p2);
+	cube.p2.x = cube.p1.x;
+	cube.p2.y = cube.p1.y;
+	cube.p2.z = cube.p1.z + 1;
 	getVertex(cell.v2, cube.p2, cube.v2);
 
-	getPoint(cell.v3, cube.p3);
+	cube.p3.x = cube.p2.x - 1;
+	cube.p3.y = cube.p2.y;
+	cube.p3.z = cube.p2.z;
 	getVertex(cell.v3, cube.p3, cube.v3);
 
-	getPoint(cell.v4, cube.p4);
+	cube.p4.x = cube.p0.x;
+	cube.p4.y = cube.p0.y + 1;
+	cube.p4.z = cube.p0.z;
 	getVertex(cell.v4, cube.p4, cube.v4);
 
-	getPoint(cell.v5, cube.p5);
+	cube.p5.x = cube.p1.x;
+	cube.p5.y = cube.p1.y + 1;
+	cube.p5.z = cube.p1.z;
 	getVertex(cell.v5, cube.p5, cube.v5);
 
-	getPoint(cell.v6, cube.p6);
+	cube.p6.x = cube.p2.x;
+	cube.p6.y = cube.p2.y + 1;
+	cube.p6.z = cube.p2.z;
 	getVertex(cell.v6, cube.p6, cube.v6);
 
-	getPoint(cell.v7, cube.p7);
+	cube.p7.x = cube.p3.x;
+	cube.p7.y = cube.p3.y + 1;
+	cube.p7.z = cube.p3.z;
 	getVertex(cell.v7, cube.p7, cube.v7);
 }
-
 
 // given lexicographic index, find cell vertices (quads assumed)
 inline void UniformGrid3::getCell(size_t i, Cell3 & c) const
