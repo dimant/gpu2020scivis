@@ -24,9 +24,9 @@ std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel, c
 	unsigned char* paramter;
 	unsigned char* comment;
 
-	const char* fname = "C:\\Users\\diman\\Downloads\\CT-Chest.pvm";
+	//const char* fname = "C:\\Users\\diman\\Downloads\\Baby.pvm";
 
-	data = readPVMvolume(fname,
+	data = readPVMvolume(filename,
 		&width, &height, &depth,
 		&components,
 		&scalex, &scaley, &scalez,
