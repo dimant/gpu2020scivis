@@ -127,7 +127,7 @@ inline void UniformGrid3::getVertex(size_t i, const Point3 & point, glm::vec4 & 
 
 inline const float UniformGrid3::getScalar(const size_t & x, const size_t & y, const size_t & z) const
 {
-	return _values[x + y * _N1 + z * _N1 * _N2];
+	return _values[x + (y + z * _N2) * _N1];
 }
 
 void UniformGrid3::sample(std::function<float(size_t)> func)
@@ -157,7 +157,7 @@ void UniformGrid3::sample(std::function<float(float, float, float)> func)
 // https://www.geeksforgeeks.org/fast-inverse-square-root/
 inline float inverse_rsqrt(const float & number)
 {
-	const float threehalfs = 1.5F;
+	static const float threehalfs = 1.5F;
 
 	float x2 = number * 0.5F;
 	float y = number;
@@ -180,68 +180,49 @@ inline float inverse_rsqrt(const float & number)
 
 inline void UniformGrid3::getGradient(glm::vec3& n, const Point3 & p) const
 {
-	float x1, x2;
 	float gx;
+	float gy;
+	float gz;
 
 	if (p.x == 0)
 	{
-		x1 = getScalar(p.x, p.y, p.z);
-		x2 = getScalar(p.x + 1, p.y, p.z);
+		gx = getScalar(p.x + 1, p.y, p.z) - getScalar(p.x, p.y, p.z);
 	}
 	else if (p.x == _N1 - 1)
 	{
-		x1 = getScalar(p.x - 1, p.y, p.z);
-		x2 = getScalar(p.x, p.y, p.z);
+		gx = getScalar(p.x, p.y, p.z) - getScalar(p.x - 1, p.y, p.z);
 	}
 	else
 	{
-		x1 = getScalar(p.x - 1, p.y, p.z);
-		x2 = getScalar(p.x + 1, p.y, p.z);
+		gx = getScalar(p.x + 1, p.y, p.z) - getScalar(p.x - 1, p.y, p.z);
 	}
-
-	gx = (x2 - x1);
-
-	float y1, y2;
-	float gy;
 
 	if (p.y == 0)
 	{
-		y1 = getScalar(p.x, p.y, p.z);
-		y2 = getScalar(p.x, p.y + 1, p.z);
+		gy = getScalar(p.x, p.y + 1, p.z) - getScalar(p.x, p.y, p.z);
 	}
 	else if (p.y == _N2 - 1)
 	{
-		y1 = getScalar(p.x, p.y - 1, p.z);
-		y2 = getScalar(p.x, p.y, p.z);
+		gy = getScalar(p.x, p.y, p.z) - getScalar(p.x, p.y - 1, p.z);
 	}
 	else
 	{
-		y1 = getScalar(p.x, p.y - 1, p.z);
-		y2 = getScalar(p.x, p.y + 1, p.z);
+		gy = getScalar(p.x, p.y + 1, p.z) - getScalar(p.x, p.y - 1, p.z);
 	}
 
-	gy = (y2 - y1);
-
-	float z1, z2;
-	float gz;
 
 	if (p.z == 0)
 	{
-		z1 = getScalar(p.x, p.y, p.z);
-		z2 = getScalar(p.x, p.y, p.z + 1);
+		gz = getScalar(p.x, p.y, p.z + 1) - getScalar(p.x, p.y, p.z);
 	}
 	else if (p.z == _N3 - 1)
 	{
-		z1 = getScalar(p.x, p.y, p.z - p.z);
-		z2 = getScalar(p.x, p.y, p.z);
+		gz = getScalar(p.x, p.y, p.z) - getScalar(p.x, p.y, p.z - p.z);
 	}
 	else
 	{
-		z1 = getScalar(p.x, p.y, p.z - 1);
-		z2 = getScalar(p.x, p.y, p.z + 1);
+		gz = getScalar(p.x, p.y, p.z + 1) - getScalar(p.x, p.y, p.z - 1);
 	}
-
-	gz = (z2 - z1);
 
 	//float m = -1.0f / glm::sqrt(gx * gx + gy * gy + gz * gz);
 
