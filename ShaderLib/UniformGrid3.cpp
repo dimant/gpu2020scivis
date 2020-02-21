@@ -94,7 +94,8 @@ inline void UniformGrid3::getCell(size_t i, Cell3 & c) const
 	size_t cell_z = i / _divN12m1;
 	size_t t = i - cell_z * _N12m1;
 	size_t cell_y = t / _divN1m1;
-	size_t cell_x = t % _N1m1;
+	//size_t cell_x = t % _N1m1;
+	size_t cell_x = t - cell_y * _N1m1;
 
 	size_t j = i % _N12m1;
 
@@ -114,7 +115,8 @@ inline void UniformGrid3::getPoint(size_t i, Point3 & p) const
 	p.z = i / _divN12;
 	size_t t = i - p.z * _N12;
 	p.y = (t / _divN1);
-	p.x = t % _N1;
+	//p.x = t % _N1;
+	p.x = t - p.y * _N1;
 }
 
 inline void UniformGrid3::getVertex(size_t i, const Point3 & point, glm::vec4 & v) const
