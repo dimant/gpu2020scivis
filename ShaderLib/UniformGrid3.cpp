@@ -72,29 +72,29 @@ void UniformGrid3::getCube(size_t i, Cube& cube) const
 	cube.p4.z = cube.p0.z;
 	getVertex(cell.v4, cube.p4, cube.v4);
 
-	cube.p5.x = cube.p1.x;
-	cube.p5.y = cube.p1.y + 1;
-	cube.p5.z = cube.p1.z;
+	cube.p5.x = cube.p4.x + 1;
+	cube.p5.y = cube.p4.y;
+	cube.p5.z = cube.p4.z;
 	getVertex(cell.v5, cube.p5, cube.v5);
 
-	cube.p6.x = cube.p2.x;
-	cube.p6.y = cube.p2.y + 1;
-	cube.p6.z = cube.p2.z;
+	cube.p6.x = cube.p5.x;
+	cube.p6.y = cube.p5.y;
+	cube.p6.z = cube.p5.z + 1;
 	getVertex(cell.v6, cube.p6, cube.v6);
 
-	cube.p7.x = cube.p3.x;
-	cube.p7.y = cube.p3.y + 1;
-	cube.p7.z = cube.p3.z;
+	cube.p7.x = cube.p6.x - 1;
+	cube.p7.y = cube.p6.y;
+	cube.p7.z = cube.p6.z;
 	getVertex(cell.v7, cube.p7, cube.v7);
 }
 
 // given lexicographic index, find cell vertices (quads assumed)
 inline void UniformGrid3::getCell(size_t i, Cell3 & c) const
 {
-	size_t cell_z = i / _N12m1;
+	size_t cell_z = i / _divN12m1;
 	size_t t = i - cell_z * _N12m1;
-	size_t cell_y = t / (_N1 - 1);
-	size_t cell_x = t % (_N1 - 1);
+	size_t cell_y = t / _divN1m1;
+	size_t cell_x = t % _N1m1;
 
 	size_t j = i % _N12m1;
 
@@ -111,9 +111,9 @@ inline void UniformGrid3::getCell(size_t i, Cell3 & c) const
 
 inline void UniformGrid3::getPoint(size_t i, Point3 & p) const
 {
-	p.z = i / _N12;
+	p.z = i / _divN12;
 	size_t t = i - p.z * _N12;
-	p.y = (t / _N1);
+	p.y = (t / _divN1);
 	p.x = t % _N1;
 }
 
@@ -188,7 +188,7 @@ inline void UniformGrid3::getGradient(glm::vec3& n, const Point3 & p) const
 	{
 		gx = getScalar(p.x + 1, p.y, p.z) - getScalar(p.x, p.y, p.z);
 	}
-	else if (p.x == _N1 - 1)
+	else if (p.x == _N1m1)
 	{
 		gx = getScalar(p.x, p.y, p.z) - getScalar(p.x - 1, p.y, p.z);
 	}
@@ -201,7 +201,7 @@ inline void UniformGrid3::getGradient(glm::vec3& n, const Point3 & p) const
 	{
 		gy = getScalar(p.x, p.y + 1, p.z) - getScalar(p.x, p.y, p.z);
 	}
-	else if (p.y == _N2 - 1)
+	else if (p.y == _N2m1)
 	{
 		gy = getScalar(p.x, p.y, p.z) - getScalar(p.x, p.y - 1, p.z);
 	}
@@ -215,7 +215,7 @@ inline void UniformGrid3::getGradient(glm::vec3& n, const Point3 & p) const
 	{
 		gz = getScalar(p.x, p.y, p.z + 1) - getScalar(p.x, p.y, p.z);
 	}
-	else if (p.z == _N3 - 1)
+	else if (p.z == _N3m1)
 	{
 		gz = getScalar(p.x, p.y, p.z) - getScalar(p.x, p.y, p.z - p.z);
 	}

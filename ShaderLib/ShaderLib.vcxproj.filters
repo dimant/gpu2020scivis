@@ -121,5 +121,8 @@
     <ClInclude Include="polygonise.h">
       <Filter>Header Files\grids</Filter>
     </ClInclude>
+    <ClInclude Include="libdivide.h">
+      <Filter>Header Files\grids</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
