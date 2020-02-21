@@ -45,6 +45,6 @@ int getTriangles(
 	float* vertices);
 
 // implements marching cubes algorithm
-int polygonise(const Cube& cube, int cubeindex, const float& isolevel, float *vertices);
+const int polygonise(const Cube& cube, const int & cubeindex, const float& isolevel, float *vertices);
 
 #endif

@@ -74,7 +74,7 @@ int getTriangles(
 	return nfloats;
 }
 
-int polygonise(const Cube& cube, int cubeindex, const float& isolevel, float *vertices)
+const int polygonise(const Cube& cube, const int & cubeindex, const float& isolevel, float *vertices)
 {
 	static const unsigned int edgeTable[256] = {
 	0x0  , 0x109, 0x203, 0x30a, 0x406, 0x50f, 0x605, 0x70c,
@@ -370,9 +370,9 @@ int polygonise(const Cube& cube, int cubeindex, const float& isolevel, float *ve
 		{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}
 	};
 
-	const size_t maxvert = 12;
-	glm::vec3 vertlist[maxvert];
-	glm::vec3 normlist[maxvert];
+	static const size_t maxvert = 12;
+	static glm::vec3 vertlist[maxvert];
+	static glm::vec3 normlist[maxvert];
 
 	int intersectedEdges = edgeTable[cubeindex];
 

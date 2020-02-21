@@ -121,6 +121,8 @@ public:
 
 	void sample(std::function<float(float, float, float)> func);
 
+	void sample(std::function<float(size_t)> func);
+
 	void getGradient(glm::vec3& n, const Point3 & p) const;
 
 	void getGradients(Cube& cube) const;

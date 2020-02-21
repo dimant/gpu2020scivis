@@ -130,6 +130,14 @@ inline const float UniformGrid3::getScalar(const size_t & x, const size_t & y, c
 	return _values[x + y * _N1 + z * _N1 * _N2];
 }
 
+void UniformGrid3::sample(std::function<float(size_t)> func)
+{
+	for (int i = 0; i < numPoints(); i++)
+	{
+		_values[i] = func(i);
+	}
+}
+
 void UniformGrid3::sample(std::function<float(float, float, float)> func)
 {
 	Point3 p;

@@ -47,22 +47,25 @@ std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel, c
 
 	glm::vec3 gmid = (gmax + gmin) / 2.0f;
 	glm::vec3 gdelta = (gmax - gmin) / glm::vec3(width, height, depth);
-	glm::vec3 idelta = 1.0f / gdelta;
+	//glm::vec3 idelta = 1.0f / gdelta;
 
 	UniformGrid3 grid(width, height, depth, gmin, gmax);
 
-	auto loader = [data, width, height, depth, idelta](float x, float y, float z) {
-		int _x = ROUNDINT(x * idelta.x);
-		int _y = ROUNDINT(y * idelta.y);
-		int _z = ROUNDINT(z * idelta.z);
-		return (float)data[_x + (_y + _z * height) * width];
-	};
+	//auto loader = [data, width, height, depth, idelta](float x, float y, float z) {
+	//	int _x = ROUNDINT(x * idelta.x);
+	//	int _y = ROUNDINT(y * idelta.y);
+	//	int _z = ROUNDINT(z * idelta.z);
+	//	return (float)data[_x + (_y + _z * height) * width];
+	//};
+
+	auto loader = [data](size_t i) { return (float)data[i]; };
 
 	grid.sample(loader);
 
 	auto material = glm::vec3(0.1f, 12.0f, 2.0f);
 
 	std::vector<VertAtt> vertices;
+	vertices.reserve(grid.numCells() / 2);
 	size_t ncells = grid.numCells();
 	glm::vec2 texel = glm::vec2(0.0f);
 
