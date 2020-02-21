@@ -97,9 +97,11 @@ inline void UniformGrid3::getCell(size_t i, Cell3 & c) const
 	//size_t cell_x = t % _N1m1;
 	size_t cell_x = t - cell_y * _N1m1;
 
-	size_t j = i % _N12m1;
+	//size_t j = i % _N12m1;
+	//size_t j = i - cell_z * _N12m1;
 
-	c.v0 = j + cell_y + cell_z * _N12;
+	//c.v0 = (i - cell_z * _N12m1) + cell_y + cell_z * _N12;
+	c.v0 = i + cell_z * _N1p2 - cell_z + cell_y;
 	c.v1 = c.v0 + 1;
 	c.v2 = c.v1 + _N12;
 	c.v3 = c.v0 + _N12;

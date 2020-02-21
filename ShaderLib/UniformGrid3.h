@@ -85,6 +85,8 @@ private:
 	
 	const size_t _N3m1;
 
+	const size_t _N1p2;
+
 	const libdivide::divider<size_t> _divN12;
 	const libdivide::divider<size_t> _divN12m1;
 	const libdivide::divider<size_t> _divN1;
@@ -104,6 +106,7 @@ public:
 		_N1(N1), _N2(N2), _N3(N3),
 		_min(min), _max(max),
 		_delta((max - min) / glm::vec3(N1, N2, N3)),
+		_N1p2(N1 + N2),
 		_N12(N1 * N2), _N12m1((N1 - 1) * (N2 - 1)),
 		_N1m1(N1 - 1), _N2m1(N2 - 1), _N3m1(N3 - 1),
 		_divN12(N1 * N2), _divN12m1((N1 - 1) * (N2 - 1)),
