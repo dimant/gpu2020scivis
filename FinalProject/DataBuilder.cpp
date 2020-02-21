@@ -1,5 +1,7 @@
 #include "DataBuilder.h"
 
+#include <list>
+
 #include "polygonise.h"
 
 #include "VertAtt.h"
@@ -64,7 +66,6 @@ std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel, c
 	size_t ncells = grid.numCells();
 	glm::vec2 texel = glm::vec2(0.0f);
 
-
 	float buffer[90];
 	size_t nfloats;
 	Cube cube;
@@ -82,7 +83,7 @@ std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel, c
 
 		if (cubeindex != 0)
 		{
-			grid.getGradients(i, cube);
+			grid.getGradients(cube);
 			nfloats = polygonise(cube, cubeindex, isolevel, buffer);
 
 			for (int j = 0; j < nfloats / 6; j++)
@@ -162,8 +163,9 @@ std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel)
 	Cube cube;
 	int cubeindex;
 	auto material = glm::vec3(0.1f, 12.0f, 2.0f);
+	const glm::vec2 texel = glm::vec2(0.0f);
 
-	std::vector<VertAtt> vertices;
+	std::list<VertAtt> vertices;
 
 	for (size_t i = 0; i < grid.numCells(); i++)
 	{
@@ -172,7 +174,7 @@ std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel)
 
 		if (cubeindex != 0)
 		{
-			grid.getGradients(i, cube);
+			grid.getGradients(cube);
 			nfloats = polygonise(cube, cubeindex, isolevel, buffer);
 			for (int j = 0; j < nfloats / 6; j++)
 			{
@@ -187,10 +189,8 @@ std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel)
 				va.normal.y = buffer[j * 6 + 4];
 				va.normal.z = buffer[j * 6 + 5];
 
-				//va.normal = normalFunction(va.vertex);
-
-				va.material = material;+
-				va.texel = glm::vec2(0.0f);
+				va.material = material;
+				va.texel = texel;
 				vertices.push_back(va);
 			}
 		}

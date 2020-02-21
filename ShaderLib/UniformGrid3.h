@@ -123,7 +123,7 @@ public:
 
 	void getGradient(glm::vec3& n, const Point3 & p) const;
 
-	void getGradients(size_t i, Cube& cube) const;
+	void getGradients(Cube& cube) const;
 };
 
 #endif

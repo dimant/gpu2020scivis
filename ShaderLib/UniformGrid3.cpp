@@ -25,7 +25,7 @@ size_t UniformGrid3::getDimension3() const
 	return _N3;
 }
 
-void UniformGrid3::getGradients(size_t i, Cube& cube) const
+void UniformGrid3::getGradients(Cube& cube) const
 {
 	getGradient(cube.n0, cube.p0);
 
