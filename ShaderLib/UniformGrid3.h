@@ -65,7 +65,7 @@ struct Cube
 class UniformGrid3
 {
 private:
-	float*** _values;
+	std::vector<float> _values;
 
 	glm::vec3 _min;
 
@@ -87,7 +87,7 @@ public:
 	UniformGrid3(
 		size_t N1, size_t N2, size_t N3,
 		glm::vec3 min, glm::vec3 max) :
-		_values(0),
+		_values(N1 * N2 * N3),
 		_N1(N1), _N2(N2), _N3(N3),
 		_min(min), _max(max),
 		_delta((max - min) / glm::vec3(N1, N2, N3)),
@@ -105,11 +105,9 @@ public:
 
 	void getPoint(size_t i, Point3 & p) const;
 
-	void getVertex(const Point3 & point, glm::vec4 & v) const;
+	void getVertex(size_t i, const Point3 & point, glm::vec4 & v) const;
 
 	void getCell(size_t i, Cell3 & c) const;
-
-	void getCube(Point3 p, Cube & cube) const;
 
 	void getCube(size_t i, Cube & cube) const;
 

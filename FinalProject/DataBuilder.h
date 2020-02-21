@@ -14,7 +14,7 @@ public:
 	{
 	}
 
-	//std::shared_ptr<Model> createData(GLuint program, float isolevel);
+	std::shared_ptr<Model> createData(GLuint program, float isolevel);
 
 	std::shared_ptr<Model> createData(GLuint program, float isolevel, char* filename);
 };
