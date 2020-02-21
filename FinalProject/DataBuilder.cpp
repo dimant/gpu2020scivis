@@ -71,39 +71,56 @@ std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel, c
 	Cube cube;
 	int cubeindex;
 
+	Point3 p;
+
+	for (int z = 0; z < grid.getDimension3() - 1; z++)
+	{
+		for (int y = 0; y < grid.getDimension2() - 1; y++)
+		{
+			for (int x = 0; x < grid.getDimension1() - 1; x++)
+			{
+				p.x = x;
+				p.y = y;
+				p.z = z;
+				grid.getCube(p, cube);
+
+				/*
+				Determine the index into the edge table which
+				tells us which vertices are inside of the surface
+				*/
+				getCubeIndex(cubeindex, cube, isolevel);
+
+				if (cubeindex != 0)
+				{
+					grid.getGradients(cube);
+					nfloats = polygonise(cube, cubeindex, isolevel, buffer);
+
+					for (int j = 0; j < nfloats / 6; j++)
+					{
+						VertAtt va;
+						va.vertex.x = buffer[j * 6 + 0];
+						va.vertex.y = buffer[j * 6 + 1];
+						va.vertex.z = buffer[j * 6 + 2];
+
+						va.vertex -= gmid;
+
+						va.normal.x = buffer[j * 6 + 3];
+						va.normal.y = buffer[j * 6 + 4];
+						va.normal.z = buffer[j * 6 + 5];
+
+						va.material = material;
+						va.texel = texel;
+						vertices.push_back(va);
+					}
+				}
+			}
+		}
+	}
+
 	for (size_t i = 0; i < ncells; i++)
 	{
 		grid.getCube(i, cube);
 
-		/*
-		   Determine the index into the edge table which
-		   tells us which vertices are inside of the surface
-		*/
-		getCubeIndex(cubeindex, cube, isolevel);
-
-		if (cubeindex != 0)
-		{
-			grid.getGradients(cube);
-			nfloats = polygonise(cube, cubeindex, isolevel, buffer);
-
-			for (int j = 0; j < nfloats / 6; j++)
-			{
-				VertAtt va;
-				va.vertex.x = buffer[j * 6 + 0];
-				va.vertex.y = buffer[j * 6 + 1];
-				va.vertex.z = buffer[j * 6 + 2];
-
-				va.vertex -= gmid;
-
-				va.normal.x = buffer[j * 6 + 3];
-				va.normal.y = buffer[j * 6 + 4];
-				va.normal.z = buffer[j * 6 + 5];
-
-				va.material = material;
-				va.texel = texel;
-				vertices.push_back(va);
-			}
-		}
 	}
 
 	VertAtt* output = new VertAtt[vertices.size()];
@@ -126,78 +143,82 @@ float fbm(float x, float y)
 	return z;
 }
 
-std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel)
-{
-	glm::vec3 gmin(-5.0f);
-	glm::vec3 gmax(5.0f);
-	glm::vec3 gmid = (gmax + gmin) / 2.0f;
-	UniformGrid3 grid(70, 70, 70, gmin, gmax);
+//std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel)
 
-	// creates a 'sphere' by returning the distance from a given center
-	//// which can then be thresholded to the desired size
-	auto scienceFunction = [gmid](float x, float y, float z) {
-		return glm::length(glm::vec3(x, y, z) - gmid);
-	};
-
-	//auto scienceFunction = [center](float x, float y, float z) {
-	//	float f = 3.0f;
-	//	return glm::length(glm::vec3(x, y, z) - center) + 
-	//		sin(x * f) + 
-	//		sin(y * f) +
-	//		sin(z * f);
-	//};
-
-
-	auto normalFunction = [scienceFunction](glm::vec3 p) {
-		glm::vec3 n;
-		n.x = scienceFunction(p.x - 0.01, p.y, p.z) - scienceFunction(p.x + 0.01, p.y, p.z);
-		n.y = scienceFunction(p.x, p.y - 0.01, p.z) - scienceFunction(p.x, p.y + 0.01, p.z);
-		n.z = scienceFunction(p.x, p.y, p.z - 0.01) - scienceFunction(p.x, p.y, p.z + 0.01);
-		return glm::normalize(n);
-	};
-
-	grid.sample(scienceFunction);
-
-	float buffer[90];
-	size_t nfloats;
-	Cube cube;
-	int cubeindex;
-	auto material = glm::vec3(0.1f, 12.0f, 2.0f);
-	const glm::vec2 texel = glm::vec2(0.0f);
-
-	std::list<VertAtt> vertices;
-
-	for (size_t i = 0; i < grid.numCells(); i++)
-	{
-		grid.getCube(i, cube);
-		getCubeIndex(cubeindex, cube, isolevel);
-
-		if (cubeindex != 0)
-		{
-			grid.getGradients(cube);
-			nfloats = polygonise(cube, cubeindex, isolevel, buffer);
-			for (int j = 0; j < nfloats / 6; j++)
-			{
-				VertAtt va;
-				va.vertex.x = buffer[j * 6 + 0];
-				va.vertex.y = buffer[j * 6 + 1];
-				va.vertex.z = buffer[j * 6 + 2];
-
-				va.vertex -= gmid;
-
-				va.normal.x = buffer[j * 6 + 3];
-				va.normal.y = buffer[j * 6 + 4];
-				va.normal.z = buffer[j * 6 + 5];
-
-				va.material = material;
-				va.texel = texel;
-				vertices.push_back(va);
-			}
-		}
-	}
-
-	VertAtt* data = new VertAtt[vertices.size()];
-	std::copy(vertices.begin(), vertices.end(), data);
-
-	return std::make_shared<Model>(program, sizeof(VertAtt) * vertices.size(), data, "textures\\sphere.jpg");
-}
+//
+//std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel)
+//{
+//	glm::vec3 gmin(-5.0f);
+//	glm::vec3 gmax(5.0f);
+//	glm::vec3 gmid = (gmax + gmin) / 2.0f;
+//	UniformGrid3 grid(70, 70, 70, gmin, gmax);
+//
+//	// creates a 'sphere' by returning the distance from a given center
+//	//// which can then be thresholded to the desired size
+//	auto scienceFunction = [gmid](float x, float y, float z) {
+//		return glm::length(glm::vec3(x, y, z) - gmid);
+//	};
+//
+//	//auto scienceFunction = [center](float x, float y, float z) {
+//	//	float f = 3.0f;
+//	//	return glm::length(glm::vec3(x, y, z) - center) + 
+//	//		sin(x * f) + 
+//	//		sin(y * f) +
+//	//		sin(z * f);
+//	//};
+//
+//
+//	auto normalFunction = [scienceFunction](glm::vec3 p) {
+//		glm::vec3 n;
+//		n.x = scienceFunction(p.x - 0.01, p.y, p.z) - scienceFunction(p.x + 0.01, p.y, p.z);
+//		n.y = scienceFunction(p.x, p.y - 0.01, p.z) - scienceFunction(p.x, p.y + 0.01, p.z);
+//		n.z = scienceFunction(p.x, p.y, p.z - 0.01) - scienceFunction(p.x, p.y, p.z + 0.01);
+//		return glm::normalize(n);
+//	};
+//
+//	grid.sample(scienceFunction);
+//
+//	float buffer[90];
+//	size_t nfloats;
+//	Cube cube;
+//	int cubeindex;
+//	auto material = glm::vec3(0.1f, 12.0f, 2.0f);
+//
+//	std::vector<VertAtt> vertices;
+//
+//	for (size_t i = 0; i < grid.numCells(); i++)
+//	{
+//		grid.getCube(i, cube);
+//		getCubeIndex(cubeindex, cube, isolevel);
+//
+//		if (cubeindex != 0)
+//		{
+//			grid.getGradients(i, cube);
+//			nfloats = polygonise(cube, cubeindex, isolevel, buffer);
+//			for (int j = 0; j < nfloats / 6; j++)
+//			{
+//				VertAtt va;
+//				va.vertex.x = buffer[j * 6 + 0];
+//				va.vertex.y = buffer[j * 6 + 1];
+//				va.vertex.z = buffer[j * 6 + 2];
+//
+//				va.vertex -= gmid;
+//
+//				va.normal.x = buffer[j * 6 + 3];
+//				va.normal.y = buffer[j * 6 + 4];
+//				va.normal.z = buffer[j * 6 + 5];
+//
+//				//va.normal = normalFunction(va.vertex);
+//
+//				va.material = material;+
+//				va.texel = glm::vec2(0.0f);
+//				vertices.push_back(va);
+//			}
+//		}
+//	}
+//
+//	VertAtt* data = new VertAtt[vertices.size()];
+//	std::copy(vertices.begin(), vertices.end(), data);
+//
+//	return std::make_shared<Model>(program, sizeof(VertAtt) * vertices.size(), data, "textures\\sphere.jpg");
+//}

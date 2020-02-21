@@ -47,45 +47,52 @@ void UniformGrid3::getGradients(Cube& cube) const
 void UniformGrid3::getCube(size_t i, Cube& cube) const
 {
 	Cell3 cell;
+	Point3 p;
 	getCell(i, cell);
 
-	getPoint(cell.v0, cube.p0);
-	getVertex(cell.v0, cube.p0, cube.v0);
+	getPoint(cell.v0, p);
+	getCube(p, cube);
+}
+
+void UniformGrid3::getCube(Point3 p, Cube& cube) const
+{
+	cube.p0 = p;
+	getVertex(cube.p0, cube.v0);
 
 	cube.p1.x = cube.p0.x + 1;
 	cube.p1.y = cube.p0.y;
 	cube.p1.z = cube.p0.z;
-	getVertex(cell.v1, cube.p1, cube.v1);
+	getVertex(cube.p1, cube.v1);
 
 	cube.p2.x = cube.p1.x;
 	cube.p2.y = cube.p1.y;
 	cube.p2.z = cube.p1.z + 1;
-	getVertex(cell.v2, cube.p2, cube.v2);
+	getVertex(cube.p2, cube.v2);
 
 	cube.p3.x = cube.p2.x - 1;
 	cube.p3.y = cube.p2.y;
 	cube.p3.z = cube.p2.z;
-	getVertex(cell.v3, cube.p3, cube.v3);
+	getVertex(cube.p3, cube.v3);
 
 	cube.p4.x = cube.p0.x;
 	cube.p4.y = cube.p0.y + 1;
 	cube.p4.z = cube.p0.z;
-	getVertex(cell.v4, cube.p4, cube.v4);
+	getVertex(cube.p4, cube.v4);
 
 	cube.p5.x = cube.p1.x;
 	cube.p5.y = cube.p1.y + 1;
 	cube.p5.z = cube.p1.z;
-	getVertex(cell.v5, cube.p5, cube.v5);
+	getVertex(cube.p5, cube.v5);
 
 	cube.p6.x = cube.p2.x;
 	cube.p6.y = cube.p2.y + 1;
 	cube.p6.z = cube.p2.z;
-	getVertex(cell.v6, cube.p6, cube.v6);
+	getVertex(cube.p6, cube.v6);
 
 	cube.p7.x = cube.p3.x;
 	cube.p7.y = cube.p3.y + 1;
 	cube.p7.z = cube.p3.z;
-	getVertex(cell.v7, cube.p7, cube.v7);
+	getVertex(cube.p7, cube.v7);
 }
 
 // given lexicographic index, find cell vertices (quads assumed)
@@ -117,17 +124,17 @@ inline void UniformGrid3::getPoint(size_t i, Point3 & p) const
 	p.x = t % _N1;
 }
 
-inline void UniformGrid3::getVertex(size_t i, const Point3 & point, glm::vec4 & v) const
+inline void UniformGrid3::getVertex(const Point3 & point, glm::vec4 & v) const
 {
 	v.x = _min.x + _delta.x * point.x;
 	v.y = _min.y + _delta.y * point.y;
 	v.z = _min.z + _delta.z * point.z;
-	v.w = _values[i];
+	v.w = ((float***)_values)[point.z][point.y][point.x];
 }
 
 inline const float UniformGrid3::getScalar(const size_t & x, const size_t & y, const size_t & z) const
 {
-	return _values[x + y * _N1 + z * _N1 * _N2];
+	return ((float***)_values)[z][y][x];
 }
 
 void UniformGrid3::sample(std::function<float(float, float, float)> func)
@@ -135,14 +142,46 @@ void UniformGrid3::sample(std::function<float(float, float, float)> func)
 	Point3 p;
 	float sample = 0.0f;
 	glm::vec4 v;
+	int n1, n2, n3;
 
-	for (int i = 0; i < numPoints(); i++)
+	if (_values != 0)
 	{
-		getPoint(i, p);
-		getVertex(i, p, v);
-		sample = func(v.x, v.y, v.z);
-		_values[i] = sample;
+		for (n3 = 0; n3 < _N3; n3++)
+		{
+			for (n2 = 0; n2 < _N2; n2++)
+			{
+				free(_values[n3][n2]);
+			}
+			free(_values[n3]);
+		}
+		free(_values);
 	}
+
+	_values = (float***) malloc(_N3 * sizeof(float**));
+
+	for (n3 = 0; n3 < _N3; n3++)
+	{
+		_values[n3] = (float**)malloc(_N2 * sizeof(float*));
+
+		for (n2 = 0; n2 < _N2; n2++)
+		{
+			_values[n3][n2] = (float*)malloc(_N1 * sizeof(float));
+
+			for (n1 = 0; n1 < _N1; n1++)
+			{
+				sample = func(_delta.x * n1, _delta.y * n2, _delta.z * n3);
+				((float***)_values)[n3][n2][n1] = sample;
+			}
+		}
+	}
+
+	//for (int i = 0; i < numPoints(); i++)
+	//{
+	//	getPoint(i, p);
+	//	getVertex(i, p, v);
+	//	sample = func(v.x, v.y, v.z);
+	//	_values[i] = sample;
+	//}
 }
 
 // function to find the inverse square root
