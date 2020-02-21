@@ -94,20 +94,17 @@ inline void UniformGrid3::getCell(size_t i, Cell3 & c) const
 	size_t cell_z = i / _divN12m1;
 	size_t t = i - cell_z * _N12m1;
 	size_t cell_y = t / _divN1m1;
-	//size_t cell_x = t % _N1m1;
 	size_t cell_x = t - cell_y * _N1m1;
 
-	//size_t j = i % _N12m1;
-	//size_t j = i - cell_z * _N12m1;
-
-	//c.v0 = (i - cell_z * _N12m1) + cell_y + cell_z * _N12;
 	c.v0 = i + cell_z * _N1p2 - cell_z + cell_y;
+	
 	c.v1 = c.v0 + 1;
-	c.v2 = c.v1 + _N12;
 	c.v3 = c.v0 + _N12;
-
 	c.v4 = c.v0 + _N1;
+
+	c.v2 = c.v1 + _N12;
 	c.v5 = c.v1 + _N1;
+
 	c.v6 = c.v2 + _N1;
 	c.v7 = c.v3 + _N1;
 }
@@ -117,7 +114,6 @@ inline void UniformGrid3::getPoint(size_t i, Point3 & p) const
 	p.z = i / _divN12;
 	size_t t = i - p.z * _N12;
 	p.y = (t / _divN1);
-	//p.x = t % _N1;
 	p.x = t - p.y * _N1;
 }
 
@@ -162,22 +158,18 @@ void UniformGrid3::sample(std::function<float(float, float, float)> func)
 inline float inverse_rsqrt(const float & number)
 {
 	static const float threehalfs = 1.5F;
+	const float x2 = number * 0.5F;
 
-	float x2 = number * 0.5F;
 	float y = number;
 
 	// evil floating point bit level hacking 
-	long i = *(long *)&y;
-
 	// value is pre-assumed 
-	i = 0x5f3759df - (i >> 1);
+	const long i = 0x5f3759df - ((*(long *)&y) >> 1);
+
 	y = *(float *)&i;
 
 	// 1st iteration 
 	y = y * (threehalfs - (x2 * y * y));
-
-	// 2nd iteration, this can be removed 
-	// y = y * ( threehalfs - ( x2 * y * y ) ); 
 
 	return y;
 }
@@ -227,8 +219,6 @@ inline void UniformGrid3::getGradient(glm::vec3& n, const Point3 & p) const
 	{
 		gz = getScalar(p.x, p.y, p.z + 1) - getScalar(p.x, p.y, p.z - 1);
 	}
-
-	//float m = -1.0f / glm::sqrt(gx * gx + gy * gy + gz * gz);
 
 	float m = -inverse_rsqrt(gx * gx + gy * gy + gz * gz);
 

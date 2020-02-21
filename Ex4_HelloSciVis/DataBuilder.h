@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "UniformGrid.h"
+#include "UniformGrid2.h"
 
 #include "Model.h"
 
