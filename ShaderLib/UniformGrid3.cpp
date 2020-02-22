@@ -157,7 +157,6 @@ void UniformGrid3::sample(std::function<float(float, float, float)> func)
 // https://www.geeksforgeeks.org/fast-inverse-square-root/
 inline float inverse_rsqrt(const float & number)
 {
-	static const float threehalfs = 1.5F;
 	const float x2 = number * 0.5F;
 
 	float y = number;
@@ -169,7 +168,7 @@ inline float inverse_rsqrt(const float & number)
 	y = *(float *)&i;
 
 	// 1st iteration 
-	y = y * (threehalfs - (x2 * y * y));
+	y = y * (1.5F - (x2 * y * y));
 
 	return y;
 }

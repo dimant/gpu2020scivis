@@ -371,8 +371,8 @@ const int polygonise(const Cube& cube, const int & cubeindex, const float& isole
 	};
 
 	static const size_t maxvert = 12;
-	static glm::vec3 vertlist[maxvert];
-	static glm::vec3 normlist[maxvert];
+	glm::vec3 vertlist[maxvert];
+	glm::vec3 normlist[maxvert];
 
 	int intersectedEdges = edgeTable[cubeindex];
 

@@ -216,10 +216,10 @@ int main(int argc, char** argv)
 	g_scene = &scene;
 
 	DataBuilder dataBuilder;
-	auto data = dataBuilder.createData(modelProgram, 64.f, "C:\\Users\\diman\\Downloads\\Engine.pvm");
+	auto data = dataBuilder.createData(modelProgram, 64.f, "C:\\Users\\diman\\Downloads\\CT-Chest.pvm");
 	//auto data = dataBuilder.createData(modelProgram, 2.0f);
 
-	//return 0;
+	return 0;
 
 	data->init();
 	tc.add(data.get());

@@ -1,5 +1,5 @@
 #include "DataBuilder.h"
-
+#include <omp.h>
 #include <list>
 
 #include "polygonise.h"
@@ -24,8 +24,6 @@ std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel, c
 	unsigned char* paramter;
 	unsigned char* comment;
 
-	//const char* fname = "C:\\Users\\diman\\Downloads\\Baby.pvm";
-
 	data = readPVMvolume(filename,
 		&width, &height, &depth,
 		&components,
@@ -47,72 +45,88 @@ std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel, c
 
 	glm::vec3 gmid = (gmax + gmin) / 2.0f;
 	glm::vec3 gdelta = (gmax - gmin) / glm::vec3(width, height, depth);
-	//glm::vec3 idelta = 1.0f / gdelta;
 
 	UniformGrid3 grid(width, height, depth, gmin, gmax);
-
-	//auto loader = [data, width, height, depth, idelta](float x, float y, float z) {
-	//	int _x = ROUNDINT(x * idelta.x);
-	//	int _y = ROUNDINT(y * idelta.y);
-	//	int _z = ROUNDINT(z * idelta.z);
-	//	return (float)data[_x + (_y + _z * height) * width];
-	//};
 
 	auto loader = [data](size_t i) { return (float)data[i]; };
 
 	grid.sample(loader);
 
-	auto material = glm::vec3(0.1f, 12.0f, 2.0f);
+	const int maxThreads = 16;
+	std::vector<VertAtt> vertices[maxThreads];
 
-	std::vector<VertAtt> vertices;
-	vertices.reserve(grid.numCells() / 2);
-	size_t ncells = grid.numCells();
-	glm::vec2 texel = glm::vec2(0.0f);
-
-	float buffer[90];
-	size_t nfloats;
-	Cube cube;
-	int cubeindex;
-
-	for (size_t i = 0; i < ncells; i++)
+	for (int i = 0; i < maxThreads; i++)
 	{
-		grid.getCube(i, cube);
+		vertices[i].reserve(grid.numCells() / (maxThreads * 2));
+	}
 
-		/*
-		   Determine the index into the edge table which
-		   tells us which vertices are inside of the surface
-		*/
-		getCubeIndex(cubeindex, cube, isolevel);
+	const size_t ncells = grid.numCells();
+	const glm::vec2 texel = glm::vec2(0.0f);
+	const glm::vec3 material = glm::vec3(0.1f, 12.0f, 2.0f);
 
-		if (cubeindex != 0)
+	{
+
+#pragma omp parallel for
+		for (int i = 0; i < ncells; i++)
 		{
-			grid.getGradients(cube);
-			nfloats = polygonise(cube, cubeindex, isolevel, buffer);
+			float buffer[90];
+			size_t nfloats;
+			Cube cube;
+			int cubeindex;
+			int tid = omp_get_thread_num();
 
-			for (int j = 0; j < nfloats / 6; j++)
+			grid.getCube(i, cube);
+
+			/*
+			   Determine the index into the edge table which
+			   tells us which vertices are inside of the surface
+			*/
+			getCubeIndex(cubeindex, cube, isolevel);
+
+			if (cubeindex != 0)
 			{
-				VertAtt va;
-				va.vertex.x = buffer[j * 6 + 0];
-				va.vertex.y = buffer[j * 6 + 1];
-				va.vertex.z = buffer[j * 6 + 2];
+				grid.getGradients(cube);
+				nfloats = polygonise(cube, cubeindex, isolevel, buffer);
 
-				va.vertex -= gmid;
+				for (int j = 0; j < nfloats / 6; j++)
+				{
+					VertAtt va;
+					va.vertex.x = buffer[j * 6 + 0];
+					va.vertex.y = buffer[j * 6 + 1];
+					va.vertex.z = buffer[j * 6 + 2];
 
-				va.normal.x = buffer[j * 6 + 3];
-				va.normal.y = buffer[j * 6 + 4];
-				va.normal.z = buffer[j * 6 + 5];
+					va.vertex -= gmid;
 
-				va.material = material;
-				va.texel = texel;
-				vertices.push_back(va);
+					va.normal.x = buffer[j * 6 + 3];
+					va.normal.y = buffer[j * 6 + 4];
+					va.normal.z = buffer[j * 6 + 5];
+
+					va.material = material;
+					va.texel = texel;
+
+					vertices[tid].push_back(va);
+				}
 			}
 		}
 	}
 
-	VertAtt* output = new VertAtt[vertices.size()];
-	std::copy(vertices.begin(), vertices.end(), output);
+	size_t s = 0;
 
-	return std::make_shared<Model>(program, sizeof(VertAtt) * vertices.size(), output, "textures\\sphere.jpg");
+	for (int i = 0; i < maxThreads; i++)
+	{
+		s += vertices[i].size();
+	}
+
+	VertAtt* output = new VertAtt[s];
+	VertAtt* cursor = output;
+
+	for (int i = 0; i < maxThreads; i++)
+	{
+		std::copy(vertices[i].begin(), vertices[i].end(), cursor);
+		cursor += vertices[i].size();
+	}
+
+	return std::make_shared<Model>(program, sizeof(VertAtt) * s, output, "textures\\sphere.jpg");
 }
 
 float fbm(float x, float y)
