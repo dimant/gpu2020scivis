@@ -20,6 +20,8 @@ public:
 
 	ConfigHandler<bool> EnableAutoRotationHandler;
 
+	ConfigHandler<bool> InvertNormalsHandler;
+
 	ConfigHandler<bool> EnableDirectionalLightHandler;
 
 	ConfigHandler<bool> EnableAttenuationLightHandler;

@@ -106,6 +106,9 @@ void createUI()
 		}
 	});
 
+	g_ui->InvertNormalsHandler.Value = false;
+	g_ui->InvertNormalsHandler.connect([](bool v) { g_light->setNormalFactor(v ? -1.0f : 1.0f); });
+
 	g_ui->EnableDirectionalLightHandler.Value = true;
 	g_light->setDirectionalLight(g_ui->EnableDirectionalLightHandler.Value);
 	g_ui->EnableDirectionalLightHandler.connect([](bool v) { g_light->setDirectionalLight(v); });
@@ -216,10 +219,12 @@ int main(int argc, char** argv)
 	g_scene = &scene;
 
 	DataBuilder dataBuilder;
-	auto data = dataBuilder.createData(modelProgram, 64.f, "C:\\Users\\diman\\Downloads\\CT-Chest.pvm");
-	//auto data = dataBuilder.createData(modelProgram, 2.0f);
+	dataBuilder.loadPVM("C:\\Users\\diman\\Downloads\\CT-Chest.pvm");
+	//dataBuilder.loadFunction();
+	//auto data = dataBuilder.createData(modelProgram, 64.f, "C:\\Users\\diman\\Downloads\\CT-Chest.pvm");
+	auto data = dataBuilder.createData(modelProgram, 2.0f);
 
-	return 0;
+	//return 0;
 
 	data->init();
 	tc.add(data.get());

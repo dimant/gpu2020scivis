@@ -23,6 +23,9 @@ uniform float fLightShininess;
 uniform float fSpotEpsilon;
 uniform float fSpotCosTheta;
 
+// used to change 'inside' and 'outside' of model lighting
+uniform float fNormalFactor;
+
 // used to switch betwen directional and point light
 uniform float fEnableDirectionalLight;
 
@@ -34,7 +37,7 @@ vec4 light()
 	vec3 ambient = vLightColor * material.x;
 	
 	// diffuse
-	vec3 norm = normalize(normal);
+	vec3 norm = normalize(normal * fNormalFactor);
 	vec3 lightIncidence =
 		normalize(vLightPosition - fragmentPosition
 			* fEnableDirectionalLight);

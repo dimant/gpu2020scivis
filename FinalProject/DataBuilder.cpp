@@ -10,11 +10,8 @@
 
 #include "triangulation.h"
 
-#define ROUNDINT(f) ((int)(f >= 0.0 ? (f + 0.5) : (f - 0.5)))
-
-std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel, char* filename)
+void DataBuilder::loadPVM(const char* filename)
 {
-
 	unsigned char *data;
 	unsigned int width, height, depth;
 	unsigned int components;
@@ -43,24 +40,34 @@ std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel, c
 	glm::vec3 gmax(width*scalex, height*scaley, depth*scalez);
 	gmax *= factor;
 
-	glm::vec3 gmid = (gmax + gmin) / 2.0f;
 	glm::vec3 gdelta = (gmax - gmin) / glm::vec3(width, height, depth);
 
-	UniformGrid3 grid(width, height, depth, gmin, gmax);
+	_grid = new UniformGrid3(width, height, depth, gmin, gmax);
 
 	auto loader = [data](size_t i) { return (float)data[i]; };
 
-	grid.sample(loader);
+	_grid->sample(loader);
+
+	_gmid = (_grid->getMax() + _grid->getMin()) / 2.0f;
+}
+
+std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel)
+{
+	if (_grid == 0)
+	{
+		return 0;
+	}
+
 
 	const int maxThreads = 16;
 	std::vector<VertAtt> vertices[maxThreads];
 
 	for (int i = 0; i < maxThreads; i++)
 	{
-		vertices[i].reserve(grid.numCells() / (maxThreads * 2));
+		vertices[i].reserve(_grid->numCells() / (maxThreads * 2));
 	}
 
-	const size_t ncells = grid.numCells();
+	const size_t ncells = _grid->numCells();
 	const glm::vec2 texel = glm::vec2(0.0f);
 	const glm::vec3 material = glm::vec3(0.1f, 12.0f, 2.0f);
 
@@ -75,7 +82,7 @@ std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel, c
 			int cubeindex;
 			int tid = omp_get_thread_num();
 
-			grid.getCube(i, cube);
+			_grid->getCube(i, cube);
 
 			/*
 			   Determine the index into the edge table which
@@ -85,7 +92,7 @@ std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel, c
 
 			if (cubeindex != 0)
 			{
-				grid.getGradients(cube);
+				_grid->getGradients(cube);
 				nfloats = polygonise(cube, cubeindex, isolevel, buffer);
 
 				for (int j = 0; j < nfloats / 6; j++)
@@ -95,7 +102,7 @@ std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel, c
 					va.vertex.y = buffer[j * 6 + 1];
 					va.vertex.z = buffer[j * 6 + 2];
 
-					va.vertex -= gmid;
+					va.vertex -= _gmid;
 
 					va.normal.x = buffer[j * 6 + 3];
 					va.normal.y = buffer[j * 6 + 4];
@@ -143,78 +150,34 @@ float fbm(float x, float y)
 	return z;
 }
 
-std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel)
+void DataBuilder::loadFunction()
 {
 	glm::vec3 gmin(-5.0f);
 	glm::vec3 gmax(5.0f);
 	glm::vec3 gmid = (gmax + gmin) / 2.0f;
-	UniformGrid3 grid(70, 70, 70, gmin, gmax);
+	_grid = new UniformGrid3(70, 70, 70, gmin, gmax);
 
 	// creates a 'sphere' by returning the distance from a given center
 	//// which can then be thresholded to the desired size
-	auto scienceFunction = [gmid](float x, float y, float z) {
-		return glm::length(glm::vec3(x, y, z) - gmid);
-	};
-
-	//auto scienceFunction = [center](float x, float y, float z) {
-	//	float f = 3.0f;
-	//	return glm::length(glm::vec3(x, y, z) - center) + 
-	//		sin(x * f) + 
-	//		sin(y * f) +
-	//		sin(z * f);
+	//auto scienceFunction = [gmid](float x, float y, float z) {
+	//	return glm::length(glm::vec3(x, y, z) - gmid);
 	//};
 
-
-	auto normalFunction = [scienceFunction](glm::vec3 p) {
-		glm::vec3 n;
-		n.x = scienceFunction(p.x - 0.01, p.y, p.z) - scienceFunction(p.x + 0.01, p.y, p.z);
-		n.y = scienceFunction(p.x, p.y - 0.01, p.z) - scienceFunction(p.x, p.y + 0.01, p.z);
-		n.z = scienceFunction(p.x, p.y, p.z - 0.01) - scienceFunction(p.x, p.y, p.z + 0.01);
-		return glm::normalize(n);
+	auto scienceFunction = [this](float x, float y, float z) {
+		float f = 3.0f;
+		return glm::length(glm::vec3(x, y, z) - _gmid) + 
+			sin(x * f) + 
+			sin(y * f) +
+			sin(z * f);
 	};
 
-	grid.sample(scienceFunction);
+	//auto normalFunction = [scienceFunction](glm::vec3 p) {
+	//	glm::vec3 n;
+	//	n.x = scienceFunction(p.x - 0.01, p.y, p.z) - scienceFunction(p.x + 0.01, p.y, p.z);
+	//	n.y = scienceFunction(p.x, p.y - 0.01, p.z) - scienceFunction(p.x, p.y + 0.01, p.z);
+	//	n.z = scienceFunction(p.x, p.y, p.z - 0.01) - scienceFunction(p.x, p.y, p.z + 0.01);
+	//	return glm::normalize(n);
+	//};
 
-	float buffer[90];
-	size_t nfloats;
-	Cube cube;
-	int cubeindex;
-	auto material = glm::vec3(0.1f, 12.0f, 2.0f);
-	const glm::vec2 texel = glm::vec2(0.0f);
-
-	std::list<VertAtt> vertices;
-
-	for (size_t i = 0; i < grid.numCells(); i++)
-	{
-		grid.getCube(i, cube);
-		getCubeIndex(cubeindex, cube, isolevel);
-
-		if (cubeindex != 0)
-		{
-			grid.getGradients(cube);
-			nfloats = polygonise(cube, cubeindex, isolevel, buffer);
-			for (int j = 0; j < nfloats / 6; j++)
-			{
-				VertAtt va;
-				va.vertex.x = buffer[j * 6 + 0];
-				va.vertex.y = buffer[j * 6 + 1];
-				va.vertex.z = buffer[j * 6 + 2];
-
-				va.vertex -= gmid;
-
-				va.normal.x = buffer[j * 6 + 3];
-				va.normal.y = buffer[j * 6 + 4];
-				va.normal.z = buffer[j * 6 + 5];
-
-				va.material = material;
-				va.texel = texel;
-				vertices.push_back(va);
-			}
-		}
-	}
-
-	VertAtt* data = new VertAtt[vertices.size()];
-	std::copy(vertices.begin(), vertices.end(), data);
-
-	return std::make_shared<Model>(program, sizeof(VertAtt) * vertices.size(), data, "textures\\sphere.jpg");
+	_grid->sample(scienceFunction);
 }

@@ -9,14 +9,31 @@
 
 class DataBuilder
 {
+private:
+	UniformGrid3* _grid;
+
+	glm::vec3 _gmid;
+
 public:
-	DataBuilder()
+	DataBuilder() :
+		_grid(0),
+		_gmid(glm::vec3(0.0f))
 	{
 	}
 
-	std::shared_ptr<Model> createData(GLuint program, float isolevel);
+	~DataBuilder()
+	{
+		if (_grid != 0)
+		{
+			delete _grid;
+		}
+	}
 
-	std::shared_ptr<Model> createData(GLuint program, float isolevel, char* filename);
+	void loadPVM(const char* filename);
+
+	void loadFunction();
+
+	std::shared_ptr<Model> createData(GLuint program, float isolevel);
 };
 
 #endif

@@ -72,6 +72,9 @@ void UI::render()
 	changed = ImGui::Combo("Manipulation", &ModelManipulationHandler.Value, manipulations, IM_ARRAYSIZE(manipulations));
 	ModelManipulationHandler.handle(changed);
 
+	changed = ImGui::Checkbox("Invert Normals", &InvertNormalsHandler.Value);
+	InvertNormalsHandler.handle(changed);
+
 	changed = ImGui::Checkbox("Auto Rotation", &EnableAutoRotationHandler.Value);
 	EnableAutoRotationHandler.handle(changed);
 

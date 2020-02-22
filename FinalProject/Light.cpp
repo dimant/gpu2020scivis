@@ -23,6 +23,7 @@ Light::Light(const GLuint program) :
 	setPosition(_position);
 	setVec4(_program, _attenuation, "vLightAttenuation");
 	setFloat(_program, 2.0f, "fLightShininess");
+	setFloat(_program, 1.0f, "fNormalFactor");
 	setEnableAttenuation(false);
 }
 
@@ -48,6 +49,11 @@ void Light::setColor(glm::vec3 color)
 	_color = color;
 
 	setVec3(_program, _color, "vLightColor");
+}
+
+void Light::setNormalFactor(float normalFactor)
+{
+	setFloat(_program, normalFactor, "fNormalFactor");
 }
 
 void Light::setPosition(glm::vec3 position)

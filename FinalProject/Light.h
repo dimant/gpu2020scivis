@@ -34,6 +34,8 @@ public:
 
 	void setColor(glm::vec3 color);
 
+	void setNormalFactor(float normalFactor);
+
 	void setPosition(glm::vec3 position);
 
 	float getLightDistance();
