@@ -48,7 +48,10 @@ void MouseInput::moveCursorTo(double xpos, double ypos)
 				{
 					glm::vec3 n = normalVector(_xpos, _ypos, xpos, ypos);
 					float l = (float)vecLength(_xpos, _ypos, xpos, ypos) * 0.01f;
-					_transformable.transform([n, l](glm::mat4 model) { return glm::rotate(model, l, n); });
+					_transformable.transform([n, l](glm::mat4 model) { 
+						glm::vec3 axis = glm::vec3((glm::inverse(model) * glm::vec4(n, 0.0f)));
+						return glm::rotate(model, l, axis); 
+					});
 				}
 				break;
 

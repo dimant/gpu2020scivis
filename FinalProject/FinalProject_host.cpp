@@ -219,10 +219,10 @@ int main(int argc, char** argv)
 	g_scene = &scene;
 
 	DataBuilder dataBuilder;
-	dataBuilder.loadPVM("C:\\Users\\diman\\Downloads\\CT-Chest.pvm");
+	dataBuilder.loadPVM("C:\\Users\\diman\\Downloads\\Baby.pvm");
 	//dataBuilder.loadFunction();
 	//auto data = dataBuilder.createData(modelProgram, 64.f, "C:\\Users\\diman\\Downloads\\CT-Chest.pvm");
-	auto data = dataBuilder.createData(modelProgram, 2.0f);
+	auto data = dataBuilder.createData(modelProgram, 128.0f);
 
 	//return 0;
 
