@@ -222,7 +222,7 @@ int main(int argc, char** argv)
 	dataBuilder.loadPVM("C:\\Users\\diman\\Downloads\\Baby.pvm");
 	//dataBuilder.loadFunction();
 	//auto data = dataBuilder.createData(modelProgram, 64.f, "C:\\Users\\diman\\Downloads\\CT-Chest.pvm");
-	auto data = dataBuilder.createData(modelProgram, 128.0f);
+	auto data = dataBuilder.createData(modelProgram, 64.F);
 
 	//return 0;
 

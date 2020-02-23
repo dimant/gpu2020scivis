@@ -101,6 +101,9 @@
     <ClInclude Include="ddsbase.h">
       <Filter>pvmdds</Filter>
     </ClInclude>
+    <ClInclude Include="HistogramData.h">
+      <Filter>headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ModelFShader.glsl">

@@ -91,6 +91,7 @@
     <ClInclude Include="DataBuilder.h" />
     <ClInclude Include="ddsbase.h" />
     <ClInclude Include="Floor.h" />
+    <ClInclude Include="HistogramData.h" />
     <ClInclude Include="IsoBuilder.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="LineStrip.h" />

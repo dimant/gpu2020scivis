@@ -8,6 +8,7 @@
 #include <imgui.h>
 
 #include "ConfigHandler.h"
+#include "HistogramData.h"
 
 class UI
 {
@@ -37,6 +38,8 @@ public:
 	ConfigHandler<int> ModelManipulationHandler;
 
 	ConfigHandler<bool> ButtonQuitHandler;
+
+	HistogramData HistogramData;
 
 	void init(GLFWwindow* window, const char * glslVersion);
 

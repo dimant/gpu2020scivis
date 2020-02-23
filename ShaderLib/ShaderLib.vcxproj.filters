@@ -62,9 +62,6 @@
     <ClCompile Include="UniformGrid3.cpp">
       <Filter>Source Files\grids</Filter>
     </ClCompile>
-    <ClCompile Include="Gradients.cpp">
-      <Filter>Source Files\grids</Filter>
-    </ClCompile>
     <ClCompile Include="polygonise.cpp">
       <Filter>Source Files\grids</Filter>
     </ClCompile>
@@ -113,9 +110,6 @@
       <Filter>Header Files\grids</Filter>
     </ClInclude>
     <ClInclude Include="UniformGrid3.h">
-      <Filter>Header Files\grids</Filter>
-    </ClInclude>
-    <ClInclude Include="Gradients.h">
       <Filter>Header Files\grids</Filter>
     </ClInclude>
     <ClInclude Include="polygonise.h">
