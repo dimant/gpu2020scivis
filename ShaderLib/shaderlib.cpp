@@ -43,6 +43,14 @@ GLint setMat4(const GLuint & program, const glm::mat4 & matrix, const char* name
 	return GL_TRUE;
 }
 
+void setMat4Arr(const std::vector<GLuint> & programs, glm::mat4 & matrix, const char* name)
+{
+	for (auto program : programs)
+	{
+		setMat4(program, matrix, name);
+	}
+}
+
 GLint setMat3(const GLuint & program, const glm::mat3 & matrix, const char* name)
 {
 	GLint ptr;
@@ -55,6 +63,14 @@ GLint setMat3(const GLuint & program, const glm::mat3 & matrix, const char* name
 			glm::value_ptr(matrix));
 
 	return GL_TRUE;
+}
+
+void setMat3Arr(const std::vector<GLuint> & programs, glm::mat3 & value, const char* name)
+{
+	for (auto program : programs)
+	{
+		setMat3(program, value, name);
+	}
 }
 
 GLint setVec4(const GLuint & program, const glm::vec4 & vector, const char* name)
@@ -70,6 +86,14 @@ GLint setVec4(const GLuint & program, const glm::vec4 & vector, const char* name
 	return GL_TRUE;
 }
 
+void setVec4Arr(const std::vector<GLuint> & programs, glm::vec4 & value, const char* name)
+{
+	for (auto program : programs)
+	{
+		setVec4(program, value, name);
+	}
+}
+
 GLint setVec3(const GLuint & program, const glm::vec3 & vector, const char* name)
 {
 	GLint ptr;
@@ -83,6 +107,14 @@ GLint setVec3(const GLuint & program, const glm::vec3 & vector, const char* name
 	return GL_TRUE;
 }
 
+void setVec3Arr(const std::vector<GLuint> & programs, glm::vec3 & value, const char* name)
+{
+	for (auto program : programs)
+	{
+		setVec3(program, value, name);
+	}
+}
+
 GLint setFloat(const GLuint & program, const float value, const char* name)
 {
 	GLint ptr;
@@ -91,6 +123,14 @@ GLint setFloat(const GLuint & program, const float value, const char* name)
 	glUniform1f(ptr, value);
 
 	return GL_TRUE;
+}
+
+void setFloatArr(const std::vector<GLuint> & programs, float value, const char* name)
+{
+	for (auto program : programs)
+	{
+		setFloat(program, value, name);
+	}
 }
 
 GLint loadTexture(GLuint & texture, const std::string & path)

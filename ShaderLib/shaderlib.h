@@ -15,8 +15,6 @@ struct shaderFile
 	std::string fileName;
 };
 
-void initVaoFormat(const GLuint & program);
-
 GLint loadTexture(GLuint & texture, const std::string & path);
 
 const std::string readFile(const std::string & path);
@@ -36,5 +34,15 @@ GLint setVec4(const GLuint & program, const glm::vec4 & vector, const char* name
 GLint setVec3(const GLuint & program, const glm::vec3 & vector, const char* name);
 
 GLint setFloat(const GLuint & program, const float value, const char* name);
+
+void setMat3Arr(const std::vector<GLuint> & programs, glm::mat3 & value, const char* name);
+
+void setMat4Arr(const std::vector<GLuint> & programs, glm::mat4 & value, const char* name);
+
+void setVec3Arr(const std::vector<GLuint> & programs, glm::vec3 & value, const char* name);
+
+void setVec4Arr(const std::vector<GLuint> & programs, glm::vec4 & value, const char* name);
+
+void setFloatArr(const std::vector<GLuint> & programs, float value, const char* name);
 
 #endif // !SHADERLIB_H
