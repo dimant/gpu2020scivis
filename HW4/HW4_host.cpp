@@ -211,6 +211,8 @@ int main(int argc, char** argv)
 	sphere->init(programs);
 	tc.add(sphere.get());
 
+	sphere->transform([](glm::mat4 model) { return glm::translate(model, glm::vec3(0.0f, 1.0f, 1.5f)); });
+
 	UI ui;
 	g_ui = &ui;
 	g_ui->init(window, glslVersion);
