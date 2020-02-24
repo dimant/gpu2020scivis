@@ -88,6 +88,7 @@
     <ClCompile Include="RectilinearGrid2.cpp" />
     <ClCompile Include="ScalarAttributes.cpp" />
     <ClCompile Include="shaderlib.cpp" />
+    <ClCompile Include="ShaderState.cpp" />
     <ClCompile Include="stb_impl.cpp" />
     <ClCompile Include="triangulation.cpp" />
     <ClCompile Include="UniformGrid2.cpp" />
@@ -107,6 +108,7 @@
     <ClInclude Include="RectilinearGrid2.h" />
     <ClInclude Include="ScalarAttributes.h" />
     <ClInclude Include="shaderlib.h" />
+    <ClInclude Include="ShaderState.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="triangulation.h" />
     <ClInclude Include="UniformGrid2.h" />

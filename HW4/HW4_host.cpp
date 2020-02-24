@@ -25,6 +25,7 @@
 
 #include "DataBuilder.h"
 #include "IsoBuilder.h"
+#include "SphereBuilder.h"
 
 UI* g_ui;
 Scene* g_scene;
@@ -198,23 +199,30 @@ int main(int argc, char** argv)
 
 	std::vector<GLuint> programs;
 	TransformableContainer tc;
-	DataBuilder dataBuilder;
-	auto data = dataBuilder.createData(grid);
+	ShaderState shaderState;
 
+	DataBuilder dataBuilder;
+	auto data = dataBuilder.createData(grid, shaderState);
 	data->init(programs);
 	tc.add(data.get());
+
+	SphereBuilder sphereBuilder;
+	auto sphere = sphereBuilder.createSphere(4, shaderState);
+	sphere->init(programs);
+	tc.add(sphere.get());
 
 	UI ui;
 	g_ui = &ui;
 	g_ui->init(window, glslVersion);
 
-	Light light(programs);
+
+	Light light(programs, shaderState);
 	light.setPosition(glm::vec3(0.0f, 3.0f, 3.0f));
 	g_light = &light;
 
 	tc.add(&light);
 
-	Scene scene(programs);
+	Scene scene(programs, shaderState);
 	scene.apply();
 	g_scene = &scene;
 
@@ -229,7 +237,7 @@ int main(int argc, char** argv)
 	float initialThreshold = 0.5f;
 	IsoBuilder isoBuilder(grid);
 	g_isoBuilder = &isoBuilder;
-	g_lineStrip = new LineStrip(data->getProgram(), grid.numVertices(), NULL);
+	g_lineStrip = new LineStrip(data->getProgram(), grid.numVertices(), NULL, shaderState);
 	g_lineStrip->init();
 	isoBuilder.createIsoLine(initialThreshold, g_lineStrip);
 
@@ -314,6 +322,7 @@ int main(int argc, char** argv)
 
 		//floor->draw();
 		data->draw();
+		sphere->draw();
 		g_lineStrip->draw();
 
 		g_ui->draw();
@@ -326,6 +335,7 @@ int main(int argc, char** argv)
 
 	//floor->destroy();
 	data->destroy();
+	sphere->destroy();
 	g_lineStrip->destroy();
 
 	g_ui->destroy();

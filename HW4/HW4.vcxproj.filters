@@ -36,9 +36,6 @@
     <ClCompile Include="Floor.cpp">
       <Filter>sources</Filter>
     </ClCompile>
-    <ClCompile Include="HW3_host.cpp">
-      <Filter>sources</Filter>
-    </ClCompile>
     <ClCompile Include="DataBuilder.cpp">
       <Filter>sources</Filter>
     </ClCompile>
@@ -46,6 +43,12 @@
       <Filter>sources</Filter>
     </ClCompile>
     <ClCompile Include="IsoBuilder.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="HW4_host.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereBuilder.cpp">
       <Filter>sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -87,6 +90,9 @@
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="VertAtt.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereBuilder.h">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>

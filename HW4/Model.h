@@ -8,6 +8,8 @@
 
 #include "Transformable.h"
 
+#include "ShaderState.h"
+
 class Model : public Transformable
 {
 private:
@@ -16,6 +18,8 @@ private:
 	size_t _ndata;
 
 	GLuint _program;
+
+	ShaderState & _shaderState;
 
 	glm::mat4 _model;
 
@@ -30,11 +34,12 @@ private:
 	void initVao(const GLuint & program);
 
 public:
-	Model(size_t ndata, void* data, const char* textureName) :
+	Model(size_t ndata, void* data, const char* textureName, ShaderState & shaderState) :
 		_ndata(ndata),
 		_data(data),
 		_textureName(textureName),
-		_model(glm::mat4(1.0f))
+		_model(glm::mat4(1.0f)),
+		_shaderState(shaderState)
 	{}
 
 	virtual void transform(Transform t);

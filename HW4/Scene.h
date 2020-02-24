@@ -6,6 +6,8 @@
 #include <GL\glew.h>
 #include <glm\glm.hpp>
 
+#include "ShaderState.h"
+
 typedef std::function<void(const glm::mat4 &)> SetMat4Callback;
 
 typedef std::function<void(glm::vec3)> SetVec3Callback;
@@ -14,6 +16,8 @@ class Scene
 {
 private:
 	const std::vector<GLuint> & _programs;
+
+	ShaderState & _shaderState;
 
 	SetMat4Callback _setModelCallback;
 
@@ -24,7 +28,7 @@ private:
 	glm::vec3 _camPosition;
 
 public:
-	Scene(const std::vector<GLuint> & programs);
+	Scene(const std::vector<GLuint> & programs, ShaderState & shaderState);
 
 	void setView(glm::mat4 view);
 

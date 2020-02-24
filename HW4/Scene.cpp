@@ -8,8 +8,9 @@
 
 #include "Scene.h"
 
-Scene::Scene(const std::vector<GLuint> & programs) :
+Scene::Scene(const std::vector<GLuint> & programs, ShaderState & shaderState) :
 	_programs(programs),
+	_shaderState(shaderState),
 	_camPosition(glm::vec3(0.0f, 0.0f, 0.0f))
 {
 	setView(glm::mat4(1.0f));
@@ -34,14 +35,14 @@ void Scene::setView(glm::mat4 view)
 {
 	_view = view;
 
-	setMat4Arr(_programs, _view, "mView");
+	_shaderState.setMat4Arr(_programs, _view, "mView");
 }
 
 void Scene::setProj(glm::mat4 proj)
 {
 	_proj = proj;
 
-	setMat4Arr(_programs, _proj, "mProj");
+	_shaderState.setMat4Arr(_programs, _proj, "mProj");
 }
 
 void Scene::apply()

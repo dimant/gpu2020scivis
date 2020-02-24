@@ -76,6 +76,7 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="MouseInput.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SphereBuilder.cpp" />
     <ClCompile Include="TransformableContainer.cpp" />
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
@@ -93,6 +94,7 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="MouseInput.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="SphereBuilder.h" />
     <ClInclude Include="Transformable.h" />
     <ClInclude Include="TransformableContainer.h" />
     <ClInclude Include="UI.h" />

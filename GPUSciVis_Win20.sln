@@ -36,6 +36,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FinalProject_UnitTests", "F
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HW4", "HW4\HW4.vcxproj", "{0447C20B-7D8D-4421-8968-C65CA0F5FDCE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4618109B-EC95-45B6-A2B2-2761C798EBFF} = {4618109B-EC95-45B6-A2B2-2761C798EBFF}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

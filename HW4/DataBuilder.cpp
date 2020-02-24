@@ -4,7 +4,7 @@
 
 #include "RectilinearGrid2.h"
 
-std::shared_ptr<Model> DataBuilder::createData(UniformGrid2 & grid)
+std::shared_ptr<Model> DataBuilder::createData(UniformGrid2 & grid, ShaderState & shaderState)
 {
 	auto scienceFunction = [](float x, float y) {
 		float d = 0.8;
@@ -77,5 +77,5 @@ std::shared_ptr<Model> DataBuilder::createData(UniformGrid2 & grid)
 		data[i].material = material;
 	}
 
-	return std::make_shared<Model>(sizeof(VertAtt) * nVert, data, "textures\\sphere.jpg");
+	return std::make_shared<Model>(sizeof(VertAtt) * nVert, data, "textures\\sphere.jpg", shaderState);
 }

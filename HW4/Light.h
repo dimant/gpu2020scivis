@@ -8,10 +8,14 @@
 
 #include "Transformable.h"
 
+#include "ShaderState.h"
+
 class Light : public Transformable
 {
 private:
 	const std::vector<GLuint> & _programs;
+
+	ShaderState& _shaderState;
 
 	glm::vec3 _color;
 
@@ -28,7 +32,7 @@ private:
 	bool _enableDirectionalLight;
 
 public:
-	Light(const std::vector<GLuint> & programs);
+	Light(const std::vector<GLuint> & programs, ShaderState& shaderState);
 
 	// note: this does not actually transform the light.
 	// Instead, it keeps track of the normal transformation matrix.

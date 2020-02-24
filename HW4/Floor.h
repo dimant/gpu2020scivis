@@ -5,6 +5,8 @@
 
 #include "Model.h"
 
-std::shared_ptr<Model> createFloor();
+#include "ShaderState.h"
+
+std::shared_ptr<Model> createFloor(ShaderState & shaderState);
 
 #endif

@@ -65,6 +65,12 @@
     <ClCompile Include="polygonise.cpp">
       <Filter>Source Files\grids</Filter>
     </ClCompile>
+    <ClCompile Include="ShaderState.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="shaderlib.h">

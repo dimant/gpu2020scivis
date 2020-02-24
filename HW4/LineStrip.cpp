@@ -43,7 +43,7 @@ void LineStrip::init()
 {
 	initVao(_program);
 
-	if (GL_FALSE == setMat4(_program, _model, "mModel"))
+	if (GL_FALSE == _shaderState.setMat4(_program, _model, "mModel"))
 	{
 		throw "Could not set LineStrip matrix.";
 	}
@@ -62,13 +62,14 @@ void LineStrip::reset(size_t ndata, void* data)
 
 void LineStrip::draw()
 {
-	setMat4(_program, _model, "mModel");
+	glUseProgram(_program);
+	_shaderState.apply(_program);
+	_shaderState.setMat4(_program, _model, "mModel");
 	glBindVertexArray(_vao);
 	glLineWidth(_lineWidth);
 	glDrawArrays(GL_LINES, 0, _ndata / sizeof(VertAtt));
 	glLineWidth(1);
 	glBindVertexArray(0);
-	setMat4(_program, glm::mat4(), "mModel");
 }
 
 void LineStrip::destroy()

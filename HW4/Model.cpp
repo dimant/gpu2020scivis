@@ -48,7 +48,6 @@ GLint Model::initShaders(GLuint & program)
 	return GL_TRUE;
 }
 
-
 void Model::init(std::vector<GLuint> & programs)
 {
 	if (GL_FALSE == loadTexture(_texture, _textureName))
@@ -56,27 +55,26 @@ void Model::init(std::vector<GLuint> & programs)
 		throw "Could not load Model texture.";
 	}
 	initShaders(_program);
-	glUseProgram(_program);
 	initVao(_program);
-	programs.push_back(_program);
-
-	if (GL_FALSE == setMat4(_program, _model, "mModel"))
+	glUseProgram(_program);
+	if (GL_FALSE == _shaderState.setMat4(_program, _model, "mModel"))
 	{
 		throw "Could not set model Model matrix.";
 	}
+	programs.push_back(_program);
 }
 
 void Model::draw()
 {
 	glUseProgram(_program);
 
-	setMat4(_program, _model, "mModel");
+	_shaderState.setMat4(_program, _model, "mModel");
+	_shaderState.apply(_program);
 	glBindTexture(GL_TEXTURE_2D, _texture);
 	glBindVertexArray(_vao);
 	glDrawArrays(GL_TRIANGLES, 0, _ndata);
 	glBindVertexArray(0);
 	glBindTexture(GL_TEXTURE_2D, 0);
-	setMat4(_program, glm::mat4(), "mModel");
 }
 
 void Model::destroy()

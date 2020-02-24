@@ -6,6 +6,7 @@
 
 #include "Transformable.h"
 
+#include "ShaderState.h"
 
 class LineStrip : public Transformable
 {
@@ -17,6 +18,8 @@ class LineStrip : public Transformable
 
 	const GLuint _program;
 
+	ShaderState & _shaderState;
+
 	glm::mat4 _model;
 
 	GLuint _vao;
@@ -26,8 +29,9 @@ class LineStrip : public Transformable
 	void initVao(const GLuint & program);
 
 public:
-	LineStrip(GLuint program, size_t ndata, void* data) :
+	LineStrip(GLuint program, size_t ndata, void* data, ShaderState & shaderState) :
 		_program(program),
+		_shaderState(shaderState),
 		_ndata(ndata),
 		_data(data),
 		_model(glm::mat4(1.0f)),
