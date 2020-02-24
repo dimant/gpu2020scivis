@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DataBuilder.cpp" />
+    <ClCompile Include="FileTexture.cpp" />
     <ClCompile Include="Floor.cpp" />
     <ClCompile Include="HW4_host.cpp" />
     <ClCompile Include="IsoBuilder.cpp" />
@@ -77,6 +78,7 @@
     <ClCompile Include="MouseInput.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SphereBuilder.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TransformableContainer.cpp" />
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
@@ -89,6 +91,7 @@
   <ItemGroup>
     <ClInclude Include="ConfigHandler.h" />
     <ClInclude Include="DataBuilder.h" />
+    <ClInclude Include="FileTexture.h" />
     <ClInclude Include="Floor.h" />
     <ClInclude Include="IsoBuilder.h" />
     <ClInclude Include="Light.h" />
@@ -97,6 +100,7 @@
     <ClInclude Include="MouseInput.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SphereBuilder.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="Transformable.h" />
     <ClInclude Include="TransformableContainer.h" />
     <ClInclude Include="UI.h" />

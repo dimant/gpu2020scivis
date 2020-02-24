@@ -51,6 +51,12 @@
     <ClCompile Include="SphereBuilder.cpp">
       <Filter>sources</Filter>
     </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTexture.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MouseInput.h">
@@ -93,6 +99,12 @@
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="SphereBuilder.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTexture.h">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>

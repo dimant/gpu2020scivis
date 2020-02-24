@@ -50,10 +50,7 @@ GLint Model::initShaders(GLuint & program)
 
 void Model::init(std::vector<GLuint> & programs)
 {
-	if (GL_FALSE == loadTexture(_texture, _textureName))
-	{
-		throw "Could not load Model texture.";
-	}
+	_texture->init();
 	initShaders(_program);
 	initVao(_program);
 	glUseProgram(_program);
@@ -75,7 +72,8 @@ void Model::draw()
 
 	_shaderState.setMat4(_program, _model, "mModel");
 	_shaderState.apply(_program);
-	glBindTexture(GL_TEXTURE_2D, _texture);
+	GLuint id = _texture->getId();
+	glBindTexture(GL_TEXTURE_2D, id);
 	glBindVertexArray(_vao);
 	glDrawArrays(GL_TRIANGLES, 0, _ndata);
 	glBindVertexArray(0);

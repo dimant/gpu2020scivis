@@ -17,6 +17,8 @@ struct shaderFile
 
 GLint loadTexture(GLuint & texture, const std::string & path);
 
+GLint createTexture(GLuint & texture, const char * data, size_t width, size_t height);
+
 const std::string readFile(const std::string & path);
 
 GLint compileShader(const std::string & source, const GLenum & shaderType, GLuint & shader);

@@ -11,6 +11,8 @@
 
 #include "ShaderState.h"
 
+#include "Texture.h"
+
 class Model : public Transformable
 {
 private:
@@ -32,25 +34,31 @@ private:
 
 	GLuint _vbo;
 
-	GLuint _texture;
-
-	const char* _textureName;
+	Texture* _texture;
 
 	void initVao(const GLuint & program);
 
 public:
-	Model(size_t ndata, void* data, const char* textureName,
+	Model(
+		size_t ndata,
+		void* data,
+		Texture* texture,
 		std::string fshaderName,
 		std::string vshaderName,
 		ShaderState & shaderState) :
 		_ndata(ndata),
 		_data(data),
-		_textureName(textureName),
+		_texture(texture),
 		_fshaderName(fshaderName),
 		_vshaderName(vshaderName),
 		_model(glm::mat4(1.0f)),
 		_shaderState(shaderState)
 	{}
+
+	~Model()
+	{
+		delete _texture;
+	}
 
 	virtual void transform(Transform t);
 

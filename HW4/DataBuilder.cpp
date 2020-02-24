@@ -2,6 +2,8 @@
 
 #include "VertAtt.h"
 
+#include "FileTexture.h"
+
 #include "RectilinearGrid2.h"
 
 std::shared_ptr<Model> DataBuilder::createData(UniformGrid2 & grid, ShaderState & shaderState)
@@ -77,10 +79,12 @@ std::shared_ptr<Model> DataBuilder::createData(UniformGrid2 & grid, ShaderState 
 		data[i].material = material;
 	}
 
+	FileTexture* texture = new FileTexture("textures\\sphere.jpg");
+
 	return std::make_shared<Model>(
 		sizeof(VertAtt) * nVert,
 		data,
-		"textures\\sphere.jpg",
+		texture,
 		"ModelFShader.glsl",
 		"ModelVShader.glsl",
 		shaderState);

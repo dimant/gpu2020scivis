@@ -1,5 +1,7 @@
 #include <shaderlib.h>
 
+#include "FileTexture.h"
+
 #include "SphereBuilder.h"
 
 void SphereBuilder::triangle(glm::vec3 a, glm::vec3 b, glm::vec3 c, int recursions)
@@ -59,10 +61,12 @@ std::shared_ptr<Model> SphereBuilder::createSphere(GLuint recursions, ShaderStat
 
 	beginSphere(recursions);
 
+	FileTexture* texture = new FileTexture("textures\\sphere.jpg");
+
 	return std::make_shared<Model>(
 		sizeof(VertAtt) * _vertices,
 		_data,
-		"textures\\sphere.jpg",
+		texture,
 		"SphereFShader.glsl",
 		"SphereVShader.glsl",
 		shaderState);
