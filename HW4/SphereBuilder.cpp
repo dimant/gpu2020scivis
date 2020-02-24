@@ -63,7 +63,7 @@ std::shared_ptr<Model> SphereBuilder::createSphere(GLuint recursions, ShaderStat
 		sizeof(VertAtt) * _vertices,
 		_data,
 		"textures\\sphere.jpg",
-		"ModelFShader.glsl",
-		"ModelVShader.glsl",
+		"SphereFShader.glsl",
+		"SphereVShader.glsl",
 		shaderState);
 }

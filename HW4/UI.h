@@ -32,6 +32,8 @@ public:
 
 	ConfigHandler<float> SpotConeFalloffHandler;
 
+	ConfigHandler<float> SphereAlphaHandler;
+
 	ConfigHandler<int> ModelManipulationHandler;
 
 	ConfigHandler<bool> ButtonQuitHandler;

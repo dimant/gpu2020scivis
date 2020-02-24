@@ -64,6 +64,11 @@ void Model::init(std::vector<GLuint> & programs)
 	programs.push_back(_program);
 }
 
+void Model::setFloat(float value, const char* name)
+{
+	_shaderState.setFloat(_program, value, name);
+}
+
 void Model::draw()
 {
 	glUseProgram(_program);

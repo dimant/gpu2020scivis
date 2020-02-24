@@ -62,6 +62,8 @@ public:
 
 	void destroy();
 
+	void setFloat(float value, const char* name);
+
 	const GLuint getProgram() { return _program; }
 };
 

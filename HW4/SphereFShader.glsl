@@ -26,6 +26,8 @@ uniform float fSpotCosTheta;
 // used to switch betwen directional and point light
 uniform float fEnableDirectionalLight;
 
+uniform float fAlpha;
+
 uniform sampler2D texSampler;
 
 vec4 light()
@@ -71,4 +73,5 @@ void main()
 	vec4 color = texture(texSampler, texCoord);
 
 	frag_color = color * light();
+	frag_color.a = fAlpha;
 }

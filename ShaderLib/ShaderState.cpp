@@ -32,7 +32,7 @@ GLint getPtr(const GLuint & program, const char * name, GLint & ptr)
 
 	if (ptr < 0)
 	{
-		std::cerr << "Shader variable name cannot be resolved: " << name << std::endl;
+		//std::cerr << "Shader variable name cannot be resolved: " << name << std::endl;
 		return GL_FALSE;
 	}
 	else
@@ -79,7 +79,10 @@ void ShaderState::apply(const std::vector<GLuint> & programs)
 	}
 }
 
-GLint ShaderState::setMat4(const GLuint & program, const glm::mat4 & matrix, const char* name)
+GLint ShaderState::setMat4(
+	const GLuint & program,
+	const glm::mat4 & matrix,
+	const char* name)
 {
 	size_t s = shaderStateTypeSize(Mat4ShaderState);
 	float* data = (float*) new float[s];
@@ -107,7 +110,10 @@ void ShaderState::setMat4Arr(const std::vector<GLuint> & programs, glm::mat4 & m
 	}
 }
 
-GLint ShaderState::setMat3(const GLuint & program, const glm::mat3 & matrix, const char* name)
+GLint ShaderState::setMat3(
+	const GLuint & program,
+	const glm::mat3 & matrix,
+	const char* name)
 {
 	size_t s = shaderStateTypeSize(Mat3ShaderState);
 	float* data = (float*) new float[s];
@@ -135,7 +141,10 @@ void ShaderState::setMat3Arr(const std::vector<GLuint> & programs, glm::mat3 & v
 	}
 }
 
-GLint ShaderState::setVec4(const GLuint & program, const glm::vec4 & vector, const char* name)
+GLint ShaderState::setVec4(
+	const GLuint & program,
+	const glm::vec4 & vector,
+	const char* name)
 {
 	size_t s = shaderStateTypeSize(Vec4ShaderState);
 	float* data = (float*) new float[s];
@@ -162,7 +171,10 @@ void ShaderState::setVec4Arr(const std::vector<GLuint> & programs, glm::vec4 & v
 	}
 }
 
-GLint ShaderState::setVec3(const GLuint & program, const glm::vec3 & vector, const char* name)
+GLint ShaderState::setVec3(
+	const GLuint & program,
+	const glm::vec3 & vector,
+	const char* name)
 {
 	size_t s = shaderStateTypeSize(Vec3ShaderState);
 	float* data = (float*) new float[s];
@@ -189,7 +201,10 @@ void ShaderState::setVec3Arr(const std::vector<GLuint> & programs, glm::vec3 & v
 	}
 }
 
-GLint ShaderState::setFloat(const GLuint & program, const float value, const char* name)
+GLint ShaderState::setFloat(
+	const GLuint & program,
+	const float value,
+	const char* name)
 {
 	size_t s = shaderStateTypeSize(FloatShaderState);
 	float* data = (float*) new float[s];

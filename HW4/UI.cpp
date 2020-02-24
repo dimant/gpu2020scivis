@@ -68,6 +68,9 @@ void UI::render()
 	changed = ImGui::SliderFloat("Cone Falloff", &SpotConeFalloffHandler.Value, 0.0f, 256.0f);
 	SpotConeFalloffHandler.handle(changed);
 
+	changed = ImGui::SliderFloat("Sphere Alpha", &SphereAlphaHandler.Value, 0.0f, 1.0f);
+	SphereAlphaHandler.handle(changed);
+
 	const char* manipulations[] = { "Rotate", "Translate", "Scale", "Light" };
 	changed = ImGui::Combo("Manipulation", &ModelManipulationHandler.Value, manipulations, IM_ARRAYSIZE(manipulations));
 	ModelManipulationHandler.handle(changed);

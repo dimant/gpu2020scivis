@@ -103,5 +103,11 @@
     <None Include="ModelVShader.glsl">
       <Filter>shaders</Filter>
     </None>
+    <None Include="SphereFShader.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="SphereVShader.glsl">
+      <Filter>shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -33,6 +33,7 @@ Light* g_light;
 MouseInput* g_mouseInput;
 IsoBuilder* g_isoBuilder;
 LineStrip* g_lineStrip;
+Model* g_sphere;
 
 bool g_autoRotate = true;
 bool g_quit = false;
@@ -210,8 +211,13 @@ int main(int argc, char** argv)
 	auto sphere = sphereBuilder.createSphere(4, shaderState);
 	sphere->init(programs);
 	tc.add(sphere.get());
+	g_sphere = sphere.get();
 
-	sphere->transform([](glm::mat4 model) { return glm::translate(model, glm::vec3(0.0f, 1.0f, 1.5f)); });
+	sphere->transform([](glm::mat4 model) { return 
+		glm::scale(
+			glm::translate(model, 
+				glm::vec3(0.0f, 1.0f, 1.5f)),
+			glm::vec3(0.7f)); });
 
 	UI ui;
 	g_ui = &ui;
@@ -290,6 +296,10 @@ int main(int argc, char** argv)
 	light.setConeFalloff(coneFalloff);
 	g_ui->SpotConeFalloffHandler.connect([](float e) { g_light->setConeFalloff(e); });
 
+	g_sphere->setFloat(0.5f, "fAlpha");
+	g_ui->SphereAlphaHandler.Value = 0.5;
+	g_ui->SphereAlphaHandler.connect([](float v) { g_sphere->setFloat(v, "fAlpha"); });
+
 	g_ui->ModelManipulationHandler.Value = 0;
 	g_ui->ModelManipulationHandler.connect([](int o) {
 		switch (o)
@@ -312,6 +322,9 @@ int main(int argc, char** argv)
 	});
 
 	g_ui->ButtonQuitHandler.connect([](bool v) { g_quit = true; });
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	while (0 == glfwWindowShouldClose(window) && false == g_quit)
 	{

@@ -83,6 +83,8 @@
   <ItemGroup>
     <None Include="ModelFShader.glsl" />
     <None Include="ModelVShader.glsl" />
+    <None Include="SphereFShader.glsl" />
+    <None Include="SphereVShader.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConfigHandler.h" />
