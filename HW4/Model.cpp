@@ -39,8 +39,8 @@ void Model::transform(Transform t)
 
 GLint Model::initShaders(GLuint & program)
 {
-	shaderFile vertexShader{ GL_VERTEX_SHADER, "ModelVShader.glsl" };
-	shaderFile fragmentShader{ GL_FRAGMENT_SHADER, "ModelFShader.glsl" };
+	shaderFile vertexShader{ GL_VERTEX_SHADER, _vshaderName };
+	shaderFile fragmentShader{ GL_FRAGMENT_SHADER,  _fshaderName };
 	std::vector<shaderFile> shaderFiles{ vertexShader, fragmentShader };
 
 	ISOK(buildShaderProgram(program, shaderFiles));

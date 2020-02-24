@@ -2,6 +2,7 @@
 #define MODEL_H
 
 #include <vector>
+#include <string>
 
 #include <GL\glew.h>
 #include <glm\glm.hpp>
@@ -14,6 +15,10 @@ class Model : public Transformable
 {
 private:
 	void* _data;
+
+	const std::string _fshaderName;
+
+	const std::string _vshaderName;
 
 	size_t _ndata;
 
@@ -34,10 +39,15 @@ private:
 	void initVao(const GLuint & program);
 
 public:
-	Model(size_t ndata, void* data, const char* textureName, ShaderState & shaderState) :
+	Model(size_t ndata, void* data, const char* textureName,
+		std::string fshaderName,
+		std::string vshaderName,
+		ShaderState & shaderState) :
 		_ndata(ndata),
 		_data(data),
 		_textureName(textureName),
+		_fshaderName(fshaderName),
+		_vshaderName(vshaderName),
 		_model(glm::mat4(1.0f)),
 		_shaderState(shaderState)
 	{}
@@ -46,7 +56,7 @@ public:
 
 	void init(std::vector<GLuint> & programs);
 
-	virtual GLint initShaders(GLuint & program);
+	GLint initShaders(GLuint & program);
 
 	void draw();
 

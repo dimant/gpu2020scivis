@@ -16,5 +16,11 @@ float floorVertices[] = {
 
 std::shared_ptr<Model> createFloor(ShaderState & shaderState)
 {
-	return std::make_shared<Model>(sizeof(floorVertices), floorVertices, "textures\\sphere.jpg", shaderState);
+	return std::make_shared<Model>(
+		sizeof(floorVertices),
+		floorVertices,
+		"textures\\sphere.jpg",
+		"ModelFShader.glsl",
+		"ModelVShader.glsl",
+		shaderState);
 }

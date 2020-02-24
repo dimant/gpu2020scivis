@@ -77,5 +77,11 @@ std::shared_ptr<Model> DataBuilder::createData(UniformGrid2 & grid, ShaderState 
 		data[i].material = material;
 	}
 
-	return std::make_shared<Model>(sizeof(VertAtt) * nVert, data, "textures\\sphere.jpg", shaderState);
+	return std::make_shared<Model>(
+		sizeof(VertAtt) * nVert,
+		data,
+		"textures\\sphere.jpg",
+		"ModelFShader.glsl",
+		"ModelVShader.glsl",
+		shaderState);
 }
