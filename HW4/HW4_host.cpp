@@ -212,6 +212,7 @@ int main(int argc, char** argv)
 	tc.add(data.get());
 
 	//g_colorMapTexture->changeParameters(128, GL_LINEAR);
+	//g_colorMapTexture->changeFiltering(GL_LINEAR);
 
 	SphereBuilder sphereBuilder;
 	auto sphere = sphereBuilder.createSphere(4, shaderState);
@@ -284,6 +285,13 @@ int main(int argc, char** argv)
 	g_ui->EnableAttenuationLightHandler.Value = true;
 	light.setEnableAttenuation(g_ui->EnableAttenuationLightHandler.Value);
 	g_ui->EnableAttenuationLightHandler.connect([](bool v) { g_light->setEnableAttenuation(v); });
+
+	g_ui->LinearInterpolationHandler.Value = false;
+	g_ui->LinearInterpolationHandler.connect([](bool v) { 
+		g_colorMapTexture->changeFiltering(v ? GL_LINEAR : GL_NEAREST); });
+
+	g_ui->ColorMapStepsHandler.Value = 8;
+	g_ui->ColorMapStepsHandler.connect([](int v) { g_colorMapTexture->changeSteps(v); });
 
 	g_ui->ShinynessExponentHandler.Value = 4;
 	light.setShininess((float)(1 << g_ui->ShinynessExponentHandler.Value));

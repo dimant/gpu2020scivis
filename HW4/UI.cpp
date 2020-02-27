@@ -68,15 +68,21 @@ void UI::render()
 	changed = ImGui::SliderFloat("Cone Falloff", &SpotConeFalloffHandler.Value, 0.0f, 256.0f);
 	SpotConeFalloffHandler.handle(changed);
 
-	changed = ImGui::SliderFloat("Sphere Alpha", &SphereAlphaHandler.Value, 0.0f, 1.0f);
-	SphereAlphaHandler.handle(changed);
-
 	const char* manipulations[] = { "Rotate", "Translate", "Scale", "Light" };
 	changed = ImGui::Combo("Manipulation", &ModelManipulationHandler.Value, manipulations, IM_ARRAYSIZE(manipulations));
 	ModelManipulationHandler.handle(changed);
 
 	changed = ImGui::Checkbox("Auto Rotation", &EnableAutoRotationHandler.Value);
 	EnableAutoRotationHandler.handle(changed);
+
+	changed = ImGui::SliderFloat("Sphere Alpha", &SphereAlphaHandler.Value, 0.0f, 1.0f);
+	SphereAlphaHandler.handle(changed);
+
+	changed = ImGui::SliderInt("Colormap Steps", &ColorMapStepsHandler.Value, 1, 128);
+	ColorMapStepsHandler.handle(changed);
+
+	changed = ImGui::Checkbox("Linear Interpolation", &LinearInterpolationHandler.Value);
+	LinearInterpolationHandler.handle(changed);
 
 	ImGui::Checkbox("Show Demo Window", &_showDemoWindow);
 

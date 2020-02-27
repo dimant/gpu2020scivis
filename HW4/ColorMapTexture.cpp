@@ -35,14 +35,26 @@ Color* ColorMapTexture::createData(int& width, int& height)
 	return data;
 }
 
-void ColorMapTexture::changeParameters(const unsigned int & steps, GLint filtering)
+void ColorMapTexture::changeSteps(unsigned int steps)
 {
 	_steps = steps;
 
 	int width, height;
 	Color* data = createData(width, height);
 
-	resetTexture(getId(), data, width, height, GL_FLOAT, filtering);
+	resetTexture(getId(), data, width, height, GL_FLOAT, _filtering);
+
+	free(data);
+}
+
+void ColorMapTexture::changeFiltering(GLint filtering)
+{
+	_filtering = filtering;
+
+	int width, height;
+	Color* data = createData(width, height);
+
+	resetTexture(getId(), data, width, height, GL_FLOAT, _filtering);
 
 	free(data);
 }
@@ -51,8 +63,9 @@ void ColorMapTexture::init()
 {
 	int width, height;
 	Color* data = createData(width, height);
+	_filtering = GL_NEAREST;
 
-	createTexture(data, width, height, GL_FLOAT, GL_NEAREST);
+	createTexture(data, width, height, GL_FLOAT, _filtering);
 
 	free(data);
 }

@@ -19,6 +19,8 @@ private:
 
 	const float _max;
 
+	GLint _filtering;
+
 	Color* createData(int& width, int& height);
 
 public:
@@ -31,6 +33,7 @@ public:
 
 	virtual void init();
 
-	void changeParameters(const unsigned int & steps, GLint filtering);
+	void changeFiltering(GLint filtering);
+	void changeSteps(unsigned int steps);
 };
 #endif

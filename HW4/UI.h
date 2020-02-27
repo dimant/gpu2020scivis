@@ -36,6 +36,10 @@ public:
 
 	ConfigHandler<int> ModelManipulationHandler;
 
+	ConfigHandler<int> ColorMapStepsHandler;
+
+	ConfigHandler<bool> LinearInterpolationHandler;
+
 	ConfigHandler<bool> ButtonQuitHandler;
 
 	void init(GLFWwindow* window, const char * glslVersion);
