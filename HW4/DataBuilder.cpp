@@ -4,6 +4,8 @@
 
 #include "FileTexture.h"
 
+#include "ColorMapTexture.h"
+
 #include "RectilinearGrid2.h"
 
 std::shared_ptr<Model> DataBuilder::createData(UniformGrid2 & grid, ShaderState & shaderState)
@@ -66,21 +68,24 @@ std::shared_ptr<Model> DataBuilder::createData(UniformGrid2 & grid, ShaderState 
 	float d2 = grid.getRange2().y - grid.getRange2().x;
 	float m2 = grid.getRange2().x;
 
+	float min = grid.pointScalars().getMin();
+	float max = grid.pointScalars().getMax();
+	float delta = 1.0f / std::abs(max - min);
+
 	for (int i = 0; i < nVert; i++)
 	{
 		data[i].vertex = *((glm::vec3*) triCursor);
 		triCursor += 3;
 		data[i].scalar = data[i].vertex.z;
 
-		data[i].texel = glm::vec2(
-			(data[i].vertex.x + m1) / d1,
-			(data[i].vertex.y + m2) / d2
-		);
+		data[i].texel = glm::vec2(data[i].scalar * delta, 0);
 		data[i].normal = normalFunction(data[i].vertex);
 		data[i].material = material;
 	}
 
-	FileTexture* texture = new FileTexture("textures\\sphere.jpg");
+	//FileTexture* texture = new FileTexture("textures\\sphere.jpg");
+
+	ColorMapTexture* texture = new ColorMapTexture(8, min, max);
 
 	return std::make_shared<Model>(
 		sizeof(VertAtt) * nVert,

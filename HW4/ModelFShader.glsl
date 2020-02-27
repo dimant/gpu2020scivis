@@ -68,7 +68,7 @@ vec4 light()
 void main()
 {
 	// texture
-	vec4 color = vec4(1.0f);
+	vec4 color = texture(texSampler, texCoord);
 
 	frag_color = color * light();
 }

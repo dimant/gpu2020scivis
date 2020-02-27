@@ -9,7 +9,12 @@ private:
 	GLuint _id;
 
 protected:
-	GLint createTexture(const unsigned char * data, size_t width, size_t height);
+	GLint createTexture(
+		const void * data,
+		size_t width,
+		size_t height,
+		GLenum type = GL_UNSIGNED_BYTE,
+		GLint filtering = GL_LINEAR);
 
 public:
 	virtual void init() = 0;
