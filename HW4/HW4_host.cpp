@@ -25,6 +25,8 @@
 #include "IsoBuilder.h"
 #include "SphereBuilder.h"
 
+#include "ColorMapTexture.h"
+
 UI* g_ui;
 Scene* g_scene;
 Light* g_light;
@@ -32,6 +34,7 @@ MouseInput* g_mouseInput;
 IsoBuilder* g_isoBuilder;
 LineStrip* g_lineStrip;
 Model* g_sphere;
+ColorMapTexture* g_colorMapTexture;
 
 bool g_autoRotate = true;
 bool g_quit = false;
@@ -200,10 +203,15 @@ int main(int argc, char** argv)
 	TransformableContainer tc;
 	ShaderState shaderState;
 
+	g_colorMapTexture = new ColorMapTexture(8, 0.0f, 1.0f);
+	g_colorMapTexture->init();
+
 	DataBuilder dataBuilder;
-	auto data = dataBuilder.createData(grid, shaderState);
+	auto data = dataBuilder.createData(grid, shaderState, g_colorMapTexture);
 	data->init(programs);
 	tc.add(data.get());
+
+	//g_colorMapTexture->changeParameters(128, GL_LINEAR);
 
 	SphereBuilder sphereBuilder;
 	auto sphere = sphereBuilder.createSphere(4, shaderState);

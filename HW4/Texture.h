@@ -16,6 +16,14 @@ protected:
 		GLenum type = GL_UNSIGNED_BYTE,
 		GLint filtering = GL_LINEAR);
 
+	void resetTexture(
+		GLuint texture,
+		const void * data,
+		size_t width,
+		size_t height,
+		GLenum type,
+		GLint filtering);
+
 public:
 	virtual void init() = 0;
 

@@ -4,13 +4,6 @@
 
 #include "triangulation.h"
 
-struct Color
-{
-	float R;
-	float G;
-	float B;
-};
-
 void c(float f, float& R, float& G, float& B)
 {
 	float dx = 0.8;
@@ -21,10 +14,11 @@ void c(float f, float& R, float& G, float& B)
 	B = max(0, (3 - fabs(g - 1) - fabs(g - 2)) / 2);
 }
 
-void ColorMapTexture::init()
+Color* ColorMapTexture::createData(int& width, int& height)
 {
-	const int width = _steps;
-	int height = 1;
+	width = _steps;
+	height = 1;
+
 	Color* data = new Color[width * 3];
 
 	float step = std::abs(_max - _min) / (float)_steps;
@@ -37,6 +31,26 @@ void ColorMapTexture::init()
 		data[i].G = G;
 		data[i].B = B;
 	}
+
+	return data;
+}
+
+void ColorMapTexture::changeParameters(const unsigned int & steps, GLint filtering)
+{
+	_steps = steps;
+
+	int width, height;
+	Color* data = createData(width, height);
+
+	resetTexture(getId(), data, width, height, GL_FLOAT, filtering);
+
+	free(data);
+}
+
+void ColorMapTexture::init()
+{
+	int width, height;
+	Color* data = createData(width, height);
 
 	createTexture(data, width, height, GL_FLOAT, GL_NEAREST);
 

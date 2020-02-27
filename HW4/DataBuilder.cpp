@@ -4,11 +4,9 @@
 
 #include "FileTexture.h"
 
-#include "ColorMapTexture.h"
-
 #include "RectilinearGrid2.h"
 
-std::shared_ptr<Model> DataBuilder::createData(UniformGrid2 & grid, ShaderState & shaderState)
+std::shared_ptr<Model> DataBuilder::createData(UniformGrid2 & grid, ShaderState & shaderState, Texture* texture)
 {
 	auto scienceFunction = [](float x, float y) {
 		float d = 0.8;
@@ -85,7 +83,7 @@ std::shared_ptr<Model> DataBuilder::createData(UniformGrid2 & grid, ShaderState 
 
 	//FileTexture* texture = new FileTexture("textures\\sphere.jpg");
 
-	ColorMapTexture* texture = new ColorMapTexture(8, min, max);
+	//ColorMapTexture* texture = new ColorMapTexture(8, min, max);
 
 	return std::make_shared<Model>(
 		sizeof(VertAtt) * nVert,

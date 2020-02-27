@@ -14,3 +14,15 @@ GLint Texture::createTexture(const void * data, size_t width, size_t height, GLe
 
 	return GL_TRUE;
 }
+
+void Texture::resetTexture(
+	GLuint texture,
+	const void * data,
+	size_t width,
+	size_t height,
+	GLenum type,
+	GLint filtering)
+{
+	glBindTexture(GL_TEXTURE_2D, _id);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, type, data);
+}

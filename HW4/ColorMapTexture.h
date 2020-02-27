@@ -3,14 +3,23 @@
 
 #include "Texture.h"
 
+struct Color
+{
+	float R;
+	float G;
+	float B;
+};
+
 class ColorMapTexture : public Texture
 {
 private:
-	const unsigned int _steps;
+	unsigned int _steps;
 
 	const float _min;
 
 	const float _max;
+
+	Color* createData(int& width, int& height);
 
 public:
 	ColorMapTexture(unsigned int steps, float min, float max) :
@@ -21,5 +30,7 @@ public:
 	}
 
 	virtual void init();
+
+	void changeParameters(const unsigned int & steps, GLint filtering);
 };
 #endif

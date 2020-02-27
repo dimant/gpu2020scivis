@@ -9,6 +9,8 @@
 
 #include "ShaderState.h"
 
+#include "Texture.h"
+
 class DataBuilder
 {
 public:
@@ -16,7 +18,7 @@ public:
 	{
 	}
 
-	std::shared_ptr<Model> createData(UniformGrid2 & grid, ShaderState & shaderState);
+	std::shared_ptr<Model> createData(UniformGrid2 & grid, ShaderState & shaderState, Texture* texture);
 };
 
 #endif
