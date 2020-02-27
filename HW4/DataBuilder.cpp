@@ -70,6 +70,7 @@ std::shared_ptr<Model> DataBuilder::createData(UniformGrid2 & grid, ShaderState 
 	{
 		data[i].vertex = *((glm::vec3*) triCursor);
 		triCursor += 3;
+		data[i].scalar = data[i].vertex.z;
 
 		data[i].texel = glm::vec2(
 			(data[i].vertex.x + m1) / d1,

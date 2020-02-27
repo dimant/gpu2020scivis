@@ -18,8 +18,6 @@
 #include "Light.h"
 #include "MouseInput.h"
 
-#include "Floor.h"
-
 #include "UniformGrid2.h"
 #include "RectilinearGrid2.h"
 

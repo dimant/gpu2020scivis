@@ -6,6 +6,7 @@
 struct VertAtt
 {
 	glm::vec3 vertex;
+	float scalar;
 	glm::vec2 texel;
 	glm::vec3 normal;
 	glm::vec3 material;

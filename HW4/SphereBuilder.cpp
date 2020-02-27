@@ -7,18 +7,21 @@
 void SphereBuilder::triangle(glm::vec3 a, glm::vec3 b, glm::vec3 c, int recursions)
 {
 	_data[_k].vertex = a;
+	_data[_k].scalar = 0.0f;
 	_data[_k].texel = glm::vec2(0.0f, 0.0f);
 	_data[_k].normal = glm::normalize(a);
 	_data[_k].material = _material;
 	_k++;
 
 	_data[_k].vertex = b;
+	_data[_k].scalar = 0.0f;
 	_data[_k].texel = glm::vec2(0.0f, 0.0f);
 	_data[_k].normal = glm::normalize(b);
 	_data[_k].material = _material;
 	_k++;
 
 	_data[_k].vertex = c;
+	_data[_k].scalar = 0.0f;
 	_data[_k].texel = glm::vec2(0.0f, 0.0f);
 	_data[_k].normal = glm::normalize(c);
 	_data[_k].material = _material;

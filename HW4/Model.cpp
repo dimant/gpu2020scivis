@@ -13,22 +13,27 @@ void Model::initVao(const GLuint & program)
 
 	// 3 floats for x, y, z coordinates
 	GLuint locPosition = glGetAttribLocation(program, "in_vPosition");
-	glVertexAttribPointer(locPosition, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)0);
+	glVertexAttribPointer(locPosition, 3, GL_FLOAT, GL_FALSE, 12 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(locPosition);
+
+	// 1 float for scalar
+	GLuint locScalar = glGetAttribLocation(program, "in_fScalar");
+	glVertexAttribPointer(locScalar, 1, GL_FLOAT, GL_FALSE, 12 * sizeof(float), (void*)1);
+	glEnableVertexAttribArray(locScalar);
 
 	// 2 floats for x, y texture coordinates
 	GLuint locTexCoord = glGetAttribLocation(program, "in_vTexCoord");
-	glVertexAttribPointer(locTexCoord, 2, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(3 * sizeof(float)));
+	glVertexAttribPointer(locTexCoord, 2, GL_FLOAT, GL_FALSE, 12 * sizeof(float), (void*)(4 * sizeof(float)));
 	glEnableVertexAttribArray(locTexCoord);
 
 	// 3 floats for x, y, z vertex normals
 	GLuint locNormal = glGetAttribLocation(program, "in_vNormal");
-	glVertexAttribPointer(locNormal, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(5 * sizeof(float)));
+	glVertexAttribPointer(locNormal, 3, GL_FLOAT, GL_FALSE, 12 * sizeof(float), (void*)(6 * sizeof(float)));
 	glEnableVertexAttribArray(locNormal);
 
 	// 4 floats for ka, kd, ks, sh for material properties
 	GLuint locMaterial = glGetAttribLocation(program, "in_vMaterial");
-	glVertexAttribPointer(locMaterial, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(8 * sizeof(float)));
+	glVertexAttribPointer(locMaterial, 3, GL_FLOAT, GL_FALSE, 12 * sizeof(float), (void*)(9 * sizeof(float)));
 	glEnableVertexAttribArray(locMaterial);
 }
 
@@ -59,6 +64,12 @@ void Model::init(std::vector<GLuint> & programs)
 		throw "Could not set model Model matrix.";
 	}
 	programs.push_back(_program);
+}
+
+void Model::setTexture(Texture* texture)
+{
+	delete _texture;
+	_texture = texture;
 }
 
 void Model::setFloat(float value, const char* name)

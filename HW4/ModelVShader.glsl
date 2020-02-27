@@ -1,9 +1,10 @@
 #version 440 core
 
-layout (location = 0) in vec3 in_vPosition;
-layout (location = 1) in vec2 in_vTexCoord;
-layout (location = 2) in vec3 in_vNormal;
-layout (location = 3) in vec3 in_vMaterial;
+layout(location = 0) in vec3 in_vPosition;
+layout(location = 1) in float in_fScalar;
+layout(location = 2) in vec2 in_vTexCoord;
+layout(location = 3) in vec3 in_vNormal;
+layout(location = 4) in vec3 in_vMaterial;
 
 out vec2 texCoord;
 out vec3 fragmentPosition;

@@ -67,9 +67,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ColorMapTexture.cpp" />
     <ClCompile Include="DataBuilder.cpp" />
     <ClCompile Include="FileTexture.cpp" />
-    <ClCompile Include="Floor.cpp" />
     <ClCompile Include="HW4_host.cpp" />
     <ClCompile Include="IsoBuilder.cpp" />
     <ClCompile Include="Light.cpp" />
@@ -89,10 +89,10 @@
     <None Include="SphereVShader.glsl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ColorMapTexture.h" />
     <ClInclude Include="ConfigHandler.h" />
     <ClInclude Include="DataBuilder.h" />
     <ClInclude Include="FileTexture.h" />
-    <ClInclude Include="Floor.h" />
     <ClInclude Include="IsoBuilder.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="LineStrip.h" />

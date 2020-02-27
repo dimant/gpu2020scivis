@@ -111,6 +111,7 @@ void IsoBuilder::createIsoLine(float threshold, LineStrip* lineStrip)
 	for (auto v : list)
 	{
 		data[i].vertex = v;
+		data[i].scalar = 0.0f;
 		data[i].normal = glm::vec3(0.0f, 1.0f, 0.0f);
 		data[i].texel = glm::vec2(0.0f);
 		data[i].material = glm::vec3(0.1f, 12.0f, 2.0f);

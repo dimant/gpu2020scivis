@@ -33,9 +33,6 @@
     <ClCompile Include="TransformableContainer.cpp">
       <Filter>sources</Filter>
     </ClCompile>
-    <ClCompile Include="Floor.cpp">
-      <Filter>sources</Filter>
-    </ClCompile>
     <ClCompile Include="DataBuilder.cpp">
       <Filter>sources</Filter>
     </ClCompile>
@@ -55,6 +52,9 @@
       <Filter>sources</Filter>
     </ClCompile>
     <ClCompile Include="FileTexture.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorMapTexture.cpp">
       <Filter>sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -83,9 +83,6 @@
     <ClInclude Include="TransformableContainer.h">
       <Filter>headers</Filter>
     </ClInclude>
-    <ClInclude Include="Floor.h">
-      <Filter>headers</Filter>
-    </ClInclude>
     <ClInclude Include="DataBuilder.h">
       <Filter>headers</Filter>
     </ClInclude>
@@ -105,6 +102,9 @@
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="FileTexture.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorMapTexture.h">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>

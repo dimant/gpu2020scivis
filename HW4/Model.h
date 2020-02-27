@@ -60,6 +60,8 @@ public:
 		delete _texture;
 	}
 
+	void setTexture(Texture* texture);
+
 	virtual void transform(Transform t);
 
 	void init(std::vector<GLuint> & programs);
