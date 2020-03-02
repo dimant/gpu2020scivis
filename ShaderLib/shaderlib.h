@@ -25,6 +25,18 @@ GLint compileShader(const std::string & source, const GLenum & shaderType, GLuin
 
 GLint linkShaders(const std::vector<GLuint> & shaders, GLuint & program);
 
+GLint getPtr(const GLuint & program, const char * name, GLint & ptr);
+
 GLint buildShaderProgram(GLuint & program, const std::vector<shaderFile> & shaderFiles);
+
+GLint setMat4(const GLuint & program, const glm::mat4 & matrix, const char* name);
+
+GLint setMat3(const GLuint & program, const glm::mat3 & matrix, const char* name);
+
+GLint setVec4(const GLuint & program, const glm::vec4 & vector, const char* name);
+
+GLint setVec3(const GLuint & program, const glm::vec3 & vector, const char* name);
+
+GLint setFloat(const GLuint & program, const float value, const char* name);
 
 #endif // !SHADERLIB_H

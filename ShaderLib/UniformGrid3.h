@@ -150,6 +150,8 @@ public:
 	void getGradient(glm::vec3& n, const Point3 & p) const;
 
 	void getGradients(Cube& cube) const;
+
+	const float* getValues() const { return _values; }
 };
 
 #endif

@@ -26,21 +26,6 @@ size_t shaderStateTypeSize(ShaderStateType type)
 	}
 }
 
-GLint getPtr(const GLuint & program, const char * name, GLint & ptr)
-{
-	ptr = glGetUniformLocation(program, name);
-
-	if (ptr < 0)
-	{
-		//std::cerr << "Shader variable name cannot be resolved: " << name << std::endl;
-		return GL_FALSE;
-	}
-	else
-	{
-		return GL_TRUE;
-	}
-}
-
 void ShaderState::apply(GLuint program)
 {
 	for (auto entry : _state)

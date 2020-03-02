@@ -20,6 +20,8 @@
 
 #include "DataBuilder.h"
 
+#include "FileTexture.h"
+
 UI* g_ui;
 Scene* g_scene;
 Light* g_light;
@@ -219,20 +221,27 @@ int main(int argc, char** argv)
 	g_scene = &scene;
 
 	DataBuilder dataBuilder;
-	dataBuilder.loadPVM("C:\\Users\\diman\\Downloads\\Baby.pvm");
-	//dataBuilder.loadFunction();
-	//auto data = dataBuilder.createData(modelProgram, 64.f, "C:\\Users\\diman\\Downloads\\CT-Chest.pvm");
-	auto data = dataBuilder.createData(modelProgram, 64.F);
+	dataBuilder.loadPVM("C:\\Users\\diman\\Downloads\\CT-Chest.pvm");
 
-	//return 0;
+	auto texture = new FileTexture("textures\\sphere.jpg");
+	texture->init();
 
-	data->init();
-	tc.add(data.get());
+	auto boneData = dataBuilder.createData(modelProgram, 128.0f, texture);
+	boneData->init();
+	tc.add(boneData.get());
+
+	auto skinData = dataBuilder.createData(modelProgram, 64.0f, texture);
+	skinData->setAlpha(0.70f);
+	skinData->init();
+	tc.add(skinData.get());
 
 	MouseInput mouseInput(tc, light);
 	g_mouseInput = &mouseInput;
 
 	createUI();
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	while (0 == glfwWindowShouldClose(window) && false == g_quit)
 	{
@@ -243,7 +252,8 @@ int main(int argc, char** argv)
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		data->draw();
+		boneData->draw();
+		skinData->draw();
 
 		g_ui->draw();
 
@@ -253,7 +263,8 @@ int main(int argc, char** argv)
 		timeCallback();
 	}
 
-	data->destroy();
+	boneData->destroy();
+	skinData->destroy();
 
 	g_ui->destroy();
 

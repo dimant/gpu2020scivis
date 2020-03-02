@@ -4,7 +4,8 @@
 #include <memory>
 
 #include "Model.h"
+#include "Texture.h"
 
-std::shared_ptr<Model> createFloor(GLuint program);
+std::shared_ptr<Model> createFloor(GLuint program, Texture* texture);
 
 #endif

@@ -5,6 +5,7 @@
 #include <glm\glm.hpp>
 
 #include "Transformable.h"
+#include "Texture.h"
 
 class Model : public Transformable
 {
@@ -21,20 +22,23 @@ private:
 
 	GLuint _vbo;
 
-	GLuint _texture;
+	float _alpha;
 
-	const char* _textureName;
+	Texture* _texture;
 
 	void initVao(const GLuint & program);
 
 public:
-	Model(GLuint program, size_t ndata, void* data, const char* textureName) :
+	Model(GLuint program, size_t ndata, void* data, Texture* texture) :
 		_program(program),
 		_ndata(ndata),
 		_data(data),
-		_textureName(textureName),
-		_model(glm::mat4(1.0f))
+		_texture(texture),
+		_model(glm::mat4(1.0f)),
+		_alpha(1.0f)
 	{}
+
+	void setAlpha(float alpha);
 
 	virtual void transform(Transform t);
 

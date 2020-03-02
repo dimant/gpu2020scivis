@@ -68,8 +68,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ColorMapTexture.cpp" />
     <ClCompile Include="DataBuilder.cpp" />
     <ClCompile Include="ddsbase.cpp" />
+    <ClCompile Include="FileTexture.cpp" />
     <ClCompile Include="Floor.cpp" />
     <ClCompile Include="FinalProject_host.cpp" />
     <ClCompile Include="IsoBuilder.cpp" />
@@ -78,6 +80,7 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="MouseInput.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TransformableContainer.cpp" />
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
@@ -87,9 +90,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="codebase.h" />
+    <ClInclude Include="ColorMapTexture.h" />
     <ClInclude Include="ConfigHandler.h" />
     <ClInclude Include="DataBuilder.h" />
     <ClInclude Include="ddsbase.h" />
+    <ClInclude Include="FileTexture.h" />
     <ClInclude Include="Floor.h" />
     <ClInclude Include="HistogramData.h" />
     <ClInclude Include="IsoBuilder.h" />
@@ -98,6 +103,7 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="MouseInput.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="Transformable.h" />
     <ClInclude Include="TransformableContainer.h" />
     <ClInclude Include="UI.h" />

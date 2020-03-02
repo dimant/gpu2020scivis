@@ -54,6 +54,15 @@
     <ClCompile Include="ddsbase.cpp">
       <Filter>pvmdds</Filter>
     </ClCompile>
+    <ClCompile Include="ColorMapTexture.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTexture.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MouseInput.h">
@@ -102,6 +111,15 @@
       <Filter>pvmdds</Filter>
     </ClInclude>
     <ClInclude Include="HistogramData.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorMapTexture.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTexture.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>

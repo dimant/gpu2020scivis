@@ -6,6 +6,7 @@
 #include "UniformGrid3.h"
 
 #include "Model.h"
+#include "Texture.h"
 
 class DataBuilder
 {
@@ -33,7 +34,7 @@ public:
 
 	void loadFunction();
 
-	std::shared_ptr<Model> createData(GLuint program, float isolevel);
+	std::shared_ptr<Model> createData(GLuint program, float isolevel, Texture* texture);
 };
 
 #endif

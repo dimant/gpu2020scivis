@@ -1,6 +1,7 @@
 #include "DataBuilder.h"
 #include <omp.h>
 #include <list>
+#include <algorithm>
 
 #include "polygonise.h"
 
@@ -51,7 +52,7 @@ void DataBuilder::loadPVM(const char* filename)
 	_gmid = (_grid->getMax() + _grid->getMin()) / 2.0f;
 }
 
-std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel)
+std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel, Texture* texture)
 {
 	if (_grid == 0)
 	{
@@ -133,7 +134,7 @@ std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel)
 		cursor += vertices[i].size();
 	}
 
-	return std::make_shared<Model>(program, sizeof(VertAtt) * s, output, "textures\\sphere.jpg");
+	return std::make_shared<Model>(program, sizeof(VertAtt) * s, output, texture);
 }
 
 float fbm(float x, float y)

@@ -34,6 +34,11 @@ void Model::initVao(const GLuint & program)
 	glEnableVertexAttribArray(locMaterial);
 }
 
+void Model::setAlpha(float alpha)
+{
+	_alpha = alpha;
+}
+
 void Model::transform(Transform t)
 {
 	_model = t(_model);
@@ -41,11 +46,6 @@ void Model::transform(Transform t)
 
 void Model::init()
 {
-	if (GL_FALSE == loadTexture(_texture, _textureName))
-	{
-		throw "Could not load Model texture.";
-	}
-
 	initVao(_program);
 
 	if (GL_FALSE == setMat4(_program, _model, "mModel"))
@@ -58,8 +58,9 @@ void Model::draw()
 {
 	glUseProgram(_program);
 
+	setFloat(_program, _alpha, "fAlpha");
 	setMat4(_program, _model, "mModel");
-	glBindTexture(GL_TEXTURE_2D, _texture);
+	glBindTexture(GL_TEXTURE_2D, _texture->getId());
 	glBindVertexArray(_vao);
 	glDrawArrays(GL_TRIANGLES, 0, _ndata / sizeof(VertAtt));
 	//glPointSize(10.0f);

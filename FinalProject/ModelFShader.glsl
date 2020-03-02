@@ -31,6 +31,8 @@ uniform float fEnableDirectionalLight;
 
 uniform sampler2D texSampler;
 
+uniform float fAlpha;
+
 vec4 light()
 {
 	// ambient
@@ -77,4 +79,5 @@ void main()
 	vec4 color = texture(texSampler, texCoord);
 
 	frag_color = color * light();
+	frag_color.a = fAlpha;
 }

@@ -72,8 +72,6 @@ void UI::render()
 	changed = ImGui::Combo("Manipulation", &ModelManipulationHandler.Value, manipulations, IM_ARRAYSIZE(manipulations));
 	ModelManipulationHandler.handle(changed);
 
-	ImGui::PlotHistogram("Histogram", HistogramData.getData(), HistogramData.getSize(), 0, NULL, 0.0f, 1.0f, ImVec2(0, 80));
-
 	changed = ImGui::Checkbox("Invert Normals", &InvertNormalsHandler.Value);
 	InvertNormalsHandler.handle(changed);
 
