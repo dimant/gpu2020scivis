@@ -65,9 +65,6 @@
     <ClCompile Include="polygonise.cpp">
       <Filter>Source Files\grids</Filter>
     </ClCompile>
-    <ClCompile Include="ShaderState.h">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClCompile Include="ShaderState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -123,6 +120,9 @@
     </ClInclude>
     <ClInclude Include="libdivide.h">
       <Filter>Header Files\grids</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderState.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -30,6 +30,8 @@ public:
 		}
 	}
 
+	const glm::vec3 getMid() const { return _gmid; }
+
 	void loadPVM(const char* filename);
 
 	void loadFunction();

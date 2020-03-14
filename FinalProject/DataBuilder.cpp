@@ -103,7 +103,8 @@ std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel, T
 					va.vertex.y = buffer[j * 6 + 1];
 					va.vertex.z = buffer[j * 6 + 2];
 
-					va.vertex -= _gmid;
+					va.vertex.x -= _gmid.x;
+					va.vertex.y -= _gmid.y;
 
 					va.normal.x = buffer[j * 6 + 3];
 					va.normal.y = buffer[j * 6 + 4];

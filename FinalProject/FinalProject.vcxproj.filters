@@ -16,6 +16,9 @@
     <Filter Include="pvmdds">
       <UniqueIdentifier>{8e105a03-c2bd-4689-b807-61ccd9180cdf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="data">
+      <UniqueIdentifier>{3ce5877b-6d3d-450c-b298-bd1a25de7e78}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MouseInput.cpp">
@@ -61,6 +64,9 @@
       <Filter>sources</Filter>
     </ClCompile>
     <ClCompile Include="Texture.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="SolidTexture.cpp">
       <Filter>sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -122,6 +128,9 @@
     <ClInclude Include="Texture.h">
       <Filter>headers</Filter>
     </ClInclude>
+    <ClInclude Include="SolidTexture.h">
+      <Filter>headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ModelFShader.glsl">
@@ -129,6 +138,15 @@
     </None>
     <None Include="ModelVShader.glsl">
       <Filter>shaders</Filter>
+    </None>
+    <None Include="data\Baby.pvm">
+      <Filter>data</Filter>
+    </None>
+    <None Include="data\CT-Chest.pvm">
+      <Filter>data</Filter>
+    </None>
+    <None Include="data\Engine.pvm">
+      <Filter>data</Filter>
     </None>
   </ItemGroup>
 </Project>

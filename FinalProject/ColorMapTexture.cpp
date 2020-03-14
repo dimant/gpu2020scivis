@@ -14,12 +14,12 @@ void c(float f, float& R, float& G, float& B)
 	B = max(0, (3 - fabs(g - 1) - fabs(g - 2)) / 2);
 }
 
-Color* ColorMapTexture::createData(int& width, int& height)
+glm::vec3* ColorMapTexture::createData(int& width, int& height)
 {
 	width = _steps;
 	height = 1;
 
-	Color* data = new Color[width * 3];
+	glm::vec3* data = new glm::vec3[width * 3];
 
 	float step = std::abs(_max - _min) / (float)_steps;
 	float R, G, B;
@@ -27,9 +27,9 @@ Color* ColorMapTexture::createData(int& width, int& height)
 	for (int i = 0; i < _steps; i++)
 	{
 		c(step * (float)i, R, G, B);
-		data[i].R = R;
-		data[i].G = G;
-		data[i].B = B;
+		data[i].r = R;
+		data[i].g = G;
+		data[i].b = B;
 	}
 
 	return data;
@@ -40,7 +40,7 @@ void ColorMapTexture::changeSteps(unsigned int steps)
 	_steps = steps;
 
 	int width, height;
-	Color* data = createData(width, height);
+	glm::vec3* data = createData(width, height);
 
 	resetTexture(getId(), data, width, height, GL_FLOAT, _filtering);
 
@@ -52,7 +52,7 @@ void ColorMapTexture::changeFiltering(GLint filtering)
 	_filtering = filtering;
 
 	int width, height;
-	Color* data = createData(width, height);
+	glm::vec3* data = createData(width, height);
 
 	resetTexture(getId(), data, width, height, GL_FLOAT, _filtering);
 
@@ -62,7 +62,7 @@ void ColorMapTexture::changeFiltering(GLint filtering)
 void ColorMapTexture::init()
 {
 	int width, height;
-	Color* data = createData(width, height);
+	glm::vec3* data = createData(width, height);
 	_filtering = GL_NEAREST;
 
 	createTexture(data, width, height, GL_FLOAT, _filtering);

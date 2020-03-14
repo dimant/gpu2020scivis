@@ -56,11 +56,15 @@
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <OpenMPSupport>true</OpenMPSupport>
+      <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <Bscmake>
+      <PreserveSbr>true</PreserveSbr>
+    </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ProjectReference Include="..\ShaderLib\ShaderLib.vcxproj">
@@ -80,13 +84,10 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="MouseInput.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SolidTexture.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TransformableContainer.cpp" />
     <ClCompile Include="UI.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ModelFShader.glsl" />
-    <None Include="ModelVShader.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="codebase.h" />
@@ -103,6 +104,7 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="MouseInput.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="SolidTexture.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Transformable.h" />
     <ClInclude Include="TransformableContainer.h" />
@@ -123,6 +125,24 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="textures\Checkerboard_pattern_512x512.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="textures\sphere.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\Baby.pvm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\CT-Chest.pvm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\Engine.pvm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ModelFShader.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ModelVShader.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

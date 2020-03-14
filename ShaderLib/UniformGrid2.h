@@ -32,11 +32,9 @@ private:
 	float _d1;
 	float _d2;
 
-protected:
 	ScalarAttributes _scalars;
 
 	//Number of points along the x− and y−axes 
-	size_t _N1;
 	size_t _N2;
 
 	//Minimal coordinate values in this grid
@@ -45,6 +43,9 @@ protected:
 
 	float _M1;
 	float _M2;
+
+protected:
+	size_t _N1;
 
 public:
 	UniformGrid2(size_t N1, size_t N2, float m1, float m2, float M1, float M2) :

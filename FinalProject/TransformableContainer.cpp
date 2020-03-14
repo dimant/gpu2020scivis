@@ -7,8 +7,10 @@ void TransformableContainer::add(Transformable* transformable)
 
 void TransformableContainer::transform(Transform t)
 {
+	glm::mat4 worldModel = t(glm::mat4(1.0f));
+
 	for (auto transformable : _transformables)
 	{
-		transformable->transform([t](glm::mat4 m) { return t(m); });
+		transformable->transform([worldModel](glm::mat4 objectModel) { return  worldModel * objectModel; });
 	}
 }

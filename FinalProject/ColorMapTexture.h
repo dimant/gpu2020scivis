@@ -3,12 +3,7 @@
 
 #include "Texture.h"
 
-struct Color
-{
-	float R;
-	float G;
-	float B;
-};
+#include <glm/glm.hpp>
 
 class ColorMapTexture : public Texture
 {
@@ -21,7 +16,7 @@ private:
 
 	GLint _filtering;
 
-	Color* createData(int& width, int& height);
+	glm::vec3* createData(int& width, int& height);
 
 public:
 	ColorMapTexture(unsigned int steps, float min, float max) :

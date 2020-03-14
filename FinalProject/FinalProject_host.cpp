@@ -21,6 +21,8 @@
 #include "DataBuilder.h"
 
 #include "FileTexture.h"
+#include "Floor.h"
+#include "SolidTexture.h"
 
 UI* g_ui;
 Scene* g_scene;
@@ -119,7 +121,7 @@ void createUI()
 	g_scene->setPolygonMode(g_ui->EnableWireFrameHandler.Value);
 	g_ui->EnableWireFrameHandler.connect([](bool v) { g_scene->setPolygonMode(v); });
 
-	g_ui->EnableAttenuationLightHandler.Value = true;
+	g_ui->EnableAttenuationLightHandler.Value = false;
 	g_light->setEnableAttenuation(g_ui->EnableAttenuationLightHandler.Value);
 	g_ui->EnableAttenuationLightHandler.connect([](bool v) { g_light->setEnableAttenuation(v); });
 
@@ -221,7 +223,7 @@ int main(int argc, char** argv)
 	g_scene = &scene;
 
 	DataBuilder dataBuilder;
-	dataBuilder.loadPVM("C:\\Users\\diman\\Downloads\\CT-Chest.pvm");
+	dataBuilder.loadPVM("data\\CT-Chest.pvm");
 
 	auto texture = new FileTexture("textures\\sphere.jpg");
 	texture->init();
@@ -234,6 +236,14 @@ int main(int argc, char** argv)
 	skinData->setAlpha(0.70f);
 	skinData->init();
 	tc.add(skinData.get());
+
+	SolidTexture floorTexture(1.0f, 0.0f, 0.0f);
+	floorTexture.init();
+	auto floor = createFloor(modelProgram, &floorTexture);
+	floor->init();
+	tc.add(floor.get());
+
+	floor->transform([](glm::mat4 m) { return glm::translate(m, glm::vec3(0.0f, 0.0f, 5.0f)); });
 
 	MouseInput mouseInput(tc, light);
 	g_mouseInput = &mouseInput;
@@ -254,6 +264,7 @@ int main(int argc, char** argv)
 
 		boneData->draw();
 		skinData->draw();
+		floor->draw();
 
 		g_ui->draw();
 
@@ -265,6 +276,7 @@ int main(int argc, char** argv)
 
 	boneData->destroy();
 	skinData->destroy();
+	floor->destroy();
 
 	g_ui->destroy();
 
