@@ -59,7 +59,7 @@ void Model::draw()
 	glUseProgram(_program);
 
 	setFloat(_program, _alpha, "fAlpha");
-	setMat4(_program, _model, "mModel");
+	setMat4(_program, _model * _origin, "mModel");
 	glBindTexture(GL_TEXTURE_2D, _texture->getId());
 	glBindVertexArray(_vao);
 	glDrawArrays(GL_TRIANGLES, 0, _ndata / sizeof(VertAtt));

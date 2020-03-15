@@ -78,6 +78,9 @@ void UI::render()
 	changed = ImGui::Checkbox("Auto Rotation", &EnableAutoRotationHandler.Value);
 	EnableAutoRotationHandler.handle(changed);
 
+	changed = ImGui::SliderFloat("Surface Offset", &FloorOffsetHandler.Value, 0.0f, 100.0f);
+	FloorOffsetHandler.handle(changed);
+
 	ImGui::Checkbox("Show Demo Window", &_showDemoWindow);
 
 	changed = ImGui::Button("Quit");

@@ -28,6 +28,8 @@ UI* g_ui;
 Scene* g_scene;
 Light* g_light;
 MouseInput* g_mouseInput;
+DataBuilder* g_dataBuilder;
+Model* g_floor;
 
 bool g_autoRotate = true;
 bool g_quit = false;
@@ -164,6 +166,14 @@ void createUI()
 	});
 
 	g_ui->ButtonQuitHandler.connect([](bool v) { g_quit = true; });
+
+	g_ui->FloorOffsetHandler.connect([](float v) {
+		float min = g_dataBuilder->getMin().z;
+		float range = g_dataBuilder->getMax().z - g_dataBuilder->getMin().z;
+		float offset = min + (range / 100.0f) * v;
+		glm::mat4 origin = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, offset));
+		g_floor->setOrigin(origin);
+	});
 }
 
 int main(int argc, char** argv)
@@ -224,6 +234,7 @@ int main(int argc, char** argv)
 
 	DataBuilder dataBuilder;
 	dataBuilder.loadPVM("data\\CT-Chest.pvm");
+	g_dataBuilder = &dataBuilder;
 
 	auto texture = new FileTexture("textures\\sphere.jpg");
 	texture->init();
@@ -242,8 +253,7 @@ int main(int argc, char** argv)
 	auto floor = createFloor(modelProgram, &floorTexture);
 	floor->init();
 	tc.add(floor.get());
-
-	floor->transform([](glm::mat4 m) { return glm::translate(m, glm::vec3(0.0f, 0.0f, 5.0f)); });
+	g_floor = floor.get();
 
 	MouseInput mouseInput(tc, light);
 	g_mouseInput = &mouseInput;

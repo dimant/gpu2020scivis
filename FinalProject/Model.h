@@ -18,6 +18,8 @@ private:
 
 	glm::mat4 _model;
 
+	glm::mat4 _origin;
+
 	GLuint _vao;
 
 	GLuint _vbo;
@@ -35,12 +37,15 @@ public:
 		_data(data),
 		_texture(texture),
 		_model(glm::mat4(1.0f)),
+		_origin(glm::mat4(1.0f)),
 		_alpha(1.0f)
 	{}
 
 	void setAlpha(float alpha);
 
 	virtual void transform(Transform t);
+
+	void setOrigin(glm::mat4 origin) { _origin = origin; }
 
 	void init();
 

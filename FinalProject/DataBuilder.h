@@ -32,6 +32,10 @@ public:
 
 	const glm::vec3 getMid() const { return _gmid; }
 
+	const glm::vec3 getMin() const { return _grid->getMin(); }
+
+	const glm::vec3 getMax() const { return _grid->getMax(); }
+
 	void loadPVM(const char* filename);
 
 	void loadFunction();

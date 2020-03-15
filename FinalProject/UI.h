@@ -38,6 +38,8 @@ public:
 
 	ConfigHandler<bool> ButtonQuitHandler;
 
+	ConfigHandler<float> FloorOffsetHandler;
+
 	void init(GLFWwindow* window, const char * glslVersion);
 
 	void render();
