@@ -38,6 +38,8 @@ public:
 
 	ConfigHandler<float> FloorOffsetHandler;
 
+	ConfigHandler<float> ModelAlphaHandler;
+
 	void init(GLFWwindow* window, const char * glslVersion);
 
 	void render();

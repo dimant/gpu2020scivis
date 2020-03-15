@@ -44,7 +44,7 @@ public:
 
 	void reset(float* data);
 
-	void init(float* data, size_t width, size_t height, float threshold, TransformableContainer& tc);
+	void init(float* data, size_t width, size_t height, float factor, float threshold, TransformableContainer& tc);
 
 	void draw();
 

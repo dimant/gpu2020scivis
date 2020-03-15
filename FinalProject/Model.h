@@ -26,6 +26,8 @@ private:
 
 	float _alpha;
 
+	float _globalAlpha;
+
 	float _lightMix;
 
 	Texture* _texture;
@@ -41,10 +43,13 @@ public:
 		_model(glm::mat4(1.0f)),
 		_origin(glm::mat4(1.0f)),
 		_alpha(1.0f),
+		_globalAlpha(1.0f),
 		_lightMix(1.0f)
 	{}
 
 	void setAlpha(float alpha) { _alpha = alpha; }
+
+	void setGlobalAlpha(float alpha) { _globalAlpha = alpha; }
 
 	void setLightMix(float lightMix) { _lightMix = lightMix; }
 

@@ -31,6 +31,8 @@ Light* g_light;
 MouseInput* g_mouseInput;
 DataBuilder* g_dataBuilder;
 Slice* g_slice;
+Model* g_skinData;
+Model* g_boneData;
 
 bool g_autoRotate = true;
 bool g_quit = false;
@@ -177,9 +179,15 @@ void createUI()
 		float* data;
 		size_t width;
 		size_t height;
-		g_dataBuilder->getSlice(offset, data, width, height);
+		g_dataBuilder->getSlice(v, data, width, height);
 		g_slice->reset(data);
 		g_slice->setOrigin(origin);
+	});
+
+	g_ui->ModelAlphaHandler.Value = 1.0f;
+	g_ui->ModelAlphaHandler.connect([](float v) {
+		g_boneData->setGlobalAlpha(v);
+		g_skinData->setGlobalAlpha(v);
 	});
 }
 
@@ -240,7 +248,7 @@ int main(int argc, char** argv)
 	g_scene = &scene;
 
 	DataBuilder dataBuilder;
-	dataBuilder.loadPVM("data\\CT-Chest.pvm");
+	dataBuilder.loadPVM("data\\Baby.pvm");
 	g_dataBuilder = &dataBuilder;
 
 	auto texture = new FileTexture("textures\\sphere.jpg");
@@ -249,11 +257,13 @@ int main(int argc, char** argv)
 	auto boneData = dataBuilder.createData(modelProgram, 128.0f, texture);
 	boneData->init();
 	tc.add(boneData.get());
+	g_boneData = boneData.get();
 
 	float skinThreshold = 64.0f;
 	auto skinData = dataBuilder.createData(modelProgram, skinThreshold, texture);
 	skinData->setAlpha(0.70f);
 	skinData->init();
+	g_skinData = skinData.get();
 	tc.add(skinData.get());
 
 	Slice slice(modelProgram);
@@ -264,7 +274,7 @@ int main(int argc, char** argv)
 	size_t height;
 	dataBuilder.getSlice(0.0f, sdata, width, height);
 
-	slice.init(sdata, width, height, skinThreshold, tc);
+	slice.init(sdata, width, height, dataBuilder.getFactor(), skinThreshold, tc);
 
 	MouseInput mouseInput(tc, light);
 	g_mouseInput = &mouseInput;
@@ -283,9 +293,9 @@ int main(int argc, char** argv)
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		slice.draw();
 		boneData->draw();
 		skinData->draw();
-		slice.draw();
 
 		g_ui->draw();
 

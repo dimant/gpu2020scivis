@@ -78,6 +78,9 @@ void UI::render()
 	changed = ImGui::SliderFloat("Surface Offset", &FloorOffsetHandler.Value, 0.0f, 100.0f);
 	FloorOffsetHandler.handle(changed);
 
+	changed = ImGui::SliderFloat("Model Alpha", &ModelAlphaHandler.Value, 0.0f, 1.0f);
+	ModelAlphaHandler.handle(changed);
+
 	ImGui::Checkbox("Show Demo Window", &_showDemoWindow);
 
 	changed = ImGui::Button("Quit");

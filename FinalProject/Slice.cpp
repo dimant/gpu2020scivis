@@ -62,12 +62,18 @@ void Slice::reset(float* data)
 	delete rgbData;
 }
 
-void Slice::init(float* data, size_t width, size_t height, float threshold, TransformableContainer& tc)
+void Slice::init(float* data, size_t width, size_t height, float factor, float threshold, TransformableContainer& tc)
 {
 	_width = width;
 	_height = height;
 	_threshold = threshold;
-	_grid = new UniformGrid2(width, height, -SIDE, -SIDE, SIDE, SIDE);
+
+	float m1 = -(width * factor / 2.0f);
+	float M1 = -m1;
+	float m2 = -(height * factor / 2.0f);
+	float M2 = -m2;
+
+	_grid = new UniformGrid2(width, height, m1, m2, M1, M2);
 
 	for (int i = 0; i < width * height; i++)
 	{

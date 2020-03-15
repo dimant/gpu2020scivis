@@ -36,10 +36,10 @@ void DataBuilder::loadPVM(const char* filename)
 	glm::vec3 gmin(0.0f);
 
 	unsigned int max_side = max3(width, height, depth);
-	float factor = 15.0 / (float)max_side;
+	_factor = 15.0 / (float)max_side;
 
 	glm::vec3 gmax(width*scalex, height*scaley, depth*scalez);
-	gmax *= factor;
+	gmax *= _factor;
 
 	glm::vec3 gdelta = (gmax - gmin) / glm::vec3(width, height, depth);
 
@@ -58,7 +58,6 @@ std::shared_ptr<Model> DataBuilder::createData(GLuint program, float isolevel, T
 	{
 		return 0;
 	}
-
 
 	const int maxThreads = 16;
 	std::vector<VertAtt> vertices[maxThreads];

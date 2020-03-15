@@ -53,7 +53,7 @@ void Model::draw()
 {
 	glUseProgram(_program);
 
-	setFloat(_program, _alpha, "fAlpha");
+	setFloat(_program, _alpha * _globalAlpha, "fAlpha");
 	setFloat(_program, _lightMix, "fLightMix");
 	setMat4(_program, _model * _origin, "mModel");
 	glBindTexture(GL_TEXTURE_2D, _texture->getId());
