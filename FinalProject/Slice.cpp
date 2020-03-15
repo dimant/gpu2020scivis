@@ -3,22 +3,53 @@
 #include "SolidTexture.h"
 
 #include <cmath>
-
+#include "VertAtt.h"
 #define SIDE 10.0f
 
-#define floor_n0 0.0f, 0.0f, 1.0f,
-#define floor_m0 0.1f,  1.0f, 2.0f,
+#define floor_n0 0.0f, 0.0f, 1.0f
+#define floor_m0 0.1f,  1.0f, 2.0f
 
-float floorVertices[] = {
-	// face 1 front
-	-SIDE, SIDE, 0.0f, 0.0f, 1.0f, floor_n0 floor_m0
-	SIDE, SIDE, 0.0f, 1.0f, 1.0f, floor_n0 floor_m0
-	SIDE, -SIDE, 0.0f, 1.0f, 0.0f, floor_n0 floor_m0
+VertAtt* createFloorVertices(size_t width, size_t height, float factor)
+{
+	VertAtt* vertices = new VertAtt[6];
 
-	SIDE, -SIDE, 0.0f, 1.0f, 0.0f, floor_n0 floor_m0
-	-SIDE, -SIDE, 0.0f, 0.0f, 0.0f, floor_n0 floor_m0
-	-SIDE, SIDE, 0.0f, 0.0f, 1.0f, floor_n0 floor_m0
-};
+	float xneg = -(width * factor / 2.0f);
+	float xpos = -xneg;
+	float yneg = -(height * factor / 2.0f);
+	float ypos = -yneg;
+
+	vertices[0].vertex = glm::vec3(xneg, ypos, 0.0f);
+	vertices[0].texel = glm::vec2(0.0f, 1.0f);
+	vertices[0].normal = glm::vec3(floor_n0);
+	vertices[0].material = glm::vec3(floor_m0);
+
+	vertices[1].vertex = glm::vec3(xpos, ypos, 0.0f);
+	vertices[1].texel = glm::vec2(1.0f, 1.0f);
+	vertices[1].normal = glm::vec3(floor_n0);
+	vertices[1].material = glm::vec3(floor_m0);
+
+	vertices[2].vertex = glm::vec3(xpos, yneg, 0.0f);
+	vertices[2].texel = glm::vec2(1.0f, 0.0f);
+	vertices[2].normal = glm::vec3(floor_n0);
+	vertices[2].material = glm::vec3(floor_m0);
+
+	vertices[3].vertex = glm::vec3(xpos, xneg, 0.0f);
+	vertices[3].texel = glm::vec2(1.0f, 0.0f);
+	vertices[3].normal = glm::vec3(floor_n0);
+	vertices[3].material = glm::vec3(floor_m0);
+
+	vertices[4].vertex = glm::vec3(xneg, yneg, 0.0f);
+	vertices[4].texel = glm::vec2(0.0f, 0.0f);
+	vertices[4].normal = glm::vec3(floor_n0);
+	vertices[4].material = glm::vec3(floor_m0);
+
+	vertices[5].vertex = glm::vec3(xneg, ypos, 0.0f);
+	vertices[5].texel = glm::vec2(0.0f, 1.0f);
+	vertices[5].normal = glm::vec3(floor_n0);
+	vertices[5].material = glm::vec3(floor_m0);
+
+	return vertices;
+}
 
 float* Slice::scalarToRGB(float* data, size_t count)
 {
@@ -84,10 +115,14 @@ void Slice::init(float* data, size_t width, size_t height, float factor, float t
 	_sliceTexture = new SliceTexture(rgbData, width, height);
 	_sliceTexture->init();
 	delete rgbData;
+
+	VertAtt* floorVertices = createFloorVertices(width, height, factor);
 	
-	_floor = new Model(_program, sizeof(floorVertices), floorVertices, _sliceTexture);
+	_floor = new Model(_program, 6 * sizeof(VertAtt), floorVertices, _sliceTexture);
 	_floor->init();
 	_floor->setLightMix(0.0f);
+
+	delete floorVertices;
 
 	_lineTexture = new SolidTexture(1.0f, 0.0f, 0.0f);
 	_lineTexture->init();
