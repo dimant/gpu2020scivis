@@ -124,7 +124,7 @@ void Slice::init(float* data, size_t width, size_t height, float factor, float t
 
 	delete floorVertices;
 
-	_lineTexture = new SolidTexture(1.0f, 0.0f, 0.0f);
+	_lineTexture = new SolidTexture(0.0f, 1.0f, 0.0f);
 	_lineTexture->init();
 
 	_lineStrip = new LineStrip(_program, _grid->numVertices(), NULL, _lineTexture);

@@ -248,19 +248,22 @@ int main(int argc, char** argv)
 	g_scene = &scene;
 
 	DataBuilder dataBuilder;
-	dataBuilder.loadPVM("data\\Baby.pvm");
+	dataBuilder.loadPVM("data\\CT-Chest.pvm");
 	g_dataBuilder = &dataBuilder;
 
-	auto texture = new FileTexture("textures\\sphere.jpg");
-	texture->init();
+	auto boneTexture = new SolidTexture(0.8f, 0.5f, 0.3f);
+	boneTexture->init();
 
-	auto boneData = dataBuilder.createData(modelProgram, 128.0f, texture);
+	auto boneData = dataBuilder.createData(modelProgram, 128.0f, boneTexture);
 	boneData->init();
 	tc.add(boneData.get());
 	g_boneData = boneData.get();
 
+	auto skinTexture = new SolidTexture(0.8f, 0.6f, 0.8f);
+	skinTexture->init();
+
 	float skinThreshold = 64.0f;
-	auto skinData = dataBuilder.createData(modelProgram, skinThreshold, texture);
+	auto skinData = dataBuilder.createData(modelProgram, skinThreshold, skinTexture);
 	skinData->setAlpha(0.70f);
 	skinData->init();
 	g_skinData = skinData.get();
