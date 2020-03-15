@@ -21,15 +21,16 @@
 #include "DataBuilder.h"
 
 #include "FileTexture.h"
-#include "Floor.h"
 #include "SolidTexture.h"
+
+#include "Slice.h"
 
 UI* g_ui;
 Scene* g_scene;
 Light* g_light;
 MouseInput* g_mouseInput;
 DataBuilder* g_dataBuilder;
-Model* g_floor;
+Slice* g_slice;
 
 bool g_autoRotate = true;
 bool g_quit = false;
@@ -167,12 +168,18 @@ void createUI()
 
 	g_ui->ButtonQuitHandler.connect([](bool v) { g_quit = true; });
 
+	g_ui->FloorOffsetHandler.Value = 0.0f;
 	g_ui->FloorOffsetHandler.connect([](float v) {
 		float min = g_dataBuilder->getMin().z;
 		float range = g_dataBuilder->getMax().z - g_dataBuilder->getMin().z;
 		float offset = min + (range / 100.0f) * v;
 		glm::mat4 origin = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, offset));
-		g_floor->setOrigin(origin);
+		float* data;
+		size_t width;
+		size_t height;
+		g_dataBuilder->getSlice(offset, data, width, height);
+		g_slice->reset(data);
+		g_slice->setOrigin(origin);
 	});
 }
 
@@ -243,17 +250,21 @@ int main(int argc, char** argv)
 	boneData->init();
 	tc.add(boneData.get());
 
-	auto skinData = dataBuilder.createData(modelProgram, 64.0f, texture);
+	float skinThreshold = 64.0f;
+	auto skinData = dataBuilder.createData(modelProgram, skinThreshold, texture);
 	skinData->setAlpha(0.70f);
 	skinData->init();
 	tc.add(skinData.get());
 
-	SolidTexture floorTexture(1.0f, 0.0f, 0.0f);
-	floorTexture.init();
-	auto floor = createFloor(modelProgram, &floorTexture);
-	floor->init();
-	tc.add(floor.get());
-	g_floor = floor.get();
+	Slice slice(modelProgram);
+	g_slice = &slice;
+
+	float* sdata;
+	size_t width;
+	size_t height;
+	dataBuilder.getSlice(0.0f, sdata, width, height);
+
+	slice.init(sdata, width, height, skinThreshold, tc);
 
 	MouseInput mouseInput(tc, light);
 	g_mouseInput = &mouseInput;
@@ -274,7 +285,7 @@ int main(int argc, char** argv)
 
 		boneData->draw();
 		skinData->draw();
-		floor->draw();
+		slice.draw();
 
 		g_ui->draw();
 
@@ -286,7 +297,7 @@ int main(int argc, char** argv)
 
 	boneData->destroy();
 	skinData->destroy();
-	floor->destroy();
+	slice.destroy();
 
 	g_ui->destroy();
 

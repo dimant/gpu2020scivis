@@ -30,6 +30,15 @@ public:
 		}
 	}
 
+	void getSlice(float offset, float*& data, size_t & width, size_t & height)
+	{
+		width = _grid->getDimension1();
+		height = _grid->getDimension2();
+		auto depth = _grid->getDimension3();
+		size_t i = (size_t) (offset * ((float)depth) / 100.0f);
+		data = (float*) _grid->getValues() + (width * height * i);
+	}
+
 	const glm::vec3 getMid() const { return _gmid; }
 
 	const glm::vec3 getMin() const { return _grid->getMin(); }

@@ -16,8 +16,6 @@ private:
 public:
 	ConfigHandler<bool> EnableWireFrameHandler;
 
-	ConfigHandler<float> IsoThresholdHandler;
-
 	ConfigHandler<bool> EnableAutoRotationHandler;
 
 	ConfigHandler<bool> InvertNormalsHandler;

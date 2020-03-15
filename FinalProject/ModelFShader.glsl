@@ -33,6 +33,8 @@ uniform sampler2D texSampler;
 
 uniform float fAlpha;
 
+uniform float fLightMix;
+
 vec4 light()
 {
 	// ambient
@@ -78,6 +80,6 @@ void main()
 	// texture
 	vec4 color = texture(texSampler, texCoord);
 
-	frag_color = color * light();
+	frag_color = mix(color, color * light(), fLightMix);
 	frag_color.a = fAlpha;
 }

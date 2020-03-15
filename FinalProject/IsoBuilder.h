@@ -17,7 +17,7 @@ public:
 	{
 	}
 
-	void createIsoLine(float threshold, LineStrip* lineStrip);
+	void createIsoLine(float threshold, LineStrip* lineStrip, float z);
 };
 
 #endif

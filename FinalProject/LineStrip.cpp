@@ -63,10 +63,14 @@ void LineStrip::reset(size_t ndata, void* data)
 void LineStrip::draw()
 {
 	setMat4(_program, _model, "mModel");
+	setFloat(_program, 0.0, "fLightMix");
+	setFloat(_program, 1.0f, "fAlpha");
 	glBindVertexArray(_vao);
 	glLineWidth(_lineWidth);
+	glBindTexture(GL_TEXTURE_2D, _texture->getId());
 	glDrawArrays(GL_LINES, 0, _ndata / sizeof(VertAtt));
 	glLineWidth(1);
+	glBindTexture(GL_TEXTURE_2D, 0);
 	glBindVertexArray(0);
 	setMat4(_program, glm::mat4(), "mModel");
 }

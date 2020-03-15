@@ -6,7 +6,7 @@
 
 #include "VertAtt.h"
 
-void IsoBuilder::createIsoLine(float threshold, LineStrip* lineStrip)
+void IsoBuilder::createIsoLine(float threshold, LineStrip* lineStrip, float z)
 {
 	std::list<glm::vec3> list;
 
@@ -22,8 +22,8 @@ void IsoBuilder::createIsoLine(float threshold, LineStrip* lineStrip)
 		for (x = 0; x < nx; x++)
 		{
 			i = x + y * nx;
-
-			if (scalars.getC0Scalar(i) > threshold)
+			float s = scalars.getC0Scalar(i);
+			if (s > threshold)
 			{
 				thresholdField[i] = 1;
 			}
@@ -110,6 +110,7 @@ void IsoBuilder::createIsoLine(float threshold, LineStrip* lineStrip)
 	i = 0;
 	for (auto v : list)
 	{
+		v.z = z;
 		data[i].vertex = v;
 		data[i].normal = glm::vec3(0.0f, 1.0f, 0.0f);
 		data[i].texel = glm::vec2(0.0f);

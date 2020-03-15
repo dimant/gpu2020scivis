@@ -39,9 +39,6 @@
     <ClCompile Include="TransformableContainer.cpp">
       <Filter>sources</Filter>
     </ClCompile>
-    <ClCompile Include="Floor.cpp">
-      <Filter>sources</Filter>
-    </ClCompile>
     <ClCompile Include="DataBuilder.cpp">
       <Filter>sources</Filter>
     </ClCompile>
@@ -69,6 +66,12 @@
     <ClCompile Include="SolidTexture.cpp">
       <Filter>sources</Filter>
     </ClCompile>
+    <ClCompile Include="SliceTexture.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Slice.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MouseInput.h">
@@ -93,9 +96,6 @@
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="TransformableContainer.h">
-      <Filter>headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Floor.h">
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="DataBuilder.h">
@@ -131,6 +131,12 @@
     <ClInclude Include="SolidTexture.h">
       <Filter>headers</Filter>
     </ClInclude>
+    <ClInclude Include="SliceTexture.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Slice.h">
+      <Filter>headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ModelFShader.glsl">
@@ -138,15 +144,6 @@
     </None>
     <None Include="ModelVShader.glsl">
       <Filter>shaders</Filter>
-    </None>
-    <None Include="data\Baby.pvm">
-      <Filter>data</Filter>
-    </None>
-    <None Include="data\CT-Chest.pvm">
-      <Filter>data</Filter>
-    </None>
-    <None Include="data\Engine.pvm">
-      <Filter>data</Filter>
     </None>
   </ItemGroup>
 </Project>

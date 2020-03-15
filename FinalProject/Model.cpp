@@ -34,11 +34,6 @@ void Model::initVao(const GLuint & program)
 	glEnableVertexAttribArray(locMaterial);
 }
 
-void Model::setAlpha(float alpha)
-{
-	_alpha = alpha;
-}
-
 void Model::transform(Transform t)
 {
 	_model = t(_model);
@@ -59,6 +54,7 @@ void Model::draw()
 	glUseProgram(_program);
 
 	setFloat(_program, _alpha, "fAlpha");
+	setFloat(_program, _lightMix, "fLightMix");
 	setMat4(_program, _model * _origin, "mModel");
 	glBindTexture(GL_TEXTURE_2D, _texture->getId());
 	glBindVertexArray(_vao);

@@ -76,7 +76,6 @@
     <ClCompile Include="DataBuilder.cpp" />
     <ClCompile Include="ddsbase.cpp" />
     <ClCompile Include="FileTexture.cpp" />
-    <ClCompile Include="Floor.cpp" />
     <ClCompile Include="FinalProject_host.cpp" />
     <ClCompile Include="IsoBuilder.cpp" />
     <ClCompile Include="Light.cpp" />
@@ -84,6 +83,8 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="MouseInput.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Slice.cpp" />
+    <ClCompile Include="SliceTexture.cpp" />
     <ClCompile Include="SolidTexture.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TransformableContainer.cpp" />
@@ -96,7 +97,6 @@
     <ClInclude Include="DataBuilder.h" />
     <ClInclude Include="ddsbase.h" />
     <ClInclude Include="FileTexture.h" />
-    <ClInclude Include="Floor.h" />
     <ClInclude Include="HistogramData.h" />
     <ClInclude Include="IsoBuilder.h" />
     <ClInclude Include="Light.h" />
@@ -104,6 +104,8 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="MouseInput.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Slice.h" />
+    <ClInclude Include="SliceTexture.h" />
     <ClInclude Include="SolidTexture.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Transformable.h" />
@@ -145,6 +147,10 @@
     <Content Include="ModelVShader.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ModelFShader.glsl" />
+    <None Include="ModelVShader.glsl" />
   </ItemGroup>
   <Import Project="$(SolutionDir)\shared\scivis20-gl.targets" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
