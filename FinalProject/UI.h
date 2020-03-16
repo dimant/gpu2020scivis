@@ -9,10 +9,15 @@
 
 #include "ConfigHandler.h"
 
+#include "ValuesArray.h"
+
 class UI
 {
 private:
 	bool _showDemoWindow;
+
+	float _averageFps;
+
 public:
 	ConfigHandler<bool> EnableWireFrameHandler;
 
@@ -40,7 +45,11 @@ public:
 
 	ConfigHandler<float> ModelAlphaHandler;
 
+	ValuesArray<float> FpsValuesArray;
+
 	void init(GLFWwindow* window, const char * glslVersion);
+
+	void setAverageFps(float value) { _averageFps = value; }
 
 	void render();
 

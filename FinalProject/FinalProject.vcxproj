@@ -72,6 +72,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BufferedCounter.cpp" />
+    <ClCompile Include="BufferedCounter.h" />
     <ClCompile Include="ColorMapTexture.cpp" />
     <ClCompile Include="DataBuilder.cpp" />
     <ClCompile Include="ddsbase.cpp" />
@@ -97,12 +99,14 @@
     <ClInclude Include="DataBuilder.h" />
     <ClInclude Include="ddsbase.h" />
     <ClInclude Include="FileTexture.h" />
+    <ClInclude Include="ValuesArray.h" />
     <ClInclude Include="HistogramData.h" />
     <ClInclude Include="IsoBuilder.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="LineStrip.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="MouseInput.h" />
+    <ClInclude Include="MovingArray.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Slice.h" />
     <ClInclude Include="SliceTexture.h" />

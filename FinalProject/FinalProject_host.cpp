@@ -25,6 +25,9 @@
 
 #include "Slice.h"
 
+#include "BufferedCounter.h"
+#include "MovingArray.h"
+
 UI* g_ui;
 Scene* g_scene;
 Light* g_light;
@@ -248,7 +251,7 @@ int main(int argc, char** argv)
 	g_scene = &scene;
 
 	DataBuilder dataBuilder;
-	dataBuilder.loadPVM("data\\CT-Chest.pvm");
+	dataBuilder.loadPVM("data\\Baby.pvm");
 	g_dataBuilder = &dataBuilder;
 
 	auto boneTexture = new SolidTexture(0.8f, 0.5f, 0.3f);
@@ -287,8 +290,16 @@ int main(int argc, char** argv)
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	MovingArray movingArray(120);
+	g_ui->FpsValuesArray.connect(movingArray.getValues(), movingArray.getCount());
+	BufferedCounter counter;
+	counter.init();
+	GLuint64 timer;
+
 	while (0 == glfwWindowShouldClose(window) && false == g_quit)
 	{
+		counter.start();
+
 		glfwPollEvents();
 
 		g_ui->render();
@@ -306,6 +317,10 @@ int main(int argc, char** argv)
 
 		glfwSwapBuffers(window);
 		timeCallback();
+
+		timer = counter.stop();
+		movingArray.add(1000.0f / (timer / 1000000.0f));
+		g_ui->setAverageFps(movingArray.getAverage());
 	}
 
 	boneData->destroy();

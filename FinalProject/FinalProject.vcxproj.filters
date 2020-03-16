@@ -72,6 +72,12 @@
     <ClCompile Include="Slice.cpp">
       <Filter>sources</Filter>
     </ClCompile>
+    <ClCompile Include="BufferedCounter.h">
+      <Filter>headers</Filter>
+    </ClCompile>
+    <ClCompile Include="BufferedCounter.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MouseInput.h">
@@ -135,6 +141,12 @@
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="Slice.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingArray.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ValuesArray.h">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>

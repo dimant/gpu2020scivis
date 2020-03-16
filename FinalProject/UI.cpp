@@ -24,6 +24,7 @@ void UI::init(GLFWwindow* window, const char * glslVersion)
 	ImGui::GetIO().FontGlobalScale *= xscale;
 
 	_showDemoWindow = false;
+	_averageFps = 0.0f;
 }
 
 void UI::render()
@@ -56,7 +57,7 @@ void UI::render()
 	changed = ImGui::SliderInt("Shinyness 2^x", &ShinynessExponentHandler.Value, 1, 10);
 	ShinynessExponentHandler.handle(changed);
 
-	changed = ImGui::SliderFloat("Distance", &LightDistanceHandler.Value, 1.0f, 25.0f);
+	changed = ImGui::SliderFloat("Distance", &LightDistanceHandler.Value, 1.0f, 100.0f);
 	LightDistanceHandler.handle(changed);
 
 	changed = ImGui::SliderFloat("Cone Angle", &SpotConeAngleHandler.Value, 0.0f, 90.0f);
@@ -80,6 +81,17 @@ void UI::render()
 
 	changed = ImGui::SliderFloat("Model Alpha", &ModelAlphaHandler.Value, 0.0f, 1.0f);
 	ModelAlphaHandler.handle(changed);
+
+	ImGui::Text("Average FPS: %.3f", _averageFps);
+
+	ImGui::PlotHistogram("FPS",
+		FpsValuesArray.getValues(),
+		FpsValuesArray.getCount(),
+		0,
+		"",
+		0.0f,
+		250.0f,
+		ImVec2(0, 80));
 
 	ImGui::Checkbox("Show Demo Window", &_showDemoWindow);
 
