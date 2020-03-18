@@ -18,11 +18,14 @@ private:
 
 	float _factor;
 
+	size_t _triangles;
+
 public:
 	DataBuilder() :
 		_grid(0),
 		_gmid(glm::vec3(0.0f)),
-		_factor(0.0f)
+		_factor(0.0f),
+		_triangles(0)
 	{
 	}
 

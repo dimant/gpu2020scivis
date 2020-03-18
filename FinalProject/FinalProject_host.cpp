@@ -251,12 +251,11 @@ int main(int argc, char** argv)
 	g_scene = &scene;
 
 	DataBuilder dataBuilder;
-	dataBuilder.loadPVM("data\\Baby.pvm");
+	dataBuilder.loadPVM("data\\CT-Chest.pvm");
 	g_dataBuilder = &dataBuilder;
 
 	auto boneTexture = new SolidTexture(0.8f, 0.5f, 0.3f);
 	boneTexture->init();
-
 	auto boneData = dataBuilder.createData(modelProgram, 128.0f, boneTexture);
 	boneData->init();
 	tc.add(boneData.get());
